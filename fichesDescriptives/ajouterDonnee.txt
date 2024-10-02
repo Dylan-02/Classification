@@ -13,7 +13,7 @@ Scénario nominal:
 1. L'utilisateur sélectionne la fonctionnalité "Ajouter une donnée"
 2. Le système affiche une fenêtre avec un formulaire contenant l'ensemble des champs caractérisant la donnée ainsi que des boutons annuler et valider.
 3. L'utilisateur saisit les informations puis valide.
-4. Le système détermine la catégorie de la donnée en fonction des informations fournies, puis enregistre cette donnée.
+4. Le système enregistre cette donnée.
 
 Scénarios alternatifs: 
 
