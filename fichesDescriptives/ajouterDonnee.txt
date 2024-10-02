@@ -1,0 +1,22 @@
+Système: Système de classification de données
+Cas d'utilisation: Ajouter une donnée
+
+Acteur principal: Utilisateur
+Déclencheur: aucun
+Préconditions: aucune 
+
+Garanties en cas de succès: La donnée est enregistrée à part des données chargées.
+Garanties minimales: Si le scénario n'aboutit pas, l'état du système reste inchangé.
+
+Scénario nominal: 
+
+1. L'utilisateur sélectionne la fonctionnalité "Ajouter une donnée"
+2. Le système affiche une fenêtre avec un formulaire contenant l'ensemble des champs caractérisant la donnée ainsi que des boutons annuler et valider.
+3. L'utilisateur saisit les informations puis valide.
+4. Le système détermine la catégorie de la donnée en fonction des informations fournies, puis enregistre cette donnée.
+
+Scénarios alternatifs: 
+
+A: Annulation: Dans l'étape 3, l'utilisateur annule la saisie.
+    3A. L'utilisateur sélectionne le bouton annuler.
+    4A. Le système n'enregistre pas les données et ferme la fenêtre contenant le formulaire.
