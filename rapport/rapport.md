@@ -1,46 +1,53 @@
+\centering
+
 # SAE3.02 Dev. Application-Classification
 
----
+\vspace{2cm}
 
-### Équipe J5
+#### Équipe J5
 - **KOCHIEV Mickhail**
 - **LECOCQ Dylan**
 - **OKUBO Camille**
 - **KHUDOEV Revaz**
 - **UTZERI Giorgio**
 
----
+\vfill
+Université de Lille \\
+BUT Informatique \\
+Année 2024-2025
+
+\newpage
 
 \tableofcontents
 
----
+\newpage
  
 ## Organisation du travail
 
 ### Contributions des membres de l'équipe
 
-- **KOCHIEV Mickhail**
+- **KOCHIEV Mickhail**  
   exemple
 
-- **LECOCQ Dylan**
+- **LECOCQ Dylan**  
   exemple
 
-- **OKUBO Camille**
+- **OKUBO Camille**  
   exemple
 
-- **KHUDOEV Revaz**
+- **KHUDOEV Revaz**  
   exemple 
 
-- **UTZERI Giorgio**
+- **UTZERI Giorgio**  
   exemple
 
----
+\newpage
 
 ## Diagramme de cas d'utilisation
 
 ![Diagramme de Cas d'Utilisation](assets/diagramme.png)
 
----
+\newpage
 
 ## Fiches descriptives
 
@@ -52,7 +59,7 @@
 
 - **Classifier la donnée non classifiée**
 
----
+\newpage
 
 ## Prototypes pour l'interface
 
@@ -68,6 +75,7 @@ texte
 ![Prototype Classifier une Donnée](assets/ajoutDonnee.png)
 texte
 
+\newpage
 
 ## Diagramme de classes
 
