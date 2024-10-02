@@ -5,12 +5,12 @@
 # SAE3.02 Dev. Application-Classification
 
 ### Équipe 
-J5:
--KOCHIEV Mickhail
--LECOCQ Dylan
--OKUBO Camille
--KHUDOEV Revaz
--UTZERI Giorgio
+### J5:
+- KOCHIEV Mickhail
+- LECOCQ Dylan
+- OKUBO Camille
+- KHUDOEV Revaz
+- UTZERI Giorgio
  
 ### Organisation du travail
 
