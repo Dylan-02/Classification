@@ -2,16 +2,16 @@ Système : Application - Classification
 Cas d'utilisation : Charger les données
 
 Acteur principal : Utilisateur
-Acteur secondaire : Exploitateur de fichiers
+Acteur secondaire : Aucun
 Garanties en cas de succès : L'application charge le fichier sans problèmes
 Garanties minimales : L'application ne charge pas de fichier incompatible
 
 Scénario nominal :
 1. L'utilisateur sélectionne "Charger un fichier"
-2. L'exploitateur de fichiers se lance
+2. L'explorateur de fichiers se lance
 3. L'utilisateur sélectionne le fichier recherché
 4. Le système charge le fichier et affiche la visualisation des données
 
 Scénario alternatif :
 3(A) : L'utilisateur sélectionne un fichier incompatible
-4(A) : Le systme informe l'utilisateur que le fichier est incompatible et revient à l'étape d'avant.  
+4(A) : Le système informe l'utilisateur que le fichier est incompatible et revient à l'étape d'avant.  

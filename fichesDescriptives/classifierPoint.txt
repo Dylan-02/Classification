@@ -1,12 +1,14 @@
 Systeme: Application-Classification
 Cas d'utilisation: Classifier le point sans catégorie
 
-Acteur principal: utilisateur
-Déclancheur: creation d'un point. 
-Précondition: il y a point sans catégorie
-garantie en cas de succès: le aura une catégorie
-garantie minimal: l'etat du systeme reste inchangé
+Acteur principal: Utilisateur
+Déclencheur: Aucun
+Précondition: Il y a au moins un point sans catégorie
 
-sénario nominal:
-1) l'utilisateur selectionne "classidier le point"
-2) le systeme séléctionne une catégorie et change la catégorie du point.
+Garantie en cas de succès: le aura une catégorie
+Garantie minimale: l'etat du systeme reste inchangé
+
+Scénario nominal:
+
+1. L'utilisateur sélectionne la fonctionnalité "Classifier"
+2. Le système détermine une catégorie en fonction des données du point et change la catégorie de celui-ci, pour chaque point sans catégorie.
