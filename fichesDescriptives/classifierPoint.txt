@@ -1,0 +1,13 @@
+Systeme: Application-Classification
+Cas d'utilisation: Classifier le point sans catégorie
+
+Acteur principal: utilisateur
+Précondition: il y a point sans catégorie
+garantie en cas de succès: le aura une catégorie
+garantie minimal: l'etat du systeme reste inchangé
+
+sénario nominal:
+1)l'utilisateur selectionne "classidier le point"
+2) le systeme affiche un menu déroulantavec les catégories possibles.
+3) l'utilisateur séléctionne une catégorie.
+4) le système change la catégorie du point
