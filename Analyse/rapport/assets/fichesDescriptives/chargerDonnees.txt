@@ -10,7 +10,9 @@ Scénario nominal :
 1. L'utilisateur sélectionne "Charger un fichier"
 2. L'explorateur de fichiers se lance
 3. L'utilisateur sélectionne le fichier recherché
-4. Le système charge le fichier et affiche la visualisation des données
+4. Le système charge le fichier et affiche la possibilité de choisir les axes de projection
+5. L'utilisateur informe les axes de projection
+6. Le système ffiche la visualisation des données
 
 Scénario alternatif :
 3(A) : L'utilisateur sélectionne un fichier incompatible
