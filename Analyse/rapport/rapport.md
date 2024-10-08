@@ -158,4 +158,4 @@ Ecran pour étape 5 de la fiche descriptive du UC charger les données.
 
 ## Diagramme de classes
 
-![Diagramme de Classes](assets/ajoutDonnee.png)
+![Diagramme de Classes](assets/diagramme-class.png)
