@@ -1,4 +1,5 @@
-module com.example.test {
+module java {
     requires javafx.controls;
     requires javafx.fxml;
+    opens app;
 }
