@@ -1,11 +1,7 @@
 ---
-title: "SAE3.02 Dev. Application-Classification"
+title: "**SAE3.02 Dev. Application-Classification**"
 author: 
-  - KOCHIEV Mickhail
-  - LECOCQ Dylan
-  - OKUBO Camille
-  - KHUDOEV Revaz
-  - UTZERI Giorgio
+  - "Université Lille | 2ème année BUT Informatique"
 date: "Année 2024-2025"
 geometry: margin=1in
 ---
@@ -20,19 +16,11 @@ geometry: margin=1in
 - KHUDOEV Revaz
 - UTZERI Giorgio
 
-## Table des matières
-
-1. [Organisation du travail](#organisation-du-travail)
-2. [Contributions des membres de l’équipe](#contributions-des-membres-de-léquipe)
-3. [Diagramme de cas d’utilisation](#diagramme-de-cas-dutilisation)
-4. [Fiches descriptives](#fiches-descriptives)
-5. [Fonctionnalités Décrites](#fonctionnalités-décrites)
-6. [Prototypes pour l’interface](#prototypes-pour-linterface)
-7. [Diagramme de classes](#diagramme-de-classes)
+\newpage
 
 ## Organisation du travail
 
-## Contributions des membres de l’équipe
+### Contributions des membres de l’équipe
 
 - **KOCHIEV Mickhail**  
   Rédaction de la fiche descriptive pour l’UC “Charger une donnée” et ajout de cette fiche au dépôt Git.  
@@ -64,30 +52,32 @@ geometry: margin=1in
 
 ## Diagramme de cas d’utilisation
 
+![Diagramme de Cas d'Utilisation](assets/diagramme.jpg)
 Ce diagramme a été réalisé pour le premier jalon. Ainsi nous avons uniquement un utilisateur.
 
-Cet utilisateur peut alors réaliser plusieurs tâches comme :
-- ajouter un point,
-- charger les données,
-- visualiser le nuage de points,
-- modifier les axes de projection,
+Cet utilisateur peut alors réaliser plusieurs tâches comme :  
+- ajouter un point,  
+- charger les données,  
+- visualiser le nuage de points,  
+- modifier les axes de projection,  
 - classifier le point sans catégorie.
+
+\newpage
 
 ## Fiches descriptives
 
-### Fonctionnalités Décrites
+### **Charger l’ensemble des données**
 
-#### Charger l’ensemble des données
+```plaintext
+Système : Application - Classification  
+Cas d'utilisation : Charger les données  
+Acteur principal : Utilisateur  
+Acteur secondaire : Aucun  
 
-- **Système :** Application - Classification  
-- **Cas d'utilisation :** Charger les données  
-- **Acteur principal :** Utilisateur  
-- **Acteur secondaire :** Aucun  
+Garanties en cas de succès : L'application charge le fichier sans problèmes.  
+Garanties minimales : L'application ne charge pas de fichier incompatible.  
 
-**Garanties en cas de succès :** L'application charge le fichier sans problèmes.  
-**Garanties minimales :** L'application ne charge pas de fichier incompatible.  
-
-**Scénario nominal :**
+Scénario nominal :
 1. L'utilisateur sélectionne "Charger un fichier".
 2. L'explorateur de fichiers se lance.
 3. L'utilisateur sélectionne le fichier recherché.
@@ -95,12 +85,14 @@ Cet utilisateur peut alors réaliser plusieurs tâches comme :
 5. L'utilisateur informe les axes de projection.
 6. Le système affiche la visualisation des données.
 
-**Scénario alternatif :**
+Scénario alternatif :
 - 3(A) : L'utilisateur sélectionne un fichier incompatible.
 - 4(A) : Le système informe l'utilisateur que le fichier est incompatible et revient à l'étape d'avant.
+```
 
-#### Ajouter une donnée
+### **Ajouter une donnée**
 
+```plaintext
 - **Système:** Système de classification de données  
 - **Cas d'utilisation:** Ajouter une donnée  
 - **Acteur principal:** Utilisateur  
@@ -120,9 +112,11 @@ Cet utilisateur peut alors réaliser plusieurs tâches comme :
 - A: Annulation: Dans l'étape 3, l'utilisateur annule la saisie.
   - 3A. L'utilisateur sélectionne le bouton annuler.
   - 4A. Le système n'enregistre pas les données et ferme la fenêtre contenant le formulaire.
+```
 
-#### Classifier la donnée non classifiée
+### **Classifier la donnée non classifiée**
 
+```plaintext
 - **Système:** Application-Classification  
 - **Cas d'utilisation:** Classifier le point sans catégorie  
 - **Acteur principal:** Utilisateur  
@@ -135,6 +129,7 @@ Cet utilisateur peut alors réaliser plusieurs tâches comme :
 **Scénario nominal :**
 1. L'utilisateur sélectionne la fonctionnalité "Classifier".
 2. Le système détermine une catégorie en fonction des données du point et change la catégorie de celui-ci pour chaque point sans catégorie.
+```
 
 ## Prototypes pour l’interface
 

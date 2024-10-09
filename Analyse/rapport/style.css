@@ -1,6 +1,0 @@
-pre {
-    background-color: #f0f0f0; /* Couleur de fond */
-    border: 1px solid #ddd;   /* Bordure */
-    padding: 10px;            /* Espacement intérieur */
-    overflow: auto;           /* Pour gérer les débordements */
-}
