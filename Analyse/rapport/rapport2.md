@@ -93,22 +93,22 @@ Scénario alternatif :
 ### **Ajouter une donnée**
 
 ```plaintext
-- **Système:** Système de classification de données  
-- **Cas d'utilisation:** Ajouter une donnée  
-- **Acteur principal:** Utilisateur  
-- **Déclencheur:** Aucun  
-- **Préconditions:** Aucune  
+- Système: Système de classification de données  
+- Cas d'utilisation: Ajouter une donnée  
+- Acteur principal: Utilisateur  
+- Déclencheur: Aucun  
+- Préconditions: Aucune  
 
-**Garanties en cas de succès :** La donnée est enregistrée à part des données chargées.  
-**Garanties minimales :** Si le scénario n'aboutit pas, l'état du système reste inchangé.  
+Garanties en cas de succès : La donnée est enregistrée à part des données chargées.  
+Garanties minimales : Si le scénario n'aboutit pas, l'état du système reste inchangé.  
 
-**Scénario nominal :**
+Scénario nominal :
 1. L'utilisateur sélectionne la fonctionnalité "Ajouter une donnée".
 2. Le système affiche un formulaire contenant l'ensemble des champs caractérisant la donnée ainsi que des boutons annuler et valider.
 3. L'utilisateur saisit les informations puis valide.
 4. Le système enregistre cette donnée.
 
-**Scénarios alternatifs :**
+Scénarios alternatifs :
 - A: Annulation: Dans l'étape 3, l'utilisateur annule la saisie.
   - 3A. L'utilisateur sélectionne le bouton annuler.
   - 4A. Le système n'enregistre pas les données et ferme la fenêtre contenant le formulaire.
@@ -117,16 +117,16 @@ Scénario alternatif :
 ### **Classifier la donnée non classifiée**
 
 ```plaintext
-- **Système:** Application-Classification  
-- **Cas d'utilisation:** Classifier le point sans catégorie  
-- **Acteur principal:** Utilisateur  
-- **Déclencheur:** Aucun  
-- **Précondition:** Il y a au moins un point sans catégorie  
+- Système: Application-Classification  
+- Cas d'utilisation: Classifier le point sans catégorie  
+- Acteur principal: Utilisateur  
+- Déclencheur: Aucun  
+- Précondition: Il y a au moins un point sans catégorie  
 
-**Garantie en cas de succès:** La donnée aura une catégorie.  
-**Garantie minimale:** L'état du système reste inchangé.  
+Garantie en cas de succès: La donnée aura une catégorie.  
+Garantie minimale: L'état du système reste inchangé.  
 
-**Scénario nominal :**
+Scénario nominal :
 1. L'utilisateur sélectionne la fonctionnalité "Classifier".
 2. Le système détermine une catégorie en fonction des données du point et change la catégorie de celui-ci pour chaque point sans catégorie.
 ```
@@ -135,16 +135,20 @@ Scénario alternatif :
 
 ### Ajouter une donnée
 
+![Interface Ajouter Donnée](assets/interfaces/ajoutePoint.png)
 Écran pour étape 2 de la fiche descriptive du UC Ajouter une donnée.
 
 ### Classifier une donnée non classifiée
 
+![Interface Classifier une donnée](assets/interfaces/classifierDonnee.png)
 Écran pour étape 1 de la fiche descriptive du UC Classifier un point.
 
 ### Modifier les attributs pour l’affichage
 
+![Interface modifier attributs](assets/interfaces/modifierAttributs.png)
 Écran pour étape 5 de la fiche descriptive du UC charger les données.
 
 ## Diagramme de classes
 
-Figure 1: Diagramme de Classes
+![Diagramme de classes](assets/diagramme-class.png)
+Notre diagramme de classes permet la visualisation et l'implémentation des fonctionnalités du jalon 1.
