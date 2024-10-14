@@ -8,7 +8,7 @@ geometry: margin=1in
 
 # SAE3.02 Dev. Application-Classification
 
-## Équipe J5
+## **Équipe J5**
 
 - KOCHIEV Mickhail
 - LECOCQ Dylan
@@ -18,9 +18,9 @@ geometry: margin=1in
 
 \newpage
 
-## Organisation du travail
+## **Organisation du travail**
 
-### Contributions des membres de l’équipe
+### **Contributions des membres de l’équipe**
 
 - **KOCHIEV Mickhail**  
   Rédaction de la fiche descriptive pour l’UC “Charger une donnée” et ajout de cette fiche au dépôt Git.  
@@ -50,7 +50,7 @@ geometry: margin=1in
   Discussions et choix des outils de versioning et de gestion de projet (par exemple, mise en place du dépôt Git).  
   Mise en place sur PowerAMC de l’ensemble du diagramme de classes par rapport à toutes les tâches effectuées par chaque membre de l’équipe pour répondre aux besoins du client.
 
-## Diagramme de cas d’utilisation
+## **Diagramme de cas d’utilisation**
 
 ![Diagramme de Cas d'Utilisation](assets/diagramme.jpg)
 Ce diagramme a été réalisé pour le premier jalon. Ainsi nous avons uniquement un utilisateur.
@@ -64,7 +64,7 @@ Cet utilisateur peut alors réaliser plusieurs tâches comme :
 
 \newpage
 
-## Fiches descriptives
+## **Fiches descriptives**
 
 ### **Charger l’ensemble des données**
 
@@ -131,24 +131,24 @@ Scénario nominal :
 2. Le système détermine une catégorie en fonction des données du point et change la catégorie de celui-ci pour chaque point sans catégorie.
 ```
 
-## Prototypes pour l’interface
+## **Prototypes pour l’interface**
 
-### Ajouter une donnée
+### **Ajouter une donnée**
 
 ![Interface Ajouter Donnée](assets/interfaces/ajoutePoint.png)
 Écran pour étape 2 de la fiche descriptive du UC Ajouter une donnée.
 
-### Classifier une donnée non classifiée
+### **Classifier une donnée non classifiée**
 
 ![Interface Classifier une donnée](assets/interfaces/classifierDonnee.png)
 Écran pour étape 1 de la fiche descriptive du UC Classifier un point.
 
-### Modifier les attributs pour l’affichage
+### **Modifier les attributs pour l’affichage**
 
 ![Interface modifier attributs](assets/interfaces/modifierAttributs.png)
 Écran pour étape 5 de la fiche descriptive du UC charger les données.
 
-## Diagramme de classes
+## **Diagramme de classes**
 
 ![Diagramme de classes](assets/diagramme-class.png)
 Notre diagramme de classes permet la visualisation et l'implémentation des fonctionnalités du jalon 1.
