@@ -1,7 +1,5 @@
 package app;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,7 +8,6 @@ import javafx.scene.chart.ScatterChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -34,10 +31,13 @@ public class UserInterface extends Stage {
         Button boutonFichier = new Button("Choisir fichier");
         Label cheminFichier = new Label("aucun fichier selectionné");
         HBox boxFichier = new HBox(boutonFichier, cheminFichier);
-        FileChooser filePathTf = new FileChooser(); //TODO relier au bouton
+        FileChooser fileChooser = new FileChooser(); //TODO relier au bouton
 
-
-
+        boutonFichier.setOnAction(e -> {
+            if(e.getTarget().equals(boutonFichier)){
+                fileChooser.showOpenDialog(this);
+            }
+        });
 
         ScatterChart<Number, Number> chart = new ScatterChart<>(xAxis, yAxis);
         chart.prefHeightProperty().bind(this.heightProperty().subtract(100));
@@ -58,7 +58,7 @@ public class UserInterface extends Stage {
         sideBar.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
         sideBar.setPadding(new Insets(5));
         sideBar.setAlignment(Pos.BASELINE_RIGHT);
-        sideBar.setMinWidth(400);
+        sideBar.prefWidthProperty().bind(this.widthProperty().multiply(0.3));
 
 
         HBox mainBox = new HBox(chartBox, sideBar);
