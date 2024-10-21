@@ -161,7 +161,7 @@ public class UserInterface extends Stage {
                 int largeurSepal = Integer.parseInt(textField2.getText());
                 int longueurPetal = Integer.parseInt(textField3.getText());
                 int largeurPetal = Integer.parseInt(textField4.getText());
-                //ds.ajouterPoint(longueurSepal, largeurSepal, longueurPetal, largeurPetal);
+                ds.ajouterPoint(longueurSepal, largeurSepal, longueurPetal, largeurPetal);
             } catch (NumberFormatException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Saisie invalide");
