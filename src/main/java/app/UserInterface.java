@@ -20,6 +20,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.DataSet;
 import model.PointIris;
+import javafx.scene.Scene;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.ScatterChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -44,6 +52,11 @@ public class UserInterface extends Stage {
     HBox espaceurSelecteursAxe = new HBox();
     Label axeDesOrdonnees = new Label("Axe des ordonnées");
     ComboBox<String> menuDeroulantOrdonnees = new ComboBox<>();
+
+
+
+
+
     VBox conteneurStats = new VBox(); //TODO, AJOUTER LES STATS
     Button boutonAjouter = new Button("Ajouter");
     Button boutonSupprimer = new Button("Supprimer");
@@ -61,6 +74,25 @@ public class UserInterface extends Stage {
 
     //Que du visuel pour l'instant, commentaire à retirer
     public UserInterface() {
+        menuDeroulantAbscisses.getItems().addAll("longueurSepal", "largeurSepal", "longueurPetal", "largeurPetal");
+
+        menuDeroulantOrdonnees.getItems().addAll("longueurSepal", "largeurSepal", "longueurPetal", "largeurPetal");
+
+
+        menuDeroulantAbscisses.setOnAction(f -> {
+            String selectedItem = menuDeroulantAbscisses.getSelectionModel().getSelectedItem();
+            System.out.println("L'élément sélectionné est : " + selectedItem);
+            menuDeroulantAbscisses.setPromptText(selectedItem);
+            xAxis.setLabel(selectedItem);
+        });
+
+        menuDeroulantOrdonnees.setOnAction(g -> {
+            String selectedItem = menuDeroulantOrdonnees.getSelectionModel().getSelectedItem();
+            System.out.println("L'élément sélectionné est : " + selectedItem);
+            menuDeroulantOrdonnees.setPromptText(selectedItem);
+            yAxis.setLabel(selectedItem);
+
+        });
 
         File fichier = null;
 
