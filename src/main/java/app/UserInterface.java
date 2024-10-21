@@ -62,7 +62,15 @@ public class UserInterface extends Stage {
 
         boutonFichier.setOnAction(e -> {
             if(e.getTarget().equals(boutonFichier)){
-                fileChooser.showOpenDialog(this);
+                try {
+                    this.openFileChooser();
+                }catch (FileNotFoundException fileNotFound){
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Quelque chose cloche !");
+                    alert.setContentText("Le fichier n'a pas été sélectionné !");
+                    alert.show();
+                }
+
             }
         });
 
