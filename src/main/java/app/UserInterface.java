@@ -92,18 +92,16 @@ public class UserInterface extends Stage implements Observer {
 
         menuDeroulantAbscisses.setOnAction(f -> {
             String selectedItem = menuDeroulantAbscisses.getSelectionModel().getSelectedItem();
-            System.out.println("L'élément sélectionné est : " + selectedItem);
             menuDeroulantAbscisses.setPromptText(selectedItem);
             xAxis.setLabel(selectedItem);
-            loadSeries();
+            reloadSeries();
         });
 
         menuDeroulantOrdonnees.setOnAction(g -> {
             String selectedItem = menuDeroulantOrdonnees.getSelectionModel().getSelectedItem();
-            System.out.println("L'élément sélectionné est : " + selectedItem);
             menuDeroulantOrdonnees.setPromptText(selectedItem);
             yAxis.setLabel(selectedItem);
-            loadSeries();
+            reloadSeries();
 
         });
 
@@ -112,7 +110,7 @@ public class UserInterface extends Stage implements Observer {
         seriesSetosa.setName("Setosa");
         seriesVersicolor.setName("Versicolor");
         seriesVirginica.setName("Virginica");
-        seriesDefault.setName("DONNEES UTILISATEUR");
+        seriesDefault.setName("Données Utilisateur");
 
         VBox.setMargin(boxFichier, new Insets(5));
         VBox.setVgrow(espaceurChartFichier, Priority.ALWAYS);
@@ -265,25 +263,16 @@ public class UserInterface extends Stage implements Observer {
     }
 
     private void loadSeries() {
-        XYChart.Data<Number, Number> invisiblePointDe = new XYChart.Data<>(0, 0);
-        XYChart.Data<Number, Number> invisiblePointSe = new XYChart.Data<>(0, 0);
-        XYChart.Data<Number, Number> invisiblePointVe = new XYChart.Data<>(0, 0);
-        XYChart.Data<Number, Number> invisiblePointVi = new XYChart.Data<>(0, 0);
-        seriesSetosa.getData().clear();
-        seriesSetosa.getData().add(invisiblePointSe);
-        seriesVersicolor.getData().clear();
-        seriesVersicolor.getData().add(invisiblePointVe);
-        seriesVirginica.getData().clear();
-        seriesVirginica.getData().add(invisiblePointVi);
-        seriesDefault.getData().clear();
-        seriesDefault.getData().add(invisiblePointDe);
         ajouterPoints();
-        seriesSetosa.getData().remove(invisiblePointSe);
-        seriesVersicolor.getData().remove(invisiblePointVe);
-        seriesVirginica.getData().remove(invisiblePointVi);
-        seriesDefault.getData().remove(invisiblePointDe);
-
         chart.getData().addAll(seriesSetosa, seriesVersicolor, seriesVirginica, seriesDefault);
+    }
+
+    private void reloadSeries(){
+        seriesSetosa.getData().clear();
+        seriesVersicolor.getData().clear();
+        seriesVirginica.getData().clear();
+        seriesDefault.getData().clear();
+        ajouterPoints();
     }
 
     private double getDataforXY(PointIris p, String data){
@@ -302,9 +291,21 @@ public class UserInterface extends Stage implements Observer {
     }
 
     private void ajouterPoints() {
+        XYChart.Data<Number, Number> invisiblePointDe = new XYChart.Data<>(0, 0);
+        XYChart.Data<Number, Number> invisiblePointSe = new XYChart.Data<>(0, 0);
+        XYChart.Data<Number, Number> invisiblePointVe = new XYChart.Data<>(0, 0);
+        XYChart.Data<Number, Number> invisiblePointVi = new XYChart.Data<>(0, 0);
+        seriesSetosa.getData().add(invisiblePointSe);
+        seriesVersicolor.getData().add(invisiblePointVe);
+        seriesVirginica.getData().add(invisiblePointVi);
+        seriesDefault.getData().add(invisiblePointDe);
         for (PointIris point : ds.getPoints()) {
             this.ajouterPoint(point);
         }
+        seriesSetosa.getData().remove(invisiblePointSe);
+        seriesVersicolor.getData().remove(invisiblePointVe);
+        seriesVirginica.getData().remove(invisiblePointVi);
+        seriesDefault.getData().remove(invisiblePointDe);
     }
 
     public void ajouterPoint(PointIris point){
@@ -338,7 +339,6 @@ public class UserInterface extends Stage implements Observer {
         if ((observable instanceof DataSet)){
             this.ajouterPoints();
         }
-        System.out.println("je suis notifié 2");
     }
 
     @Override
@@ -346,7 +346,6 @@ public class UserInterface extends Stage implements Observer {
         if ((observable instanceof DataSet) && (data instanceof PointIris)){
             this.ajouterPoint((PointIris) data);
         }
-        System.out.println("je suis notifié 1");
     }
     public void classifier(PointIris point){
         ds.classifierPoint(point);
