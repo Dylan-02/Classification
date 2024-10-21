@@ -155,6 +155,12 @@ public class UserInterface extends Stage implements Observer {
             }
         });
 
+        boutonClassifier.setOnAction(event -> {
+
+            classifier(ds.getPoints().get(ds.getPoints().size()-1));
+
+        });
+
         axeDesAbscisses.prefWidthProperty().bind(sideBar.widthProperty());
         axeDesAbscisses.setAlignment(Pos.CENTER);
         axeDesOrdonnees.prefWidthProperty().bind(sideBar.widthProperty());
@@ -339,4 +345,8 @@ public class UserInterface extends Stage implements Observer {
         }
         System.out.println("je suis notifié 1");
     }
+    public void classifier(PointIris point){
+        ds.classifierPoint(point);
+    }
+
 }
