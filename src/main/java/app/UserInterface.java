@@ -65,7 +65,7 @@ public class UserInterface extends Stage implements Observer {
 
     VBox conteneurStats = new VBox(); //TODO, AJOUTER LES STATS
     Button boutonAjouter = new Button("Ajouter");
-    Button boutonClassifier = new Button("Classifier");
+    Button boutonClassifier = new Button("Classer");
     Button boutonNouvelleFenetre = new Button("Nouvelle fenêtre");
     XYChart.Series<Number, Number> seriesSetosa = new XYChart.Series<>();
     XYChart.Series<Number, Number> seriesVersicolor = new XYChart.Series<>();
