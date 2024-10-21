@@ -20,11 +20,16 @@ import model.PointIris;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.sql.SQLOutput;
 
 public class UserInterface extends Stage {
     DataSet ds = new DataSet();
     Label cheminFichier;
+    XYChart.Series<Number, Number> seriesSetosa = new XYChart.Series<>();
+    XYChart.Series<Number, Number> seriesVersicolor = new XYChart.Series<>();
+    XYChart.Series<Number, Number> seriesVirginica = new XYChart.Series<>();
+    XYChart.Series<Number, Number> seriesDefault = new XYChart.Series<>();
+    ScatterChart<Number, Number> chart;
+
     //Que du visuel pour l'instant, commentaire à retirer
     public UserInterface(){
 
@@ -38,9 +43,14 @@ public class UserInterface extends Stage {
         Button boutonFichier = new Button("Choisir fichier");
         this.cheminFichier = new Label("aucun fichier selectionné");
 
+        seriesSetosa.setName("Setosa");
+        seriesVersicolor.setName("Versicolor");
+        seriesVirginica.setName("Virginica");
+        seriesDefault.setName("DONNEES UTILISATEUR");
+
         HBox boxFichier = new HBox(boutonFichier, cheminFichier);
 
-        ScatterChart<Number, Number> chart = new ScatterChart<>(xAxis, yAxis);
+        chart = new ScatterChart<>(xAxis, yAxis);
         chart.prefHeightProperty().bind(this.heightProperty().subtract(100));
         Button boutonClassifier = new Button("Classifier");
 
@@ -56,7 +66,7 @@ public class UserInterface extends Stage {
             if(e.getTarget().equals(boutonFichier)){
                 try{
                     this.openFileChooser();
-                    this.ajouterPoints(chart);
+                    this.loadSeries();
                 }catch(FileNotFoundException fnfe){
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setTitle("Erreur !");
@@ -104,16 +114,27 @@ public class UserInterface extends Stage {
 
     }
 
-    private void ajouterPoints(ScatterChart<Number, Number> chart) {
-        XYChart.Series<Number, Number> seriesSetosa = new XYChart.Series<>();
-        seriesSetosa.setName("Setosa");
+    private void loadSeries(){
+        XYChart.Data<Number,Number> invisiblePointDe = new XYChart.Data<>(0, 0);
+        XYChart.Data<Number,Number> invisiblePointSe = new XYChart.Data<>(0, 0);
+        XYChart.Data<Number,Number> invisiblePointVe = new XYChart.Data<>(0, 0);
+        XYChart.Data<Number,Number> invisiblePointVi = new XYChart.Data<>(0, 0);
+        seriesSetosa.getData().clear();
+        seriesSetosa.getData().add(invisiblePointSe);
+        seriesVersicolor.getData().clear();
+        seriesVersicolor.getData().add(invisiblePointVe);
+        seriesVirginica.getData().clear();
+        seriesVirginica.getData().add(invisiblePointVi);
+        seriesDefault.getData().clear();
+        seriesDefault.getData().add(invisiblePointDe);
+        ajouterPoints();
+        seriesSetosa.getData().remove(invisiblePointSe);
+        seriesVersicolor.getData().remove(invisiblePointVe);
+        seriesVirginica.getData().remove(invisiblePointVi);
+        seriesDefault.getData().remove(invisiblePointDe);
+    }
 
-        XYChart.Series<Number, Number> seriesVersicolor = new XYChart.Series<>();
-        seriesVersicolor.setName("Versicolor");
-
-        XYChart.Series<Number, Number> seriesVirginica = new XYChart.Series<>();
-        seriesVirginica.setName("Virginica");
-
+    private void ajouterPoints() {
         for (PointIris point : ds.getPoints()) {
             XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(point.getLargeurSepal(), point.getLongueurPetal());
 
@@ -127,10 +148,13 @@ public class UserInterface extends Stage {
                 case VIRGINICA:
                     seriesVirginica.getData().add(dataPoint);
                     break;
+                default:
+                    seriesDefault.getData().add(dataPoint);
+                    break;
             }
         }
 
-        chart.getData().addAll(seriesSetosa, seriesVersicolor, seriesVirginica);
+        chart.getData().addAll(seriesSetosa, seriesVersicolor, seriesVirginica, seriesDefault);
     }
 }
 // C:\Users\giout\OneDrive\Bureau\BUTINFO\BUT2\git\J5_SAE3.3\src\main\resources\model
