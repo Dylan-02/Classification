@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.DataSet;
@@ -21,8 +22,34 @@ import java.io.FileNotFoundException;
 import java.sql.SQLOutput;
 
 public class UserInterface extends Stage {
+
     DataSet ds = new DataSet();
-    Label cheminFichier;
+
+    Button boutonFichier = new Button("Choisir fichier");
+    Label cheminFichier = new Label("aucun fichier selectionné");
+
+    NumberAxis xAxis = new NumberAxis();
+    NumberAxis yAxis = new NumberAxis();
+    ScatterChart<Number, Number> chart = new ScatterChart<>(xAxis, yAxis);
+    HBox boxFichier = new HBox(boutonFichier, cheminFichier);
+    FileChooser fileChooser = new FileChooser(); //TODO relier au bouton
+    VBox chartBox = new VBox(chart, boxFichier);
+    Label axeDesAbscisses = new Label("Axe des abscisses");
+    ComboBox<String> menuDeroulantAbscisses = new ComboBox<>(); //TODO à l'implémentation des données, CHANGER LE TYPE GéNéRIQUE DES COMBOBOX
+    HBox espaceurSelecteursAxe = new HBox();
+    Label axeDesOrdonnees = new Label("Axe des ordonnées");
+    ComboBox<String> menuDeroulantOrdonnees = new ComboBox<>();
+    VBox conteneurStats = new VBox(); //TODO, AJOUTER LES STATS
+    Button boutonAjouter = new Button("Ajouter");
+    Button boutonSupprimer = new Button("Supprimer");
+    Button boutonClassifier = new Button("Classifier");
+    Button boutonNouvelleFenetre = new Button("Nouvelle fenêtre");
+
+    VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees, conteneurStats, boutonAjouter, boutonSupprimer, boutonClassifier, boutonNouvelleFenetre);
+
+    HBox mainBox = new HBox(chartBox, sideBar);
+
+
     //Que du visuel pour l'instant, commentaire à retirer
     public UserInterface(){
 
@@ -30,59 +57,55 @@ public class UserInterface extends Stage {
 
         this.setMinWidth(610);
 
-        NumberAxis xAxis = new NumberAxis();
-        NumberAxis yAxis = new NumberAxis();
 
-        Button boutonFichier = new Button("Choisir fichier");
-        this.cheminFichier = new Label("aucun fichier selectionné");
-
-        HBox boxFichier = new HBox(boutonFichier, cheminFichier);
-
+        cheminFichier.setTextAlignment(TextAlignment.CENTER);
 
         boutonFichier.setOnAction(e -> {
             if(e.getTarget().equals(boutonFichier)){
-                try{
-                    this.openFileChooser();
-                    //TODO Afficher les
-                }catch(FileNotFoundException fnfe){
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Erreur !");
-                    alert.setContentText("Un problème est survenu lors de la sélection du fichier");
-                    alert.showAndWait();
-                    fnfe.getMessage();
-                }
-
-                //ObservableList<FileChooser.ExtensionFilter>
+                fileChooser.showOpenDialog(this);
             }
         });
 
-        ScatterChart<Number, Number> chart = new ScatterChart<>(xAxis, yAxis);
         chart.prefHeightProperty().bind(this.heightProperty().subtract(100));
-        Button boutonClassifier = new Button("Classifier");
 
-        VBox chartBox = new VBox(boxFichier, chart, boutonClassifier);
+
         chartBox.prefWidthProperty().bind(this.widthProperty().subtract(100));
 
-        Text axeDesAbscisses = new Text("Axe des abscisses");
-        ComboBox<String> menuDeroulantAbscisses = new ComboBox<>(); //TODO à l'implémentation des données, CHANGER LE TYPE GéNéRIQUE DES COMBOBOX
-        Text axeDesOrdonnees = new Text("Axe des ordonnées");
-        ComboBox<String> menuDeroulantOrdonnees = new ComboBox<>();
+        espaceurSelecteursAxe.setPrefHeight(15);
+
+        VBox.setVgrow(conteneurStats, Priority.ALWAYS);
+
+        boutonAjouter.setMaxWidth(Double.MAX_VALUE);
+        boutonAjouter.setStyle("-fx-background-color: #00d41d");
+
+        boutonSupprimer.setMaxWidth(Double.MAX_VALUE);
+        boutonSupprimer.setStyle("-fx-background-color: RED");
+
+        boutonClassifier.setMaxWidth(Double.MAX_VALUE);
+        boutonClassifier.setStyle("-fx-background-color: ORANGE");
+
+        boutonNouvelleFenetre.setMaxWidth(Double.MAX_VALUE);
 
 
-        VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, axeDesOrdonnees, menuDeroulantOrdonnees);
-        menuDeroulantAbscisses.setPrefWidth(sideBar.getWidth());
-        menuDeroulantOrdonnees.setPrefWidth(sideBar.getWidth());
+        axeDesAbscisses.prefWidthProperty().bind(sideBar.widthProperty());
+        axeDesAbscisses.setAlignment(Pos.CENTER);
+        axeDesOrdonnees.prefWidthProperty().bind(sideBar.widthProperty());
+        axeDesOrdonnees.setAlignment(Pos.CENTER);
+        menuDeroulantAbscisses.prefWidthProperty().bind(sideBar.widthProperty());
+        menuDeroulantOrdonnees.prefWidthProperty().bind(sideBar.widthProperty());
+        conteneurStats.maxHeightProperty().bind(sideBar.heightProperty().subtract(220));
+
         sideBar.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
         sideBar.setPadding(new Insets(5));
         sideBar.setAlignment(Pos.BASELINE_RIGHT);
         sideBar.prefWidthProperty().bind(this.widthProperty().multiply(0.3));
 
 
-        HBox mainBox = new HBox(chartBox, sideBar);
 
         Scene scene = new Scene(mainBox);
         this.setScene(scene);
         this.setTitle("Visualisation données");
+        this.setMinHeight(300);
         this.show();
 
 
