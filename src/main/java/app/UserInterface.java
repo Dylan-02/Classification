@@ -19,6 +19,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.DataSet;
 import model.PointIris;
+import utils.Observable;
+import utils.Observer;
+
 import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
@@ -28,13 +31,14 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 
 
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.function.UnaryOperator;
 
-public class UserInterface extends Stage {
+public class UserInterface extends Stage implements Observer {
 
     DataSet ds = new DataSet();
 
@@ -75,16 +79,23 @@ public class UserInterface extends Stage {
 
     //Que du visuel pour l'instant, commentaire à retirer
     public UserInterface() {
+
+        ds.attach(this);
+
         menuDeroulantAbscisses.getItems().addAll("longueurSepal", "largeurSepal", "longueurPetal", "largeurPetal");
+
 
         menuDeroulantOrdonnees.getItems().addAll("longueurSepal", "largeurSepal", "longueurPetal", "largeurPetal");
 
+        menuDeroulantAbscisses.setValue("longueurSepal");
+        menuDeroulantOrdonnees.setValue("largeurSepal");
 
         menuDeroulantAbscisses.setOnAction(f -> {
             String selectedItem = menuDeroulantAbscisses.getSelectionModel().getSelectedItem();
             System.out.println("L'élément sélectionné est : " + selectedItem);
             menuDeroulantAbscisses.setPromptText(selectedItem);
             xAxis.setLabel(selectedItem);
+            loadSeries();
         });
 
         menuDeroulantOrdonnees.setOnAction(g -> {
@@ -92,6 +103,7 @@ public class UserInterface extends Stage {
             System.out.println("L'élément sélectionné est : " + selectedItem);
             menuDeroulantOrdonnees.setPromptText(selectedItem);
             yAxis.setLabel(selectedItem);
+            loadSeries();
 
         });
 
@@ -217,7 +229,14 @@ public class UserInterface extends Stage {
                 int largeurSepal = Integer.parseInt(textField2.getText());
                 int longueurPetal = Integer.parseInt(textField3.getText());
                 int largeurPetal = Integer.parseInt(textField4.getText());
+                System.out.println(ds.getPoints().size());
                 ds.ajouterPoint(longueurSepal, largeurSepal, longueurPetal, largeurPetal);
+                System.out.println(ds.getPoints().size());
+                for (XYChart.Data<Number, Number> data : seriesDefault.getData()){
+                    System.out.println(ds.getPoints().size());
+                    System.out.println(data.toString());
+                    System.out.println(ds.getPoints().size());
+                }
             } catch (NumberFormatException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Saisie invalide");
@@ -254,28 +273,70 @@ public class UserInterface extends Stage {
         seriesVersicolor.getData().remove(invisiblePointVe);
         seriesVirginica.getData().remove(invisiblePointVi);
         seriesDefault.getData().remove(invisiblePointDe);
+
+        chart.getData().addAll(seriesSetosa, seriesVersicolor, seriesVirginica, seriesDefault);
+    }
+
+    private double getDataforXY(PointIris p, String data){
+        switch (data) {
+            case "longueurSepal":
+                return p.getLongueurSepal();
+            case "largeurSepal":
+                return p.getLargeurSepal();
+            case "longueurPetal":
+                return p.getLongueurPetal();
+            case "largeurPetal":
+                return p.getLargeurPetal();
+            default:
+                throw new IllegalArgumentException("Valeur inattendue: " + data);
+        }
     }
 
     private void ajouterPoints() {
         for (PointIris point : ds.getPoints()) {
-            XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(point.getLargeurSepal(), point.getLongueurPetal());
-
-            switch (point.getCategorie()) {
-                case SETOSA:
-                    seriesSetosa.getData().add(dataPoint);
-                    break;
-                case VERSICOLOR:
-                    seriesVersicolor.getData().add(dataPoint);
-                    break;
-                case VIRGINICA:
-                    seriesVirginica.getData().add(dataPoint);
-                    break;
-                default:
-                    seriesDefault.getData().add(dataPoint);
-                    break;
-            }
+            this.ajouterPoint(point);
         }
+    }
 
-        chart.getData().addAll(seriesSetosa, seriesVersicolor, seriesVirginica, seriesDefault);
+    public void ajouterPoint(PointIris point){
+
+            Number y = getDataforXY(point, menuDeroulantOrdonnees.getValue());
+            Number x = getDataforXY(point, menuDeroulantAbscisses.getValue());
+            XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(x, y);
+
+            if (point.getCategorie() == null)
+                seriesDefault.getData().add(dataPoint);
+            else {
+                switch (point.getCategorie()) {
+                    case SETOSA:
+                        seriesSetosa.getData().add(dataPoint);
+                        break;
+                    case VERSICOLOR:
+                        seriesVersicolor.getData().add(dataPoint);
+                        break;
+                    case VIRGINICA:
+                        seriesVirginica.getData().add(dataPoint);
+                        break;
+
+                }
+
+            }
+
+    }
+
+    @Override
+    public void update(Observable observable) {
+        if ((observable instanceof DataSet)){
+            this.ajouterPoints();
+        }
+        System.out.println("je suis notifié 2");
+    }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        if ((observable instanceof DataSet) && (data instanceof PointIris)){
+            this.ajouterPoint((PointIris) data);
+        }
+        System.out.println("je suis notifié 1");
     }
 }
