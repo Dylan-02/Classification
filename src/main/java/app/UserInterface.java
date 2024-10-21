@@ -130,12 +130,15 @@ public class UserInterface extends Stage implements Observer {
         VBox.setVgrow(conteneurStats, Priority.ALWAYS);
 
         boutonAjouter.setMaxWidth(Double.MAX_VALUE);
-        boutonAjouter.setStyle("-fx-background-color: GREEN;" +
-                               "-fx-text-fill: WHITE");
-        boutonAjouter.setOnAction((e) -> ajouterPoint());
+        boutonAjouter.setStyle("-fx-background-color: Green; -fx-text-fill: White");
+        boutonAjouter.setOnMouseEntered(e -> boutonAjouter.setStyle("-fx-background-color: DarkGreen; -fx-text-fill: White"));
+        boutonAjouter.setOnMouseExited(e -> boutonAjouter.setStyle("-fx-background-color: Green; -fx-text-fill: White"));
+        boutonAjouter.setOnAction(e -> ajouterPoint());
+        boutonClassifier.setOnMouseEntered(e -> boutonClassifier.setStyle("-fx-background-color: DarkOrange;"));
+        boutonClassifier.setOnMouseExited(e -> boutonClassifier.setStyle("-fx-background-color: Orange;"));
 
         boutonClassifier.setMaxWidth(Double.MAX_VALUE);
-        boutonClassifier.setStyle("-fx-background-color: ORANGE");
+        boutonClassifier.setStyle("-fx-background-color: Orange");
 
         boutonNouvelleFenetre.setMaxWidth(Double.MAX_VALUE);
 
