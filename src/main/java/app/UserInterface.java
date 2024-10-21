@@ -44,7 +44,6 @@ public class UserInterface extends Stage {
     ComboBox<String> menuDeroulantOrdonnees = new ComboBox<>();
     VBox conteneurStats = new VBox(); //TODO, AJOUTER LES STATS
     Button boutonAjouter = new Button("Ajouter");
-    Button boutonSupprimer = new Button("Supprimer");
     Button boutonClassifier = new Button("Classifier");
     Button boutonNouvelleFenetre = new Button("Nouvelle fenêtre");
     XYChart.Series<Number, Number> seriesSetosa = new XYChart.Series<>();
@@ -52,7 +51,7 @@ public class UserInterface extends Stage {
     XYChart.Series<Number, Number> seriesVirginica = new XYChart.Series<>();
     XYChart.Series<Number, Number> seriesDefault = new XYChart.Series<>();
 
-    VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees, conteneurStats, boutonAjouter, boutonSupprimer, boutonClassifier, boutonNouvelleFenetre);
+    VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees, conteneurStats, boutonAjouter, boutonClassifier, boutonNouvelleFenetre);
 
     HBox mainBox = new HBox(chartBox, sideBar);
 
@@ -81,9 +80,6 @@ public class UserInterface extends Stage {
 
         boutonAjouter.setMaxWidth(Double.MAX_VALUE);
         boutonAjouter.setStyle("-fx-background-color: #00d41d");
-
-        boutonSupprimer.setMaxWidth(Double.MAX_VALUE);
-        boutonSupprimer.setStyle("-fx-background-color: RED");
 
         boutonClassifier.setMaxWidth(Double.MAX_VALUE);
         boutonClassifier.setStyle("-fx-background-color: ORANGE");
