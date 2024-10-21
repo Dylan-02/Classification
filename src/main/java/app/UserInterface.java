@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -15,6 +16,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.DataSet;
+import model.PointIris;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,24 +40,6 @@ public class UserInterface extends Stage {
 
         HBox boxFichier = new HBox(boutonFichier, cheminFichier);
 
-
-        boutonFichier.setOnAction(e -> {
-            if(e.getTarget().equals(boutonFichier)){
-                try{
-                    this.openFileChooser();
-                    //TODO Afficher les
-                }catch(FileNotFoundException fnfe){
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Erreur !");
-                    alert.setContentText("Un problème est survenu lors de la sélection du fichier");
-                    alert.showAndWait();
-                    fnfe.getMessage();
-                }
-
-                //ObservableList<FileChooser.ExtensionFilter>
-            }
-        });
-
         ScatterChart<Number, Number> chart = new ScatterChart<>(xAxis, yAxis);
         chart.prefHeightProperty().bind(this.heightProperty().subtract(100));
         Button boutonClassifier = new Button("Classifier");
@@ -68,6 +52,22 @@ public class UserInterface extends Stage {
         Text axeDesOrdonnees = new Text("Axe des ordonnées");
         ComboBox<String> menuDeroulantOrdonnees = new ComboBox<>();
 
+        boutonFichier.setOnAction(e -> {
+            if(e.getTarget().equals(boutonFichier)){
+                try{
+                    this.openFileChooser();
+                    this.ajouterPoints(chart);
+                }catch(FileNotFoundException fnfe){
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Erreur !");
+                    alert.setContentText("Un problème est survenu lors de la sélection du fichier");
+                    alert.showAndWait();
+                    fnfe.getMessage();
+                }
+
+                //ObservableList<FileChooser.ExtensionFilter>
+            }
+        });
 
         VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, axeDesOrdonnees, menuDeroulantOrdonnees);
         menuDeroulantAbscisses.setPrefWidth(sideBar.getWidth());
@@ -103,4 +103,34 @@ public class UserInterface extends Stage {
         //System.out.println(ds.getPoints().get(0)); débogue en attente de tests
 
     }
+
+    private void ajouterPoints(ScatterChart<Number, Number> chart) {
+        XYChart.Series<Number, Number> seriesSetosa = new XYChart.Series<>();
+        seriesSetosa.setName("Setosa");
+
+        XYChart.Series<Number, Number> seriesVersicolor = new XYChart.Series<>();
+        seriesVersicolor.setName("Versicolor");
+
+        XYChart.Series<Number, Number> seriesVirginica = new XYChart.Series<>();
+        seriesVirginica.setName("Virginica");
+
+        for (PointIris point : ds.getPoints()) {
+            XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(point.getLargeurSepal(), point.getLongueurPetal());
+
+            switch (point.getCategorie()) {
+                case SETOSA:
+                    seriesSetosa.getData().add(dataPoint);
+                    break;
+                case VERSICOLOR:
+                    seriesVersicolor.getData().add(dataPoint);
+                    break;
+                case VIRGINICA:
+                    seriesVirginica.getData().add(dataPoint);
+                    break;
+            }
+        }
+
+        chart.getData().addAll(seriesSetosa, seriesVersicolor, seriesVirginica);
+    }
 }
+// C:\Users\giout\OneDrive\Bureau\BUTINFO\BUT2\git\J5_SAE3.3\src\main\resources\model
