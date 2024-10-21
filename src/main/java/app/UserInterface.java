@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -31,7 +30,6 @@ import javafx.scene.control.Label;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.sql.SQLOutput;
 import java.util.function.UnaryOperator;
 
 public class UserInterface extends Stage {
@@ -59,7 +57,6 @@ public class UserInterface extends Stage {
 
     VBox conteneurStats = new VBox(); //TODO, AJOUTER LES STATS
     Button boutonAjouter = new Button("Ajouter");
-    Button boutonSupprimer = new Button("Supprimer");
     Button boutonClassifier = new Button("Classifier");
     Button boutonNouvelleFenetre = new Button("Nouvelle fenêtre");
     XYChart.Series<Number, Number> seriesSetosa = new XYChart.Series<>();
@@ -67,7 +64,7 @@ public class UserInterface extends Stage {
     XYChart.Series<Number, Number> seriesVirginica = new XYChart.Series<>();
     XYChart.Series<Number, Number> seriesDefault = new XYChart.Series<>();
 
-    VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees, conteneurStats, boutonAjouter, boutonSupprimer, boutonClassifier, boutonNouvelleFenetre);
+    VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees, conteneurStats, boutonAjouter, boutonClassifier, boutonNouvelleFenetre);
 
     HBox mainBox = new HBox(chartBox, sideBar);
 
@@ -98,8 +95,6 @@ public class UserInterface extends Stage {
 
         });
 
-        File fichier = null;
-
         this.setMinWidth(610);
 
         seriesSetosa.setName("Setosa");
@@ -122,14 +117,12 @@ public class UserInterface extends Stage {
         boutonAjouter.setMaxWidth(Double.MAX_VALUE);
         boutonAjouter.setStyle("-fx-background-color: #00d41d");
 
-        boutonSupprimer.setMaxWidth(Double.MAX_VALUE);
-        boutonSupprimer.setStyle("-fx-background-color: RED");
-
         boutonClassifier.setMaxWidth(Double.MAX_VALUE);
         boutonClassifier.setStyle("-fx-background-color: ORANGE");
 
         boutonNouvelleFenetre.setMaxWidth(Double.MAX_VALUE);
         boutonAjouter.setOnAction((e) -> ajouterPoint());
+
 
         boutonFichier.setOnAction(e -> {
             if (e.getTarget().equals(boutonFichier)) {
@@ -163,8 +156,6 @@ public class UserInterface extends Stage {
         this.setTitle("Visualisation données");
         this.setMinHeight(300);
         this.show();
-
-
     }
 
     public void openFileChooser() throws FileNotFoundException {
