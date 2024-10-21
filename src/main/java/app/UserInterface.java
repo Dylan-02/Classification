@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -23,9 +22,18 @@ import model.PointIris;
 import utils.Observable;
 import utils.Observer;
 
+import javafx.scene.Scene;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.ScatterChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+
+
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.sql.SQLOutput;
 import java.util.function.UnaryOperator;
 
 public class UserInterface extends Stage implements Observer {
@@ -46,9 +54,13 @@ public class UserInterface extends Stage implements Observer {
     HBox espaceurSelecteursAxe = new HBox();
     Label axeDesOrdonnees = new Label("Axe des ordonnées");
     ComboBox<String> menuDeroulantOrdonnees = new ComboBox<>();
+
+
+
+
+
     VBox conteneurStats = new VBox(); //TODO, AJOUTER LES STATS
     Button boutonAjouter = new Button("Ajouter");
-    Button boutonSupprimer = new Button("Supprimer");
     Button boutonClassifier = new Button("Classifier");
     Button boutonNouvelleFenetre = new Button("Nouvelle fenêtre");
     XYChart.Series<Number, Number> seriesSetosa = new XYChart.Series<>();
@@ -56,16 +68,40 @@ public class UserInterface extends Stage implements Observer {
     XYChart.Series<Number, Number> seriesVirginica = new XYChart.Series<>();
     XYChart.Series<Number, Number> seriesDefault = new XYChart.Series<>();
 
-    VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees, conteneurStats, boutonAjouter, boutonSupprimer, boutonClassifier, boutonNouvelleFenetre);
+    VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees, conteneurStats, boutonAjouter, boutonClassifier, boutonNouvelleFenetre);
 
     HBox mainBox = new HBox(chartBox, sideBar);
 
 
     //Que du visuel pour l'instant, commentaire à retirer
     public UserInterface() {
+
         ds.attach(this);
 
-        File fichier = null;
+        menuDeroulantAbscisses.getItems().addAll("longueurSepal", "largeurSepal", "longueurPetal", "largeurPetal");
+
+
+        menuDeroulantOrdonnees.getItems().addAll("longueurSepal", "largeurSepal", "longueurPetal", "largeurPetal");
+
+        menuDeroulantAbscisses.setValue("longueurSepal");
+        menuDeroulantOrdonnees.setValue("largeurSepal");
+
+        menuDeroulantAbscisses.setOnAction(f -> {
+            String selectedItem = menuDeroulantAbscisses.getSelectionModel().getSelectedItem();
+            System.out.println("L'élément sélectionné est : " + selectedItem);
+            menuDeroulantAbscisses.setPromptText(selectedItem);
+            xAxis.setLabel(selectedItem);
+            loadSeries();
+        });
+
+        menuDeroulantOrdonnees.setOnAction(g -> {
+            String selectedItem = menuDeroulantOrdonnees.getSelectionModel().getSelectedItem();
+            System.out.println("L'élément sélectionné est : " + selectedItem);
+            menuDeroulantOrdonnees.setPromptText(selectedItem);
+            yAxis.setLabel(selectedItem);
+            loadSeries();
+
+        });
 
         this.setMinWidth(610);
 
@@ -89,14 +125,12 @@ public class UserInterface extends Stage implements Observer {
         boutonAjouter.setMaxWidth(Double.MAX_VALUE);
         boutonAjouter.setStyle("-fx-background-color: #00d41d");
 
-        boutonSupprimer.setMaxWidth(Double.MAX_VALUE);
-        boutonSupprimer.setStyle("-fx-background-color: RED");
-
         boutonClassifier.setMaxWidth(Double.MAX_VALUE);
         boutonClassifier.setStyle("-fx-background-color: ORANGE");
 
         boutonNouvelleFenetre.setMaxWidth(Double.MAX_VALUE);
         boutonAjouter.setOnAction((e) -> ajouterPoint());
+
 
         boutonFichier.setOnAction(e -> {
             if (e.getTarget().equals(boutonFichier)) {
@@ -130,8 +164,6 @@ public class UserInterface extends Stage implements Observer {
         this.setTitle("Visualisation données");
         this.setMinHeight(300);
         this.show();
-
-
     }
 
     public void openFileChooser() throws FileNotFoundException {
@@ -232,6 +264,21 @@ public class UserInterface extends Stage implements Observer {
         chart.getData().addAll(seriesSetosa, seriesVersicolor, seriesVirginica, seriesDefault);
     }
 
+    private double getDataforXY(PointIris p, String data){
+        switch (data) {
+            case "longueurSepal":
+                return p.getLongueurSepal();
+            case "largeurSepal":
+                return p.getLargeurSepal();
+            case "longueurPetal":
+                return p.getLongueurPetal();
+            case "largeurPetal":
+                return p.getLargeurPetal();
+            default:
+                throw new IllegalArgumentException("Valeur inattendue: " + data);
+        }
+    }
+
     private void ajouterPoints() {
         for (PointIris point : ds.getPoints()) {
             this.ajouterPoint(point);
@@ -240,7 +287,9 @@ public class UserInterface extends Stage implements Observer {
 
     public void ajouterPoint(PointIris point){
 
-            XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(point.getLargeurSepal(), point.getLongueurPetal());
+            Number y = getDataforXY(point, menuDeroulantOrdonnees.getValue());
+            Number x = getDataforXY(point, menuDeroulantAbscisses.getValue());
+            XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(x, y);
 
             if (point.getCategorie() == null)
                 seriesDefault.getData().add(dataPoint);
