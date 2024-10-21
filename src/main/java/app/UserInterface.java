@@ -30,21 +30,25 @@ import javafx.scene.control.Label;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.function.UnaryOperator;
 
 public class UserInterface extends Stage {
 
     DataSet ds = new DataSet();
 
-    Button boutonFichier = new Button("Choisir fichier");
-    Label cheminFichier = new Label("aucun fichier selectionné");
 
     NumberAxis xAxis = new NumberAxis();
     NumberAxis yAxis = new NumberAxis();
     ScatterChart<Number, Number> chart = new ScatterChart<>(xAxis, yAxis);
+
+    VBox espaceurChartFichier = new VBox();
+
+    Button boutonFichier = new Button("Choisir fichier");
+    Label cheminFichier = new Label("aucun fichier selectionné");
     HBox boxFichier = new HBox(boutonFichier, cheminFichier);
-    VBox chartBox = new VBox(chart, boxFichier);
-    FileChooser fileChooser = new FileChooser(); //TODO relier au bouton
+    VBox chartBox = new VBox(chart, espaceurChartFichier, boxFichier);
     Label axeDesAbscisses = new Label("Axe des abscisses");
     ComboBox<String> menuDeroulantAbscisses = new ComboBox<>(); //TODO à l'implémentation des données, CHANGER LE TYPE GéNéRIQUE DES COMBOBOX
     HBox espaceurSelecteursAxe = new HBox();
@@ -98,26 +102,30 @@ public class UserInterface extends Stage {
         seriesVirginica.setName("Virginica");
         seriesDefault.setName("DONNEES UTILISATEUR");
 
-        cheminFichier.setTextAlignment(TextAlignment.CENTER);
+        VBox.setMargin(boxFichier, new Insets(5));
+        VBox.setVgrow(espaceurChartFichier, Priority.ALWAYS);
+
+        boutonFichier.setMinWidth(110);
+        cheminFichier.setPadding(new Insets(5));
+        boxFichier.setAlignment(Pos.CENTER_LEFT);
 
         chart.prefHeightProperty().bind(this.heightProperty().subtract(100));
 
-
         chartBox.prefWidthProperty().bind(this.widthProperty().subtract(100));
-
 
         espaceurSelecteursAxe.setPrefHeight(15);
 
         VBox.setVgrow(conteneurStats, Priority.ALWAYS);
 
         boutonAjouter.setMaxWidth(Double.MAX_VALUE);
-        boutonAjouter.setStyle("-fx-background-color: #00d41d");
+        boutonAjouter.setStyle("-fx-background-color: GREEN;" +
+                               "-fx-text-fill: WHITE");
+        boutonAjouter.setOnAction((e) -> ajouterPoint());
 
         boutonClassifier.setMaxWidth(Double.MAX_VALUE);
         boutonClassifier.setStyle("-fx-background-color: ORANGE");
 
         boutonNouvelleFenetre.setMaxWidth(Double.MAX_VALUE);
-        boutonAjouter.setOnAction((e) -> ajouterPoint());
 
 
         boutonFichier.setOnAction(e -> {
@@ -141,7 +149,8 @@ public class UserInterface extends Stage {
         axeDesOrdonnees.setAlignment(Pos.CENTER);
         menuDeroulantAbscisses.prefWidthProperty().bind(sideBar.widthProperty());
         menuDeroulantOrdonnees.prefWidthProperty().bind(sideBar.widthProperty());
-        conteneurStats.maxHeightProperty().bind(sideBar.heightProperty().subtract(220));
+
+        conteneurStats.maxHeightProperty().bind(sideBar.heightProperty().subtract(195));
 
         sideBar.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
         sideBar.setPadding(new Insets(5));
@@ -164,7 +173,11 @@ public class UserInterface extends Stage {
 
         String path = fichier.getAbsolutePath();
         ds.loadCSV(path);
-        this.cheminFichier.setVisible(false);
+        try {
+            this.cheminFichier.setText(fichier.getCanonicalPath());
+        } catch (IOException e) {
+            System.out.println(Arrays.toString(e.getStackTrace()));
+        }
         //TODO
         //System.out.println(ds.getPoints().get(0)); débogue en attente de tests
 
