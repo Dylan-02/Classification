@@ -9,17 +9,20 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.DataSet;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.SQLOutput;
+import java.util.function.UnaryOperator;
 
 public class UserInterface extends Stage {
 
@@ -85,7 +88,7 @@ public class UserInterface extends Stage {
         boutonClassifier.setStyle("-fx-background-color: ORANGE");
 
         boutonNouvelleFenetre.setMaxWidth(Double.MAX_VALUE);
-
+        boutonAjouter.setOnAction((e) -> ajouterPoint());
 
         axeDesAbscisses.prefWidthProperty().bind(sideBar.widthProperty());
         axeDesAbscisses.setAlignment(Pos.CENTER);
@@ -99,9 +102,6 @@ public class UserInterface extends Stage {
         sideBar.setPadding(new Insets(5));
         sideBar.setAlignment(Pos.BASELINE_RIGHT);
         sideBar.prefWidthProperty().bind(this.widthProperty().multiply(0.3));
-
-
-
         Scene scene = new Scene(mainBox);
         this.setScene(scene);
         this.setTitle("Visualisation données");
@@ -125,5 +125,58 @@ public class UserInterface extends Stage {
         //TODO
         //System.out.println(ds.getPoints().get(0)); débogue en attente de tests
 
+    }
+
+    private void ajouterPoint() {
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.setTitle("Ajouter un point");
+
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("\\d*")) {
+                return change;
+            }
+            return null;
+        };
+
+        Label label1 = new Label("Longueur sépal:");
+        TextField textField1 = new TextField();
+        Label label2 = new Label("Largeur sépal:");
+        TextField textField2 = new TextField();
+        Label label3 = new Label("Longueur pétal:");
+        TextField textField3 = new TextField();
+        Label label4 = new Label("Largeur pétal:");
+        TextField textField4 = new TextField();
+
+        textField1.setTextFormatter(new TextFormatter<>(filter));
+        textField2.setTextFormatter(new TextFormatter<>(filter));
+        textField3.setTextFormatter(new TextFormatter<>(filter));
+        textField4.setTextFormatter(new TextFormatter<>(filter));
+
+        Button submitButton = new Button("Ajouter");
+        submitButton.setOnAction(event -> {
+            try {
+                int longueurSepal = Integer.parseInt(textField1.getText());
+                int largeurSepal = Integer.parseInt(textField2.getText());
+                int longueurPetal = Integer.parseInt(textField3.getText());
+                int largeurPetal = Integer.parseInt(textField4.getText());
+                //ds.ajouterPoint(longueurSepal, largeurSepal, longueurPetal, largeurPetal);
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Saisie invalide");
+                alert.setHeaderText("Erreur");
+                alert.setContentText("Les données saisies sont invalides, veuillez saisir des données numériques.");
+                alert.showAndWait();
+                ajouterPoint();
+            }
+            popupStage.close();
+        });
+        VBox vbox = new VBox(10, label1, textField1, label2, textField2, label3, textField3, label4, textField4, submitButton);
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setPadding(new javafx.geometry.Insets(10));
+        Scene popupScene = new Scene(vbox, 300, 300);
+        popupStage.setScene(popupScene);
+        popupStage.showAndWait();
     }
 }
