@@ -10,7 +10,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -31,6 +30,7 @@ public class UserInterface extends Stage {
 
         Button boutonFichier = new Button("Choisir fichier");
         Label cheminFichier = new Label("aucun fichier selectionné");
+        cheminFichier.setTextAlignment(TextAlignment.CENTER);
         HBox boxFichier = new HBox(boutonFichier, cheminFichier);
         FileChooser fileChooser = new FileChooser(); //TODO relier au bouton
 
@@ -44,7 +44,7 @@ public class UserInterface extends Stage {
         chart.prefHeightProperty().bind(this.heightProperty().subtract(100));
 
 
-        VBox chartBox = new VBox(boxFichier, chart);
+        VBox chartBox = new VBox(chart, boxFichier);
         chartBox.prefWidthProperty().bind(this.widthProperty().subtract(100));
 
         Label axeDesAbscisses = new Label("Axe des abscisses");
@@ -53,31 +53,30 @@ public class UserInterface extends Stage {
         espaceurSelecteursAxe.setPrefHeight(15);
         Label axeDesOrdonnees = new Label("Axe des ordonnées");
         ComboBox<String> menuDeroulantOrdonnees = new ComboBox<>();
-        VBox conteneurMenusAxes = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees);
 
         VBox conteneurStats = new VBox(); //TODO, AJOUTER LES STATS
+        VBox.setVgrow(conteneurStats, Priority.ALWAYS);
 
         Button boutonAjouter = new Button("Ajouter");
         boutonAjouter.setMaxWidth(Double.MAX_VALUE);
+        boutonAjouter.setStyle("-fx-background-color: #00d41d");
         Button boutonSupprimer = new Button("Supprimer");
         boutonSupprimer.setMaxWidth(Double.MAX_VALUE);
+        boutonSupprimer.setStyle("-fx-background-color: RED");
         Button boutonClassifier = new Button("Classifier");
         boutonClassifier.setMaxWidth(Double.MAX_VALUE);
+        boutonClassifier.setStyle("-fx-background-color: ORANGE");
         Button boutonNouvelleFenetre = new Button("Nouvelle fenêtre");
         boutonNouvelleFenetre.setMaxWidth(Double.MAX_VALUE);
 
-        VBox conteneurBoutonGestion = new VBox(boutonAjouter,boutonSupprimer,boutonClassifier,boutonNouvelleFenetre);
-        conteneurBoutonGestion.setMinHeight(boutonAjouter.getHeight()*4);
-
-        VBox sideBar = new VBox(conteneurMenusAxes, conteneurStats, conteneurBoutonGestion);
+        VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees, conteneurStats, boutonAjouter, boutonSupprimer, boutonClassifier, boutonNouvelleFenetre);
         axeDesAbscisses.prefWidthProperty().bind(sideBar.widthProperty());
         axeDesAbscisses.setAlignment(Pos.CENTER);
         axeDesOrdonnees.prefWidthProperty().bind(sideBar.widthProperty());
         axeDesOrdonnees.setAlignment(Pos.CENTER);
         menuDeroulantAbscisses.prefWidthProperty().bind(sideBar.widthProperty());
         menuDeroulantOrdonnees.prefWidthProperty().bind(sideBar.widthProperty());
-        //conteneurStats.minHeightProperty().bind(sideBar.heightProperty().subtract(conteneurBoutonGestion.getHeight()));
-        //VBox.setVgrow(conteneurStats, Priority.ALWAYS);
+        conteneurStats.maxHeightProperty().bind(sideBar.heightProperty().subtract(220));
 
         sideBar.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
         sideBar.setPadding(new Insets(5));
@@ -89,6 +88,7 @@ public class UserInterface extends Stage {
         Scene scene = new Scene(mainBox);
         this.setScene(scene);
         this.setTitle("Visualisation données");
+        this.setMinHeight(300);
         this.show();
     }
 }
