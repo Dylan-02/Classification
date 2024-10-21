@@ -5,14 +5,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -21,7 +16,6 @@ import model.DataSet;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.sql.SQLOutput;
 import java.util.function.UnaryOperator;
 
 public class UserInterface extends Stage {
@@ -35,7 +29,6 @@ public class UserInterface extends Stage {
     NumberAxis yAxis = new NumberAxis();
     ScatterChart<Number, Number> chart = new ScatterChart<>(xAxis, yAxis);
     HBox boxFichier = new HBox(boutonFichier, cheminFichier);
-    FileChooser fileChooser = new FileChooser(); //TODO relier au bouton
     VBox chartBox = new VBox(chart, boxFichier);
     Label axeDesAbscisses = new Label("Axe des abscisses");
     ComboBox<String> menuDeroulantAbscisses = new ComboBox<>(); //TODO à l'implémentation des données, CHANGER LE TYPE GéNéRIQUE DES COMBOBOX
@@ -55,8 +48,6 @@ public class UserInterface extends Stage {
 
     //Que du visuel pour l'instant, commentaire à retirer
     public UserInterface(){
-
-        File fichier = null;
 
         this.setMinWidth(610);
 
@@ -98,6 +89,7 @@ public class UserInterface extends Stage {
         boutonNouvelleFenetre.setMaxWidth(Double.MAX_VALUE);
         boutonAjouter.setOnAction((e) -> ajouterPoint());
 
+
         axeDesAbscisses.prefWidthProperty().bind(sideBar.widthProperty());
         axeDesAbscisses.setAlignment(Pos.CENTER);
         axeDesOrdonnees.prefWidthProperty().bind(sideBar.widthProperty());
@@ -115,8 +107,6 @@ public class UserInterface extends Stage {
         this.setTitle("Visualisation données");
         this.setMinHeight(300);
         this.show();
-
-
     }
 
     public void openFileChooser() throws FileNotFoundException{
