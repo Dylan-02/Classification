@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -18,6 +19,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.DataSet;
+import model.PointIris;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,8 +37,8 @@ public class UserInterface extends Stage {
     NumberAxis yAxis = new NumberAxis();
     ScatterChart<Number, Number> chart = new ScatterChart<>(xAxis, yAxis);
     HBox boxFichier = new HBox(boutonFichier, cheminFichier);
-    FileChooser fileChooser = new FileChooser(); //TODO relier au bouton
     VBox chartBox = new VBox(chart, boxFichier);
+    FileChooser fileChooser = new FileChooser(); //TODO relier au bouton
     Label axeDesAbscisses = new Label("Axe des abscisses");
     ComboBox<String> menuDeroulantAbscisses = new ComboBox<>(); //TODO à l'implémentation des données, CHANGER LE TYPE GéNéRIQUE DES COMBOBOX
     HBox espaceurSelecteursAxe = new HBox();
@@ -47,6 +49,10 @@ public class UserInterface extends Stage {
     Button boutonSupprimer = new Button("Supprimer");
     Button boutonClassifier = new Button("Classifier");
     Button boutonNouvelleFenetre = new Button("Nouvelle fenêtre");
+    XYChart.Series<Number, Number> seriesSetosa = new XYChart.Series<>();
+    XYChart.Series<Number, Number> seriesVersicolor = new XYChart.Series<>();
+    XYChart.Series<Number, Number> seriesVirginica = new XYChart.Series<>();
+    XYChart.Series<Number, Number> seriesDefault = new XYChart.Series<>();
 
     VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees, conteneurStats, boutonAjouter, boutonSupprimer, boutonClassifier, boutonNouvelleFenetre);
 
@@ -54,33 +60,24 @@ public class UserInterface extends Stage {
 
 
     //Que du visuel pour l'instant, commentaire à retirer
-    public UserInterface(){
+    public UserInterface() {
 
         File fichier = null;
 
         this.setMinWidth(610);
 
+        seriesSetosa.setName("Setosa");
+        seriesVersicolor.setName("Versicolor");
+        seriesVirginica.setName("Virginica");
+        seriesDefault.setName("DONNEES UTILISATEUR");
 
         cheminFichier.setTextAlignment(TextAlignment.CENTER);
-
-        boutonFichier.setOnAction(e -> {
-            if(e.getTarget().equals(boutonFichier)){
-                try {
-                    this.openFileChooser();
-                }catch (FileNotFoundException fileNotFound){
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Quelque chose cloche !");
-                    alert.setContentText("Le fichier n'a pas été sélectionné !");
-                    alert.show();
-                }
-
-            }
-        });
 
         chart.prefHeightProperty().bind(this.heightProperty().subtract(100));
 
 
         chartBox.prefWidthProperty().bind(this.widthProperty().subtract(100));
+
 
         espaceurSelecteursAxe.setPrefHeight(15);
 
@@ -97,6 +94,21 @@ public class UserInterface extends Stage {
 
         boutonNouvelleFenetre.setMaxWidth(Double.MAX_VALUE);
         boutonAjouter.setOnAction((e) -> ajouterPoint());
+
+        boutonFichier.setOnAction(e -> {
+            if (e.getTarget().equals(boutonFichier)) {
+                try {
+                    this.openFileChooser();
+                    this.loadSeries();
+                } catch (FileNotFoundException fileNotFound) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Quelque chose cloche !");
+                    alert.setContentText("Le fichier n'a pas été sélectionné !");
+                    alert.show();
+                }
+
+            }
+        });
 
         axeDesAbscisses.prefWidthProperty().bind(sideBar.widthProperty());
         axeDesAbscisses.setAlignment(Pos.CENTER);
@@ -119,12 +131,12 @@ public class UserInterface extends Stage {
 
     }
 
-    public void openFileChooser() throws FileNotFoundException{
+    public void openFileChooser() throws FileNotFoundException {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extensions = new FileChooser.ExtensionFilter("Ne prend que les fichiers csv", "*.csv");
         fileChooser.getExtensionFilters().add(extensions);
         File fichier = fileChooser.showOpenDialog(this);
-        if (fichier  == null)
+        if (fichier == null)
             throw new FileNotFoundException(); // Le file ne peut pas être érroné car il est protégé par des extensions filter. Mais quand on ferme ça met null
 
         String path = fichier.getAbsolutePath();
@@ -186,5 +198,48 @@ public class UserInterface extends Stage {
         Scene popupScene = new Scene(vbox, 300, 300);
         popupStage.setScene(popupScene);
         popupStage.showAndWait();
+    }
+
+    private void loadSeries() {
+        XYChart.Data<Number, Number> invisiblePointDe = new XYChart.Data<>(0, 0);
+        XYChart.Data<Number, Number> invisiblePointSe = new XYChart.Data<>(0, 0);
+        XYChart.Data<Number, Number> invisiblePointVe = new XYChart.Data<>(0, 0);
+        XYChart.Data<Number, Number> invisiblePointVi = new XYChart.Data<>(0, 0);
+        seriesSetosa.getData().clear();
+        seriesSetosa.getData().add(invisiblePointSe);
+        seriesVersicolor.getData().clear();
+        seriesVersicolor.getData().add(invisiblePointVe);
+        seriesVirginica.getData().clear();
+        seriesVirginica.getData().add(invisiblePointVi);
+        seriesDefault.getData().clear();
+        seriesDefault.getData().add(invisiblePointDe);
+        ajouterPoints();
+        seriesSetosa.getData().remove(invisiblePointSe);
+        seriesVersicolor.getData().remove(invisiblePointVe);
+        seriesVirginica.getData().remove(invisiblePointVi);
+        seriesDefault.getData().remove(invisiblePointDe);
+    }
+
+    private void ajouterPoints() {
+        for (PointIris point : ds.getPoints()) {
+            XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(point.getLargeurSepal(), point.getLongueurPetal());
+
+            switch (point.getCategorie()) {
+                case SETOSA:
+                    seriesSetosa.getData().add(dataPoint);
+                    break;
+                case VERSICOLOR:
+                    seriesVersicolor.getData().add(dataPoint);
+                    break;
+                case VIRGINICA:
+                    seriesVirginica.getData().add(dataPoint);
+                    break;
+                default:
+                    seriesDefault.getData().add(dataPoint);
+                    break;
+            }
+        }
+
+        chart.getData().addAll(seriesSetosa, seriesVersicolor, seriesVirginica, seriesDefault);
     }
 }
