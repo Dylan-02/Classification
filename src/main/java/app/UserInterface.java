@@ -18,6 +18,31 @@ import java.io.File;
 
 public class UserInterface extends Stage {
 
+    Button boutonFichier = new Button("Choisir fichier");
+    Label cheminFichier = new Label("aucun fichier selectionné");
+
+    NumberAxis xAxis = new NumberAxis();
+    NumberAxis yAxis = new NumberAxis();
+    ScatterChart<Number, Number> chart = new ScatterChart<>(xAxis, yAxis);
+    HBox boxFichier = new HBox(boutonFichier, cheminFichier);
+    FileChooser fileChooser = new FileChooser(); //TODO relier au bouton
+    VBox chartBox = new VBox(chart, boxFichier);
+    Label axeDesAbscisses = new Label("Axe des abscisses");
+    ComboBox<String> menuDeroulantAbscisses = new ComboBox<>(); //TODO à l'implémentation des données, CHANGER LE TYPE GéNéRIQUE DES COMBOBOX
+    HBox espaceurSelecteursAxe = new HBox();
+    Label axeDesOrdonnees = new Label("Axe des ordonnées");
+    ComboBox<String> menuDeroulantOrdonnees = new ComboBox<>();
+    VBox conteneurStats = new VBox(); //TODO, AJOUTER LES STATS
+    Button boutonAjouter = new Button("Ajouter");
+    Button boutonSupprimer = new Button("Supprimer");
+    Button boutonClassifier = new Button("Classifier");
+    Button boutonNouvelleFenetre = new Button("Nouvelle fenêtre");
+
+    VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees, conteneurStats, boutonAjouter, boutonSupprimer, boutonClassifier, boutonNouvelleFenetre);
+
+    HBox mainBox = new HBox(chartBox, sideBar);
+
+
     //Que du visuel pour l'instant, commentaire à retirer
     public UserInterface(){
 
@@ -25,14 +50,8 @@ public class UserInterface extends Stage {
 
         this.setMinWidth(610);
 
-        NumberAxis xAxis = new NumberAxis();
-        NumberAxis yAxis = new NumberAxis();
 
-        Button boutonFichier = new Button("Choisir fichier");
-        Label cheminFichier = new Label("aucun fichier selectionné");
         cheminFichier.setTextAlignment(TextAlignment.CENTER);
-        HBox boxFichier = new HBox(boutonFichier, cheminFichier);
-        FileChooser fileChooser = new FileChooser(); //TODO relier au bouton
 
         boutonFichier.setOnAction(e -> {
             if(e.getTarget().equals(boutonFichier)){
@@ -40,36 +59,27 @@ public class UserInterface extends Stage {
             }
         });
 
-        ScatterChart<Number, Number> chart = new ScatterChart<>(xAxis, yAxis);
         chart.prefHeightProperty().bind(this.heightProperty().subtract(100));
 
 
-        VBox chartBox = new VBox(chart, boxFichier);
         chartBox.prefWidthProperty().bind(this.widthProperty().subtract(100));
 
-        Label axeDesAbscisses = new Label("Axe des abscisses");
-        ComboBox<String> menuDeroulantAbscisses = new ComboBox<>(); //TODO à l'implémentation des données, CHANGER LE TYPE GéNéRIQUE DES COMBOBOX
-        HBox espaceurSelecteursAxe = new HBox();
         espaceurSelecteursAxe.setPrefHeight(15);
-        Label axeDesOrdonnees = new Label("Axe des ordonnées");
-        ComboBox<String> menuDeroulantOrdonnees = new ComboBox<>();
 
-        VBox conteneurStats = new VBox(); //TODO, AJOUTER LES STATS
         VBox.setVgrow(conteneurStats, Priority.ALWAYS);
 
-        Button boutonAjouter = new Button("Ajouter");
         boutonAjouter.setMaxWidth(Double.MAX_VALUE);
         boutonAjouter.setStyle("-fx-background-color: #00d41d");
-        Button boutonSupprimer = new Button("Supprimer");
+
         boutonSupprimer.setMaxWidth(Double.MAX_VALUE);
         boutonSupprimer.setStyle("-fx-background-color: RED");
-        Button boutonClassifier = new Button("Classifier");
+
         boutonClassifier.setMaxWidth(Double.MAX_VALUE);
         boutonClassifier.setStyle("-fx-background-color: ORANGE");
-        Button boutonNouvelleFenetre = new Button("Nouvelle fenêtre");
+
         boutonNouvelleFenetre.setMaxWidth(Double.MAX_VALUE);
 
-        VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees, conteneurStats, boutonAjouter, boutonSupprimer, boutonClassifier, boutonNouvelleFenetre);
+
         axeDesAbscisses.prefWidthProperty().bind(sideBar.widthProperty());
         axeDesAbscisses.setAlignment(Pos.CENTER);
         axeDesOrdonnees.prefWidthProperty().bind(sideBar.widthProperty());
@@ -83,7 +93,7 @@ public class UserInterface extends Stage {
         sideBar.setAlignment(Pos.BASELINE_RIGHT);
         sideBar.prefWidthProperty().bind(this.widthProperty().multiply(0.3));
 
-        HBox mainBox = new HBox(chartBox, sideBar);
+
 
         Scene scene = new Scene(mainBox);
         this.setScene(scene);
