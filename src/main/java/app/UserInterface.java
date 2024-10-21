@@ -78,12 +78,15 @@ public class UserInterface extends Stage {
 
         menuDeroulantOrdonnees.getItems().addAll("longueurSepal", "largeurSepal", "longueurPetal", "largeurPetal");
 
+        menuDeroulantAbscisses.setValue("longueurSepal");
+        menuDeroulantOrdonnees.setValue("largeurSepal");
 
         menuDeroulantAbscisses.setOnAction(f -> {
             String selectedItem = menuDeroulantAbscisses.getSelectionModel().getSelectedItem();
             System.out.println("L'élément sélectionné est : " + selectedItem);
             menuDeroulantAbscisses.setPromptText(selectedItem);
             xAxis.setLabel(selectedItem);
+            loadSeries();
         });
 
         menuDeroulantOrdonnees.setOnAction(g -> {
@@ -91,6 +94,7 @@ public class UserInterface extends Stage {
             System.out.println("L'élément sélectionné est : " + selectedItem);
             menuDeroulantOrdonnees.setPromptText(selectedItem);
             yAxis.setLabel(selectedItem);
+            loadSeries();
 
         });
 
@@ -252,9 +256,26 @@ public class UserInterface extends Stage {
         seriesDefault.getData().remove(invisiblePointDe);
     }
 
+    private double getDataforXY(PointIris p, String data){
+        switch (data) {
+            case "longueurSepal":
+                return p.getLongueurSepal();
+            case "largeurSepal":
+                return p.getLargeurSepal();
+            case "longueurPetal":
+                return p.getLongueurPetal();
+            case "largeurPetal":
+                return p.getLargeurPetal();
+            default:
+                throw new IllegalArgumentException("Valeur inattendue: " + data);
+        }
+    }
+
     private void ajouterPoints() {
         for (PointIris point : ds.getPoints()) {
-            XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(point.getLargeurSepal(), point.getLongueurPetal());
+            Number y = getDataforXY(point, menuDeroulantOrdonnees.getValue());
+            Number x = getDataforXY(point, menuDeroulantAbscisses.getValue());
+            XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(x, y);
 
             switch (point.getCategorie()) {
                 case SETOSA:
