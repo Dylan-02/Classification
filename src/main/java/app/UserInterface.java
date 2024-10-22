@@ -46,20 +46,19 @@ public class UserInterface extends Stage implements Observer {
     Label axeDesOrdonnees = new Label("Axe des ordonnées");
     ComboBox<String> menuDeroulantOrdonnees = new ComboBox<>();
 
-
-
-
-
     VBox conteneurStats = new VBox();
+
     Button boutonAjouter = new Button("Ajouter");
     Button boutonClassifier = new Button("Classer");
     Button boutonNouvelleFenetre = new Button("Nouvelle fenêtre");
+    VBox conteneurBoutons = new VBox(boutonAjouter, boutonClassifier, boutonNouvelleFenetre);
+
     XYChart.Series<Number, Number> seriesSetosa = new XYChart.Series<>();
     XYChart.Series<Number, Number> seriesVersicolor = new XYChart.Series<>();
     XYChart.Series<Number, Number> seriesVirginica = new XYChart.Series<>();
     XYChart.Series<Number, Number> seriesDefault = new XYChart.Series<>();
 
-    VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees, conteneurStats, boutonAjouter, boutonClassifier, boutonNouvelleFenetre);
+    VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees, conteneurStats, conteneurBoutons);
 
     HBox mainBox = new HBox(chartBox, sideBar);
 
@@ -117,22 +116,23 @@ public class UserInterface extends Stage implements Observer {
 
         espaceurSelecteursAxe.setPrefHeight(15);
 
-        VBox.setVgrow(conteneurStats, Priority.ALWAYS);
+        conteneurStats.prefHeightProperty().bind(sideBar.heightProperty().subtract(265));
 
         boutonAjouter.setMaxWidth(Double.MAX_VALUE);
         boutonAjouter.setStyle("-fx-background-color: Green; -fx-text-fill: White");
         boutonAjouter.setOnMouseEntered(e -> boutonAjouter.setStyle("-fx-background-color: DarkGreen; -fx-text-fill: White"));
         boutonAjouter.setOnMouseExited(e -> boutonAjouter.setStyle("-fx-background-color: Green; -fx-text-fill: White"));
         boutonAjouter.setOnAction(e -> ajouterPoint());
+
         boutonClassifier.setOnMouseEntered(e -> boutonClassifier.setStyle("-fx-background-color: DarkOrange;"));
         boutonClassifier.setOnMouseExited(e -> boutonClassifier.setStyle("-fx-background-color: Orange;"));
-
         boutonClassifier.setMaxWidth(Double.MAX_VALUE);
         boutonClassifier.setStyle("-fx-background-color: Orange");
 
         boutonNouvelleFenetre.setMaxWidth(Double.MAX_VALUE);
         boutonNouvelleFenetre.setOnAction(e -> newVue());
 
+        conteneurBoutons.setSpacing(5);
 
         boutonFichier.setOnAction(e -> {
             if (e.getTarget().equals(boutonFichier)) {
