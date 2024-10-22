@@ -7,10 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -22,11 +18,9 @@ import model.PointIris;
 import utils.Observable;
 import utils.Observer;
 
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.function.UnaryOperator;
@@ -47,7 +41,7 @@ public class UserInterface extends Stage implements Observer {
     HBox boxFichier = new HBox(boutonFichier, cheminFichier);
     VBox chartBox = new VBox(chart, espaceurChartFichier, boxFichier);
     Label axeDesAbscisses = new Label("Axe des abscisses");
-    ComboBox<String> menuDeroulantAbscisses = new ComboBox<>(); //TODO à l'implémentation des données, CHANGER LE TYPE GéNéRIQUE DES COMBOBOX
+    ComboBox<String> menuDeroulantAbscisses = new ComboBox<>();
     HBox espaceurSelecteursAxe = new HBox();
     Label axeDesOrdonnees = new Label("Axe des ordonnées");
     ComboBox<String> menuDeroulantOrdonnees = new ComboBox<>();
@@ -56,7 +50,7 @@ public class UserInterface extends Stage implements Observer {
 
 
 
-    VBox conteneurStats = new VBox(); //TODO, AJOUTER LES STATS
+    VBox conteneurStats = new VBox();
     Button boutonAjouter = new Button("Ajouter");
     Button boutonClassifier = new Button("Classer");
     Button boutonNouvelleFenetre = new Button("Nouvelle fenêtre");
@@ -196,8 +190,6 @@ public class UserInterface extends Stage implements Observer {
         } catch (IOException e) {
             System.out.println(Arrays.toString(e.getStackTrace()));
         }
-        //TODO
-        //System.out.println(ds.getPoints().get(0)); débogue en attente de tests
 
     }
 
