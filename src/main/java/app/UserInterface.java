@@ -38,6 +38,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.function.UnaryOperator;
 
+/**
+ * La classe UserInterface représente l'interface graphique pour visualiser un ensemble de données Iris.
+ */
 public class UserInterface extends Stage implements Observer {
 
     DataSet ds = new DataSet();
@@ -76,8 +79,10 @@ public class UserInterface extends Stage implements Observer {
 
     HBox mainBox = new HBox(chartBox, sideBar);
 
-
-    //Que du visuel pour l'instant, commentaire à retirer
+    /**
+     * Constructeur de l'interface utilisateur.
+     * Initialise les composants graphiques, configure les événements et attache l'observateur à l'ensemble de données.
+     */
     public UserInterface() {
 
         ds.attach(this);
@@ -182,6 +187,11 @@ public class UserInterface extends Stage implements Observer {
         this.show();
     }
 
+    /**
+     * Ouvre une boîte de dialogue pour sélectionner un fichier CSV et charge les données dans le DataSet.
+     *
+     * @throws FileNotFoundException si aucun fichier n'est sélectionné.
+     */
     public void openFileChooser() throws FileNotFoundException {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extensions = new FileChooser.ExtensionFilter("Ne prend que les fichiers csv", "*.csv");
@@ -202,6 +212,10 @@ public class UserInterface extends Stage implements Observer {
 
     }
 
+    /**
+     * Ouvre une fenêtre pour ajouter manuellement un point de données au DataSet.
+     * Demande à l'utilisateur de saisir les caractéristiques d'un iris.
+     */
     private void ajouterPoint() {
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
@@ -262,11 +276,17 @@ public class UserInterface extends Stage implements Observer {
         popupStage.showAndWait();
     }
 
+    /**
+     * Charge les series de points sur le graphique uniquement au premier lancement
+     */
     private void loadSeries() {
         ajouterPoints();
         chart.getData().addAll(seriesSetosa, seriesVersicolor, seriesVirginica, seriesDefault);
     }
 
+    /**
+     * Recharge les séries de points sur le graphique en fonction des axes sélectionnés.
+     */
     private void reloadSeries(){
         seriesSetosa.getData().clear();
         seriesVersicolor.getData().clear();
@@ -275,6 +295,12 @@ public class UserInterface extends Stage implements Observer {
         ajouterPoints();
     }
 
+    /**
+     * Permet de récuperer la longueur ou la largeur d'un point donné par rapport à la data
+     * @param p
+     * @param data
+     * @return La longueur ou largeur du point en fonction de la data
+     */
     private double getDataforXY(PointIris p, String data){
         switch (data) {
             case "longueurSepal":
@@ -290,6 +316,9 @@ public class UserInterface extends Stage implements Observer {
         }
     }
 
+    /**
+     * Permet d'ajouter tous les points dans les series
+     */
     private void ajouterPoints() {
         XYChart.Data<Number, Number> invisiblePointDe = new XYChart.Data<>(0, 0);
         XYChart.Data<Number, Number> invisiblePointSe = new XYChart.Data<>(0, 0);
@@ -308,6 +337,10 @@ public class UserInterface extends Stage implements Observer {
         seriesDefault.getData().remove(invisiblePointDe);
     }
 
+    /**
+     * Permet d'ajouter un point dans la serie en fonction de sa catégorie
+     * @param point
+     */
     public void ajouterPoint(PointIris point){
 
             Number y = getDataforXY(point, menuDeroulantOrdonnees.getValue());
