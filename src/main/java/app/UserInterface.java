@@ -264,8 +264,20 @@ public class UserInterface extends Stage implements Observer {
     }
 
     private void loadSeries() {
+        XYChart.Data<Number, Number> invisiblePointDe = new XYChart.Data<>(0, 0);
+        XYChart.Data<Number, Number> invisiblePointSe = new XYChart.Data<>(0, 0);
+        XYChart.Data<Number, Number> invisiblePointVe = new XYChart.Data<>(0, 0);
+        XYChart.Data<Number, Number> invisiblePointVi = new XYChart.Data<>(0, 0);
+        seriesSetosa.getData().add(invisiblePointSe);
+        seriesVersicolor.getData().add(invisiblePointVe);
+        seriesVirginica.getData().add(invisiblePointVi);
+        seriesDefault.getData().add(invisiblePointDe);
         ajouterPoints();
         chart.getData().addAll(seriesSetosa, seriesVersicolor, seriesVirginica, seriesDefault);
+        seriesSetosa.getData().remove(invisiblePointSe);
+        seriesVersicolor.getData().remove(invisiblePointVe);
+        seriesVirginica.getData().remove(invisiblePointVi);
+        seriesDefault.getData().remove(invisiblePointDe);
     }
 
     private void reloadSeries(){
@@ -292,21 +304,11 @@ public class UserInterface extends Stage implements Observer {
     }
 
     private void ajouterPoints() {
-        XYChart.Data<Number, Number> invisiblePointDe = new XYChart.Data<>(0, 0);
-        XYChart.Data<Number, Number> invisiblePointSe = new XYChart.Data<>(0, 0);
-        XYChart.Data<Number, Number> invisiblePointVe = new XYChart.Data<>(0, 0);
-        XYChart.Data<Number, Number> invisiblePointVi = new XYChart.Data<>(0, 0);
-        seriesSetosa.getData().add(invisiblePointSe);
-        seriesVersicolor.getData().add(invisiblePointVe);
-        seriesVirginica.getData().add(invisiblePointVi);
-        seriesDefault.getData().add(invisiblePointDe);
+
         for (PointIris point : ds.getPoints()) {
             this.ajouterPoint(point);
         }
-        seriesSetosa.getData().remove(invisiblePointSe);
-        seriesVersicolor.getData().remove(invisiblePointVe);
-        seriesVirginica.getData().remove(invisiblePointVi);
-        seriesDefault.getData().remove(invisiblePointDe);
+
     }
 
     public void ajouterPoint(PointIris point){
