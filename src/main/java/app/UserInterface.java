@@ -149,7 +149,7 @@ public class UserInterface extends Stage implements Observer {
 
         boutonClassifier.setOnAction(event -> {
 
-            classifier(ds.getPoints().get(ds.getPoints().size()-1));
+            classifier();
 
         });
 
@@ -340,12 +340,10 @@ public class UserInterface extends Stage implements Observer {
             this.ajouterPoint((PointIris) data);
         }
     }
-    public void classifier(PointIris pointIris){
+    public void classifier(){
 
         ds.classifierPoints();
-        if (!seriesDefault.getData().isEmpty()) {
-            seriesDefault.getData().remove(seriesDefault.getData().size() - 1);
-        }
+        seriesDefault.getData().clear();
     }
 
     private void setDs(DataSet ds) {
