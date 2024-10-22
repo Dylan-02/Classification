@@ -5,4 +5,5 @@ module java {
     requires java.sql;
     opens model;
     opens app;
+    exports app;
 }
