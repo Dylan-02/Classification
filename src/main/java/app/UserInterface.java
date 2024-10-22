@@ -139,6 +139,7 @@ public class UserInterface extends Stage implements Observer {
         boutonClassifier.setStyle("-fx-background-color: Orange");
 
         boutonNouvelleFenetre.setMaxWidth(Double.MAX_VALUE);
+        boutonNouvelleFenetre.setOnAction(e -> newVue());
 
 
         boutonFichier.setOnAction(e -> {
@@ -351,4 +352,14 @@ public class UserInterface extends Stage implements Observer {
         ds.classifierPoint(point);
     }
 
+    private void setDs(DataSet ds) {
+        this.ds = ds;
+        this.ds.attach(this);
+    }
+
+    private void newVue() {
+        UserInterface newVue = new UserInterface();
+        newVue.setDs(this.ds);
+        newVue.loadSeries();
+    }
 }
