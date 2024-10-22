@@ -355,5 +355,6 @@ public class UserInterface extends Stage implements Observer {
         UserInterface newVue = new UserInterface();
         newVue.setDs(this.ds);
         newVue.loadSeries();
+        if (this.chart.getData().isEmpty())this.loadSeries();
     }
 }
