@@ -138,7 +138,7 @@ public class UserInterface extends Stage implements Observer {
             if (e.getTarget().equals(boutonFichier)) {
                 try {
                     this.openFileChooser();
-                    this.loadSeries();
+                    if (this.chart.getData().isEmpty()) this.loadSeries();
                 } catch (FileNotFoundException fileNotFound) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Quelque chose cloche !");
@@ -344,6 +344,7 @@ public class UserInterface extends Stage implements Observer {
 
         ds.classifierPoints();
         seriesDefault.getData().clear();
+
     }
 
     private void setDs(DataSet ds) {
@@ -354,7 +355,7 @@ public class UserInterface extends Stage implements Observer {
     private void newVue() {
         UserInterface newVue = new UserInterface();
         newVue.setDs(this.ds);
-        if (!this.chart.getData().isEmpty()) newVue.loadSeries();
-        else this.loadSeries();
+        if (this.chart.getData().isEmpty()) this.loadSeries();
+        newVue.loadSeries();
     }
 }
