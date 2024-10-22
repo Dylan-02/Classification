@@ -25,6 +25,9 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.function.UnaryOperator;
 
+/**
+ * La classe UserInterface représente l'interface graphique pour visualiser un ensemble de données Iris.
+ */
 public class UserInterface extends Stage implements Observer {
 
     DataSet ds = new DataSet();
@@ -46,25 +49,26 @@ public class UserInterface extends Stage implements Observer {
     Label axeDesOrdonnees = new Label("Axe des ordonnées");
     ComboBox<String> menuDeroulantOrdonnees = new ComboBox<>();
 
-
-
-
-
     VBox conteneurStats = new VBox();
+
     Button boutonAjouter = new Button("Ajouter");
     Button boutonClassifier = new Button("Classer");
     Button boutonNouvelleFenetre = new Button("Nouvelle fenêtre");
+    VBox conteneurBoutons = new VBox(boutonAjouter, boutonClassifier, boutonNouvelleFenetre);
+
     XYChart.Series<Number, Number> seriesSetosa = new XYChart.Series<>();
     XYChart.Series<Number, Number> seriesVersicolor = new XYChart.Series<>();
     XYChart.Series<Number, Number> seriesVirginica = new XYChart.Series<>();
     XYChart.Series<Number, Number> seriesDefault = new XYChart.Series<>();
 
-    VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees, conteneurStats, boutonAjouter, boutonClassifier, boutonNouvelleFenetre);
+    VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees, conteneurStats, conteneurBoutons);
 
     HBox mainBox = new HBox(chartBox, sideBar);
 
-
-    //Que du visuel pour l'instant, commentaire à retirer
+    /**
+     * Constructeur de l'interface utilisateur.
+     * Initialise les composants graphiques, configure les événements et attache l'observateur à l'ensemble de données.
+     */
     public UserInterface() {
 
         ds.attach(this);
@@ -117,22 +121,23 @@ public class UserInterface extends Stage implements Observer {
 
         espaceurSelecteursAxe.setPrefHeight(15);
 
-        VBox.setVgrow(conteneurStats, Priority.ALWAYS);
+        conteneurStats.prefHeightProperty().bind(sideBar.heightProperty().subtract(265));
 
         boutonAjouter.setMaxWidth(Double.MAX_VALUE);
         boutonAjouter.setStyle("-fx-background-color: Green; -fx-text-fill: White");
         boutonAjouter.setOnMouseEntered(e -> boutonAjouter.setStyle("-fx-background-color: DarkGreen; -fx-text-fill: White"));
         boutonAjouter.setOnMouseExited(e -> boutonAjouter.setStyle("-fx-background-color: Green; -fx-text-fill: White"));
         boutonAjouter.setOnAction(e -> ajouterPoint());
+
         boutonClassifier.setOnMouseEntered(e -> boutonClassifier.setStyle("-fx-background-color: DarkOrange;"));
         boutonClassifier.setOnMouseExited(e -> boutonClassifier.setStyle("-fx-background-color: Orange;"));
-
         boutonClassifier.setMaxWidth(Double.MAX_VALUE);
         boutonClassifier.setStyle("-fx-background-color: Orange");
 
         boutonNouvelleFenetre.setMaxWidth(Double.MAX_VALUE);
         boutonNouvelleFenetre.setOnAction(e -> newVue());
 
+        conteneurBoutons.setSpacing(5);
 
         boutonFichier.setOnAction(e -> {
             if (e.getTarget().equals(boutonFichier)) {
@@ -175,6 +180,11 @@ public class UserInterface extends Stage implements Observer {
         this.show();
     }
 
+    /**
+     * Ouvre une boîte de dialogue pour sélectionner un fichier CSV et charge les données dans le DataSet.
+     *
+     * @throws FileNotFoundException si aucun fichier n'est sélectionné.
+     */
     public void openFileChooser() throws FileNotFoundException {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extensions = new FileChooser.ExtensionFilter("Ne prend que les fichiers csv", "*.csv");
@@ -193,6 +203,10 @@ public class UserInterface extends Stage implements Observer {
 
     }
 
+    /**
+     * Ouvre une fenêtre pour ajouter manuellement un point de données au DataSet.
+     * Demande à l'utilisateur de saisir les caractéristiques d'un iris.
+     */
     private void ajouterPoint() {
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
@@ -253,6 +267,9 @@ public class UserInterface extends Stage implements Observer {
         popupStage.showAndWait();
     }
 
+    /**
+     * Charge les series de points sur le graphique uniquement au premier lancement
+     */
     private void loadSeries() {
         XYChart.Data<Number, Number> invisiblePointDe = new XYChart.Data<>(0, 0);
         XYChart.Data<Number, Number> invisiblePointSe = new XYChart.Data<>(0, 0);
@@ -270,6 +287,9 @@ public class UserInterface extends Stage implements Observer {
         seriesDefault.getData().remove(invisiblePointDe);
     }
 
+    /**
+     * Recharge les séries de points sur le graphique en fonction des axes sélectionnés.
+     */
     private void reloadSeries(){
         seriesSetosa.getData().clear();
         seriesVersicolor.getData().clear();
@@ -278,6 +298,12 @@ public class UserInterface extends Stage implements Observer {
         ajouterPoints();
     }
 
+    /**
+     * Permet de récuperer la longueur ou la largeur d'un point donné par rapport à la data
+     * @param p
+     * @param data
+     * @return La longueur ou largeur du point en fonction de la data
+     */
     private double getDataforXY(PointIris p, String data){
         switch (data) {
             case "longueurSepal":
@@ -293,6 +319,9 @@ public class UserInterface extends Stage implements Observer {
         }
     }
 
+    /**
+     * Permet d'ajouter tous les points dans les series
+     */
     private void ajouterPoints() {
 
         for (PointIris point : ds.getPoints()) {
@@ -301,6 +330,10 @@ public class UserInterface extends Stage implements Observer {
 
     }
 
+    /**
+     * Permet d'ajouter un point dans la serie en fonction de sa catégorie
+     * @param point
+     */
     public void ajouterPoint(PointIris point){
 
             Number y = getDataforXY(point, menuDeroulantOrdonnees.getValue());

@@ -104,7 +104,8 @@ Garanties minimales : Si le scénario n'aboutit pas, l'état du système reste i
 
 Scénario nominal :
 1. L'utilisateur sélectionne la fonctionnalité "Ajouter une donnée".
-2. Le système affiche un formulaire contenant l'ensemble des champs caractérisant la donnée ainsi que des boutons annuler et valider.
+2. Le système affiche un formulaire contenant l'ensemble des champs caractérisant la donnée ainsi 
+   que des boutons annuler et valider.
 3. L'utilisateur saisit les informations puis valide.
 4. Le système enregistre cette donnée.
 
@@ -128,7 +129,8 @@ Garantie minimale: L'état du système reste inchangé.
 
 Scénario nominal :
 1. L'utilisateur sélectionne la fonctionnalité "Classifier".
-2. Le système détermine une catégorie en fonction des données du point et change la catégorie de celui-ci pour chaque point sans catégorie.
+2. Le système détermine une catégorie en fonction des données du point et change la catégorie de 
+   celui-ci pour chaque point sans catégorie.
 ```
 
 ## **Prototypes pour l’interface**
