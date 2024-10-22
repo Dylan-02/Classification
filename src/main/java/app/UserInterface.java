@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -21,15 +20,6 @@ import model.DataSet;
 import model.PointIris;
 import utils.Observable;
 import utils.Observer;
-
-import javafx.scene.Scene;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.ScatterChart;
-import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-
 
 
 import java.io.File;
@@ -347,8 +337,12 @@ public class UserInterface extends Stage implements Observer {
             this.ajouterPoint((PointIris) data);
         }
     }
-    public void classifier(PointIris point){
-        ds.classifierPoint(point);
+    public void classifier(PointIris pointIris){
+
+        ds.classifierPoints();
+        if (!seriesDefault.getData().isEmpty()) {
+            seriesDefault.getData().remove(seriesDefault.getData().size() - 1);
+        }
     }
 
 }
