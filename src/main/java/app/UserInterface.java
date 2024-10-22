@@ -2,6 +2,7 @@ package app;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
@@ -25,7 +26,9 @@ import utils.Observer;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
 import java.util.function.UnaryOperator;
 
 public class UserInterface extends Stage implements Observer {
@@ -102,6 +105,11 @@ public class UserInterface extends Stage implements Observer {
         seriesVirginica.setName("Virginica");
         seriesDefault.setName("Données Utilisateur");
 
+        Set<Node> nodes = chart.lookupAll(".chart-legend");
+        for (Node n : nodes) {
+            n.setStyle("-fx-padding: 5;");
+        }
+
         VBox.setMargin(boxFichier, new Insets(5));
         VBox.setVgrow(espaceurChartFichier, Priority.ALWAYS);
 
@@ -169,7 +177,7 @@ public class UserInterface extends Stage implements Observer {
         Scene scene = new Scene(mainBox);
         this.setScene(scene);
         this.setTitle("Visualisation données");
-        this.setMinHeight(300);
+        this.setMinHeight(350);
         this.show();
     }
 
