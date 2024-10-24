@@ -241,14 +241,7 @@ public class UserInterface extends Stage implements Observer {
                 int largeurSepal = Integer.parseInt(textField2.getText());
                 int longueurPetal = Integer.parseInt(textField3.getText());
                 int largeurPetal = Integer.parseInt(textField4.getText());
-                System.out.println(ds.getPoints().size());
                 ds.ajouterPoint(longueurSepal, largeurSepal, longueurPetal, largeurPetal);
-                System.out.println(ds.getPoints().size());
-                for (XYChart.Data<Number, Number> data : seriesDefault.getData()){
-                    System.out.println(ds.getPoints().size());
-                    System.out.println(data.toString());
-                    System.out.println(ds.getPoints().size());
-                }
             } catch (NumberFormatException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Saisie invalide");
