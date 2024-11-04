@@ -55,15 +55,12 @@ public class UserInterface extends Stage implements Observer {
     Button boutonClassifier = new Button("Classer");
     Button boutonNouvelleFenetre = new Button("Nouvelle fenêtre");
     VBox conteneurBoutons = new VBox(boutonAjouter, boutonClassifier, boutonNouvelleFenetre);
-
+    VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees, conteneurStats, conteneurBoutons);
+    HBox mainBox = new HBox(chartBox, sideBar);
     XYChart.Series<Number, Number> seriesSetosa = new XYChart.Series<>();
     XYChart.Series<Number, Number> seriesVersicolor = new XYChart.Series<>();
     XYChart.Series<Number, Number> seriesVirginica = new XYChart.Series<>();
     XYChart.Series<Number, Number> seriesDefault = new XYChart.Series<>();
-
-    VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees, conteneurStats, conteneurBoutons);
-
-    HBox mainBox = new HBox(chartBox, sideBar);
 
     /**
      * Constructeur de l'interface utilisateur.
@@ -279,7 +276,7 @@ public class UserInterface extends Stage implements Observer {
     /**
      * Recharge les séries de points sur le graphique en fonction des axes sélectionnés.
      */
-    private void reloadSeries(){
+    private void reloadSeries() {
         seriesSetosa.getData().clear();
         seriesVersicolor.getData().clear();
         seriesVirginica.getData().clear();
@@ -289,11 +286,12 @@ public class UserInterface extends Stage implements Observer {
 
     /**
      * Permet de récuperer la longueur ou la largeur d'un point donné par rapport à la data
-     * @param p Représente le point dont on souhaite obtenir les données
+     *
+     * @param p    Représente le point dont on souhaite obtenir les données
      * @param data Représente la donnée que l'on souhaite obtenir
      * @return La longueur ou largeur du point en fonction de la data
      */
-    private double getDataforXY(PointIris p, String data){
+    private double getDataforXY(PointIris p, String data) {
         return switch (data) {
             case "longueurSepal" -> p.getLongueurSepal();
             case "largeurSepal" -> p.getLargeurSepal();
@@ -316,44 +314,45 @@ public class UserInterface extends Stage implements Observer {
 
     /**
      * Permet d'ajouter un point dans la serie en fonction de sa catégorie
+     *
      * @param point Représente le point à ajouter.
      */
-    public void ajouterPoint(PointIris point){
+    public void ajouterPoint(PointIris point) {
 
-            Number y = getDataforXY(point, menuDeroulantOrdonnees.getValue());
-            Number x = getDataforXY(point, menuDeroulantAbscisses.getValue());
-            XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(x, y);
+        Number y = getDataforXY(point, menuDeroulantOrdonnees.getValue());
+        Number x = getDataforXY(point, menuDeroulantAbscisses.getValue());
+        XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(x, y);
 
-            if (point.getCategorie() == null)
-                seriesDefault.getData().add(dataPoint);
-            else {
-                switch (point.getCategorie()) {
-                    case SETOSA:
-                        seriesSetosa.getData().add(dataPoint);
-                        break;
-                    case VERSICOLOR:
-                        seriesVersicolor.getData().add(dataPoint);
-                        break;
-                    case VIRGINICA:
-                        seriesVirginica.getData().add(dataPoint);
-                        break;
-
-                }
+        if (point.getCategorie() == null)
+            seriesDefault.getData().add(dataPoint);
+        else {
+            switch (point.getCategorie()) {
+                case SETOSA:
+                    seriesSetosa.getData().add(dataPoint);
+                    break;
+                case VERSICOLOR:
+                    seriesVersicolor.getData().add(dataPoint);
+                    break;
+                case VIRGINICA:
+                    seriesVirginica.getData().add(dataPoint);
+                    break;
 
             }
+
+        }
 
     }
 
     @Override
     public void update(Observable observable) {
-        if ((observable instanceof DataSet)){
+        if ((observable instanceof DataSet)) {
             this.ajouterPoints();
         }
     }
 
     @Override
     public void update(Observable observable, Object data) {
-        if ((observable instanceof DataSet) && (data instanceof PointIris)){
+        if ((observable instanceof DataSet) && (data instanceof PointIris)) {
             this.ajouterPoint((PointIris) data);
         }
     }
@@ -362,7 +361,7 @@ public class UserInterface extends Stage implements Observer {
     /**
      * Permet de classer tous les points utilisateurs.
      */
-    public void classifier(){
+    public void classifier() {
         ds.classifierPoints();
         seriesDefault.getData().clear();
     }
@@ -370,6 +369,7 @@ public class UserInterface extends Stage implements Observer {
 
     /**
      * Permet de définir le DataSet de la vue et d'attacher celle-ci au nouveau DataSet
+     *
      * @param ds Répresente le nouveau DataSet
      */
     private void setDs(DataSet ds) {

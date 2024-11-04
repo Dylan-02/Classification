@@ -4,7 +4,6 @@ import utils.ChargementDonneesUtil;
 import utils.Observable;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -17,6 +16,7 @@ import java.util.List;
  */
 public class DataSet extends Observable {
     protected List<PointIris> points = new ArrayList<>();
+
     public List<PointIris> getPoints() {
         return points;
     }
@@ -25,10 +25,10 @@ public class DataSet extends Observable {
      * Ajoute un nouveau point de données au DataSet en utilisant les valeurs des caractéristiques de l'iris.
      * Notifie les observateurs après l'ajout du point.
      *
-     * @param longueurSepal  la longueur du sépale
-     * @param largeurSepal   la largeur du sépale
-     * @param longueurPetal  la longueur du pétale
-     * @param largeurPetal   la largeur du pétale
+     * @param longueurSepal la longueur du sépale
+     * @param largeurSepal  la largeur du sépale
+     * @param longueurPetal la longueur du pétale
+     * @param largeurPetal  la largeur du pétale
      */
     public void ajouterPoint(double longueurSepal, double largeurSepal, double longueurPetal, double largeurPetal) {
         PointIris pt = new PointIris(longueurSepal, largeurSepal, longueurPetal, largeurPetal);

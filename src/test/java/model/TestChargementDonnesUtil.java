@@ -1,11 +1,8 @@
-package main;
+package model;
 
-import model.Categorie;
-import model.FormatDonneeBrut;
-import model.PointIris;
-import utils.ChargementDonneesUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import utils.ChargementDonneesUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,7 +36,7 @@ public class TestChargementDonnesUtil {
         assertEquals(p1.getLongueurPetal(), ChargementDonneesUtil.creerPointIris(donneesBrutes.get(0)).getLongueurPetal());
         assertEquals(p1, ChargementDonneesUtil.creerPointIris(donneesBrutes.get(0)));
         assertEquals(p2, ChargementDonneesUtil.creerPointIris(donneesBrutes.get(70)));
-        assertEquals(p3, ChargementDonneesUtil.creerPointIris(donneesBrutes.get(donneesBrutes.size()-1)));
+        assertEquals(p3, ChargementDonneesUtil.creerPointIris(donneesBrutes.get(donneesBrutes.size() - 1)));
     }
 
     @Test

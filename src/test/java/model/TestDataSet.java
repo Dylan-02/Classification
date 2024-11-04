@@ -1,8 +1,5 @@
-package main;
+package model;
 
-import model.Categorie;
-import model.DataSet;
-import model.PointIris;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

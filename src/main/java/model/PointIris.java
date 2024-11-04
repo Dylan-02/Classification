@@ -17,11 +17,11 @@ public class PointIris {
     /**
      * Constructeur avec toutes les propriétés, y compris la catégorie de la fleur d'iris.
      *
-     * @param categorie      La catégorie (espèce) de la fleur d'iris.
-     * @param longueurSepal  Longueur du sépal en centimètres.
-     * @param largeurSepal   Largeur du sépal en centimètres.
-     * @param longueurPetal  Longueur du pétale en centimètres.
-     * @param largeurPetal   Largeur du pétale en centimètres.
+     * @param categorie     La catégorie (espèce) de la fleur d'iris.
+     * @param longueurSepal Longueur du sépal en centimètres.
+     * @param largeurSepal  Largeur du sépal en centimètres.
+     * @param longueurPetal Longueur du pétale en centimètres.
+     * @param largeurPetal  Largeur du pétale en centimètres.
      */
     public PointIris(Categorie categorie, double longueurSepal, double largeurSepal, double longueurPetal, double largeurPetal) {
         this.categorie = categorie;
@@ -34,10 +34,10 @@ public class PointIris {
     /**
      * Constructeur sans catégorie, utile lorsque la catégorie n'est pas encore connue.
      *
-     * @param longueurSepal  Longueur du sépal en centimètres.
-     * @param largeurSepal   Largeur du sépal en centimètres.
-     * @param longueurPetal  Longueur du pétale en centimètres.
-     * @param largeurPetal   Largeur du pétale en centimètres.
+     * @param longueurSepal Longueur du sépal en centimètres.
+     * @param largeurSepal  Largeur du sépal en centimètres.
+     * @param longueurPetal Longueur du pétale en centimètres.
+     * @param largeurPetal  Largeur du pétale en centimètres.
      */
     public PointIris(double longueurSepal, double largeurSepal, double longueurPetal, double largeurPetal) {
         this.longueurSepal = longueurSepal;
