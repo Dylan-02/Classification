@@ -154,11 +154,7 @@ public class UserInterface extends Stage implements Observer {
             }
         });
 
-        boutonClassifier.setOnAction(event -> {
-
-            classifier();
-
-        });
+        boutonClassifier.setOnAction(event -> classifier());
 
         axeDesAbscisses.prefWidthProperty().bind(sideBar.widthProperty());
         axeDesAbscisses.setAlignment(Pos.CENTER);
@@ -191,7 +187,7 @@ public class UserInterface extends Stage implements Observer {
         fileChooser.getExtensionFilters().add(extensions);
         File fichier = fileChooser.showOpenDialog(this);
         if (fichier == null)
-            throw new FileNotFoundException(); // Le file ne peut pas être érroné car il est protégé par des extensions filter. Mais quand on ferme ça met null
+            throw new FileNotFoundException(); // Le fichier ne peut pas être erroné, car il est protégé par des extensions filter. Mais quand on ferme ça met null
 
         String path = fichier.getAbsolutePath();
         ds.loadCSV(path);
@@ -261,7 +257,7 @@ public class UserInterface extends Stage implements Observer {
     }
 
     /**
-     * Charge les series de points sur le graphique uniquement au premier lancement
+     * Permet de charger les series de points sur le graphique uniquement au premier lancement
      */
     private void loadSeries() {
         XYChart.Data<Number, Number> invisiblePointDe = new XYChart.Data<>(0, 0);
@@ -298,18 +294,13 @@ public class UserInterface extends Stage implements Observer {
      * @return La longueur ou largeur du point en fonction de la data
      */
     private double getDataforXY(PointIris p, String data){
-        switch (data) {
-            case "longueurSepal":
-                return p.getLongueurSepal();
-            case "largeurSepal":
-                return p.getLargeurSepal();
-            case "longueurPetal":
-                return p.getLongueurPetal();
-            case "largeurPetal":
-                return p.getLargeurPetal();
-            default:
-                throw new IllegalArgumentException("Valeur inattendue: " + data);
-        }
+        return switch (data) {
+            case "longueurSepal" -> p.getLongueurSepal();
+            case "largeurSepal" -> p.getLargeurSepal();
+            case "longueurPetal" -> p.getLongueurPetal();
+            case "largeurPetal" -> p.getLargeurPetal();
+            default -> throw new IllegalArgumentException("Valeur inattendue: " + data);
+        };
     }
 
     /**
