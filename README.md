@@ -1,8 +1,10 @@
 # SAE3.02 - Dev Application 
 
 
-[![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](http://forthebadge.com)  [![forthebadge](https://forthebadge.com/images/badges/uses-git.svg)](http://forthebadge.com)  
-[![forthebadge](https://forthebadge.com/images/badges/works-on-my-machine.svg)](http://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/gluten-free.svg)](http://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](http://forthebadge.com) 
+[![forthebadge](https://forthebadge.com/images/badges/uses-git.svg)](http://forthebadge.com) 
+[![forthebadge](https://forthebadge.com/images/badges/works-on-my-machine.svg)](http://forthebadge.com) 
+[![forthebadge](https://forthebadge.com/images/badges/gluten-free.svg)](http://forthebadge.com)
 
 
 Le but de ce projet est de développer un outil de chargement et affichage d'un ensemble de données. 
@@ -18,7 +20,7 @@ Il doit permettre également de classer une donnée par rapport aux données dé
 * [x] Classer les points sans catégorie
 * [x] Plusieurs fenêtres simultanées
 
-### Pré-requis
+## Pré-requis
 
 - Java
 - Maven
@@ -26,9 +28,17 @@ Il doit permettre également de classer une donnée par rapport aux données dé
 ## Démarrage
 
 Pour lancer le programme : 
-* Avec IntelliJ : 
+* Avec IntelliJ :
   * Reload le projet Maven
   * Cliquer sur le bouton "Run" sur la classe app/Main
+* En CLI : 
+  * mvn javafx:run
+
+Pour lancer les tests :
+* Avec IntelliJ :
+  * Cliquer sur le bouton "Run" sur une classe de test
+* En CLI : 
+  * mvn test
 
 ## Développé avec
 
