@@ -17,7 +17,7 @@ public class TestDataSet {
     }
 
     @Test
-    public void testAjouterPoints() throws IOException {
+    public void testLoadCSV() throws IOException {
         assertTrue(data.getPoints().isEmpty());
         data.loadCSV(getClass().getResource("/model/iris.csv").getFile());
         assertFalse(data.getPoints().isEmpty());
@@ -31,5 +31,23 @@ public class TestDataSet {
         data.classifierPoint(p1);
         assertNotNull(p1.getCategorie());
         assertTrue(Arrays.asList(Categorie.values()).contains(p1.getCategorie()));
+    }
+
+    @Test
+    public void testAjouterPoint() {
+        assertTrue(data.getPoints().isEmpty());
+        data.ajouterPoint(1, 1, 1, 1);
+        assertFalse(data.getPoints().isEmpty());
+        assertEquals(1, data.getPoints().size());
+    }
+
+    @Test
+    public void testClassifierPoints() {
+        data.ajouterPoint(1, 1, 1, 1);
+        data.ajouterPoint(2, 2, 2, 2);
+        data.ajouterPoint(3, 3, 3, 3);
+        for (PointIris pt : data.getPoints()) assertNull(pt.getCategorie());
+        data.classifierPoints();
+        for (PointIris pt : data.getPoints()) assertNotNull(pt.getCategorie());
     }
 }
