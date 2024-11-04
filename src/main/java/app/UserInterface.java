@@ -214,7 +214,7 @@ public class UserInterface extends Stage implements Observer {
 
         UnaryOperator<TextFormatter.Change> filter = change -> {
             String newText = change.getControlNewText();
-            if (newText.matches("\\d*")) {
+            if (newText.matches("\\d*(\\.\\d*)?")) {
                 return change;
             }
             return null;
@@ -237,10 +237,10 @@ public class UserInterface extends Stage implements Observer {
         Button submitButton = new Button("Ajouter");
         submitButton.setOnAction(event -> {
             try {
-                int longueurSepal = Integer.parseInt(textField1.getText());
-                int largeurSepal = Integer.parseInt(textField2.getText());
-                int longueurPetal = Integer.parseInt(textField3.getText());
-                int largeurPetal = Integer.parseInt(textField4.getText());
+                double longueurSepal = Double.parseDouble(textField1.getText());
+                double largeurSepal = Double.parseDouble(textField2.getText());
+                double longueurPetal = Double.parseDouble(textField3.getText());
+                double largeurPetal = Double.parseDouble(textField4.getText());
                 ds.ajouterPoint(longueurSepal, largeurSepal, longueurPetal, largeurPetal);
             } catch (NumberFormatException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
