@@ -293,8 +293,8 @@ public class UserInterface extends Stage implements Observer {
 
     /**
      * Permet de récuperer la longueur ou la largeur d'un point donné par rapport à la data
-     * @param p
-     * @param data
+     * @param p Représente le point dont on souhaite obtenir les données
+     * @param data Représente la donnée que l'on souhaite obtenir
      * @return La longueur ou largeur du point en fonction de la data
      */
     private double getDataforXY(PointIris p, String data){
@@ -325,7 +325,7 @@ public class UserInterface extends Stage implements Observer {
 
     /**
      * Permet d'ajouter un point dans la serie en fonction de sa catégorie
-     * @param point
+     * @param point Représente le point à ajouter.
      */
     public void ajouterPoint(PointIris point){
 
@@ -366,18 +366,30 @@ public class UserInterface extends Stage implements Observer {
             this.ajouterPoint((PointIris) data);
         }
     }
-    public void classifier(){
 
+
+    /**
+     * Permet de classer tous les points utilisateurs.
+     */
+    public void classifier(){
         ds.classifierPoints();
         seriesDefault.getData().clear();
-
     }
 
+
+    /**
+     * Permet de définir le DataSet de la vue et d'attacher celle-ci au nouveau DataSet
+     * @param ds Répresente le nouveau DataSet
+     */
     private void setDs(DataSet ds) {
         this.ds = ds;
         this.ds.attach(this);
     }
 
+
+    /**
+     * Permet de créer une nouvelle vue, partageant le même DataSet
+     */
     private void newVue() {
         UserInterface newVue = new UserInterface();
         newVue.setDs(this.ds);
