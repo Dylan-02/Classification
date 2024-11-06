@@ -14,6 +14,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.DataSet;
+import model.DistanceEuclidienne;
 import model.PointIris;
 import utils.Observable;
 import utils.Observer;
@@ -362,7 +363,7 @@ public class UserInterface extends Stage implements Observer {
      * Permet de classer tous les points utilisateurs.
      */
     public void classifier() {
-        ds.classifierPoints();
+        ds.classifierPoints(new DistanceEuclidienne(), 5); //TODO Ajouter une comboBox pour modifier la distanche choisie et récuperer la valeur ici (peut être aussi pour le k)
         seriesDefault.getData().clear();
     }
 
