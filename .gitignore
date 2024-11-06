@@ -2,3 +2,4 @@ bin/
 .idea/
 target/
 Test.iml
+.DS_Store

@@ -16,6 +16,7 @@ import java.util.List;
  */
 public class DataSet extends Observable {
     protected List<PointIris> points = new ArrayList<>();
+    protected KNNClassifier knn = new KNNClassifier();
 
     public List<PointIris> getPoints() {
         return points;
@@ -52,8 +53,8 @@ public class DataSet extends Observable {
      *
      * @param point le point de données à classifier.
      */
-    public void classifierPoint(PointIris point) {
-        KNNClassifier.classify(point);
+    public void classifierPoint(PointIris point, Distance distance, int k) {
+        this.knn.classify(point, k, distance, this.points);
         this.notifyObservers(point);
     }
 
@@ -61,8 +62,8 @@ public class DataSet extends Observable {
      * Classifie tous les points de données présents dans le DataSet en utilisant un classificateur KNN.
      * Notifie les observateurs après chaque classification.
      */
-    public void classifierPoints() {
-        for (PointIris pt : this.points) classifierPoint(pt);
+    public void classifierPoints(Distance distance, int k) {
+        for (PointIris pt : this.points) classifierPoint(pt, distance, k);
     }
 
     /**

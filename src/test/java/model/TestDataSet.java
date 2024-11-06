@@ -26,9 +26,10 @@ public class TestDataSet {
 
     @Test
     public void testClassifierPoint() {
+        data.loadCSV(getClass().getResource("/model/iris.csv").getFile());
         PointIris p1 = new PointIris(5, 5, 5, 5);
         assertNull(p1.getCategorie());
-        data.classifierPoint(p1);
+        data.classifierPoint(p1, new DistanceEuclidienne(), 5);
         assertNotNull(p1.getCategorie());
         assertTrue(Arrays.asList(Categorie.values()).contains(p1.getCategorie()));
     }
@@ -47,7 +48,8 @@ public class TestDataSet {
         data.ajouterPoint(2, 2, 2, 2);
         data.ajouterPoint(3, 3, 3, 3);
         for (PointIris pt : data.getPoints()) assertNull(pt.getCategorie());
-        data.classifierPoints();
+        data.loadCSV(getClass().getResource("/model/iris.csv").getFile());
+        data.classifierPoints(new DistanceEuclidienne(), 5);
         for (PointIris pt : data.getPoints()) assertNotNull(pt.getCategorie());
     }
 }
