@@ -75,8 +75,8 @@ public class DataSet extends Observable {
     public void loadCSV(String file) {
         try {
             List<RawDataFormat> data = DataLoadUtil.load(file);
-            List<IrisPoint> listePoints = DataLoadUtil.createIrisPointList(data);
-            this.addPoints(listePoints);
+            List<IrisPoint> pointList = DataLoadUtil.createIrisPointList(data);
+            this.addPoints(pointList);
             this.notifyObservers();
         } catch (IOException e) {
             System.out.println("Fichier introuvable");
