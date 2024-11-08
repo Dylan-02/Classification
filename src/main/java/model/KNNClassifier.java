@@ -28,10 +28,11 @@ public class KNNClassifier {
         PointIris[] voisins = kPlusProchesVoisins(k, p, d, datas);
         HashMap<Categorie, Integer> nombreParCategorie = new HashMap<>();
         for (PointIris iris : voisins) {
-            if (!nombreParCategorie.containsKey(iris.getCategorie())) nombreParCategorie.put(iris.getCategorie(), 1);
+            Categorie categorie = iris.getCategorie();
+            if (!nombreParCategorie.containsKey(categorie)) nombreParCategorie.put(categorie, 1);
             else {
-                int value = nombreParCategorie.get(iris.getCategorie());
-                nombreParCategorie.put(iris.getCategorie(), value + 1);
+                int value = nombreParCategorie.get(categorie);
+                nombreParCategorie.put(categorie, value + 1);
             }
         }
         int max = 0;

@@ -9,10 +9,10 @@ import java.util.Objects;
  */
 public class PointIris {
     private Categorie categorie;
-    private double longueurSepal;
-    private double largeurSepal;
-    private double longueurPetal;
-    private double largeurPetal;
+    final private double LONGUEUR_SEPAL;
+    final private double LARGEUR_SEPAL;
+    final private double LONGUEUR_PETAL;
+    final private double LARGEUR_PETAL;
 
     /**
      * Constructeur avec toutes les propriétés, y compris la catégorie de la fleur d'iris.
@@ -25,10 +25,10 @@ public class PointIris {
      */
     public PointIris(Categorie categorie, double longueurSepal, double largeurSepal, double longueurPetal, double largeurPetal) {
         this.categorie = categorie;
-        this.longueurSepal = longueurSepal;
-        this.largeurSepal = largeurSepal;
-        this.longueurPetal = longueurPetal;
-        this.largeurPetal = largeurPetal;
+        this.LONGUEUR_SEPAL = longueurSepal;
+        this.LARGEUR_SEPAL = largeurSepal;
+        this.LONGUEUR_PETAL = longueurPetal;
+        this.LARGEUR_PETAL = largeurPetal;
     }
 
     /**
@@ -40,10 +40,10 @@ public class PointIris {
      * @param largeurPetal  Largeur du pétale en centimètres.
      */
     public PointIris(double longueurSepal, double largeurSepal, double longueurPetal, double largeurPetal) {
-        this.longueurSepal = longueurSepal;
-        this.largeurSepal = largeurSepal;
-        this.longueurPetal = longueurPetal;
-        this.largeurPetal = largeurPetal;
+        this.LONGUEUR_SEPAL = longueurSepal;
+        this.LARGEUR_SEPAL = largeurSepal;
+        this.LONGUEUR_PETAL = longueurPetal;
+        this.LARGEUR_PETAL = largeurPetal;
     }
 
     /**
@@ -70,16 +70,7 @@ public class PointIris {
      * @return Longueur du sépal en centimètres.
      */
     public double getLongueurSepal() {
-        return longueurSepal;
-    }
-
-    /**
-     * Définit la longueur du sépal.
-     *
-     * @param longueurSepal La longueur du sépal en centimètres.
-     */
-    public void setLongueurSepal(double longueurSepal) {
-        this.longueurSepal = longueurSepal;
+        return LONGUEUR_SEPAL;
     }
 
     /**
@@ -88,16 +79,7 @@ public class PointIris {
      * @return Largeur du sépal en centimètres.
      */
     public double getLargeurSepal() {
-        return largeurSepal;
-    }
-
-    /**
-     * Définit la largeur du sépal.
-     *
-     * @param largeurSepal La largeur du sépal en centimètres.
-     */
-    public void setLargeurSepal(double largeurSepal) {
-        this.largeurSepal = largeurSepal;
+        return LARGEUR_SEPAL;
     }
 
     /**
@@ -106,16 +88,7 @@ public class PointIris {
      * @return Longueur du pétale en centimètres.
      */
     public double getLongueurPetal() {
-        return longueurPetal;
-    }
-
-    /**
-     * Définit la longueur du pétale.
-     *
-     * @param longueurPetal La longueur du pétale en centimètres.
-     */
-    public void setLongueurPetal(double longueurPetal) {
-        this.longueurPetal = longueurPetal;
+        return LONGUEUR_PETAL;
     }
 
     /**
@@ -124,16 +97,23 @@ public class PointIris {
      * @return Largeur du pétale en centimètres.
      */
     public double getLargeurPetal() {
-        return largeurPetal;
+        return LARGEUR_PETAL;
     }
 
-    /**
-     * Définit la largeur du pétale.
-     *
-     * @param largeurPetal La largeur du pétale en centimètres.
-     */
-    public void setLargeurPetal(double largeurPetal) {
-        this.largeurPetal = largeurPetal;
+    public double getDifferenceLongueurPetal(PointIris p) {
+        return Math.abs(this.getLongueurPetal() - p.getLongueurPetal());
+    }
+
+    public double getDifferenceLargeurPetal(PointIris p) {
+        return Math.abs(this.getLargeurPetal() - p.getLargeurPetal());
+    }
+
+    public double getDifferenceLargeurSepal(PointIris p) {
+        return Math.abs(this.getLargeurSepal() - p.getLargeurSepal());
+    }
+
+    public double getDifferenceLongueurSepal(PointIris p) {
+        return Math.abs(this.getLongueurSepal() - p.getLongueurSepal());
     }
 
     /**
@@ -147,10 +127,10 @@ public class PointIris {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PointIris pointIris = (PointIris) o;
-        return Double.compare(longueurSepal, pointIris.longueurSepal) == 0 &&
-                Double.compare(largeurSepal, pointIris.largeurSepal) == 0 &&
-                Double.compare(longueurPetal, pointIris.longueurPetal) == 0 &&
-                Double.compare(largeurPetal, pointIris.largeurPetal) == 0 &&
+        return Double.compare(LONGUEUR_SEPAL, pointIris.LONGUEUR_SEPAL) == 0 &&
+                Double.compare(LARGEUR_SEPAL, pointIris.LARGEUR_SEPAL) == 0 &&
+                Double.compare(LONGUEUR_PETAL, pointIris.LONGUEUR_PETAL) == 0 &&
+                Double.compare(LARGEUR_PETAL, pointIris.LARGEUR_PETAL) == 0 &&
                 categorie == pointIris.categorie;
     }
 
@@ -161,7 +141,7 @@ public class PointIris {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(categorie, longueurSepal, largeurSepal, longueurPetal, largeurPetal);
+        return Objects.hash(categorie, LONGUEUR_SEPAL, LARGEUR_SEPAL, LONGUEUR_PETAL, LARGEUR_PETAL);
     }
 
     /**
@@ -173,10 +153,10 @@ public class PointIris {
     public String toString() {
         return "PointIris{" +
                 "categorie=" + categorie +
-                ", longueurSepal=" + longueurSepal +
-                ", largeurSepal=" + largeurSepal +
-                ", longueurPetal=" + longueurPetal +
-                ", largeurPetal=" + largeurPetal +
+                ", longueurSepal=" + LONGUEUR_SEPAL +
+                ", largeurSepal=" + LARGEUR_SEPAL +
+                ", longueurPetal=" + LONGUEUR_PETAL +
+                ", largeurPetal=" + LARGEUR_PETAL +
                 '}';
     }
 }

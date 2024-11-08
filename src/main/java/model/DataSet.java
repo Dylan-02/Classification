@@ -15,8 +15,8 @@ import java.util.List;
  * Cette classe hérite de {@link Observable} pour notifier les observateurs en cas de changement.
  */
 public class DataSet extends Observable {
-    protected List<PointIris> points = new ArrayList<>();
-    protected KNNClassifier knn = new KNNClassifier();
+    final protected List<PointIris> points = new ArrayList<>();
+    final protected KNNClassifier knn = new KNNClassifier();
 
     public List<PointIris> getPoints() {
         return points;
