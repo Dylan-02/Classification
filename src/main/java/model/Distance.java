@@ -1,5 +1,5 @@
 package model;
 
 public interface Distance {
-    double distance(PointIris p1, PointIris p2);
+    double distance(IrisPoint p1, IrisPoint p2);
 }
