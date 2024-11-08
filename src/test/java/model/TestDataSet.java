@@ -27,29 +27,29 @@ public class TestDataSet {
     @Test
     public void testClassifierPoint() {
         data.loadCSV(getClass().getResource("/model/iris.csv").getFile());
-        PointIris p1 = new PointIris(5, 5, 5, 5);
-        assertNull(p1.getCategorie());
-        data.classifierPoint(p1, new DistanceEuclidienne(), 5);
-        assertNotNull(p1.getCategorie());
-        assertTrue(Arrays.asList(Categorie.values()).contains(p1.getCategorie()));
+        IrisPoint p1 = new IrisPoint(5, 5, 5, 5);
+        assertNull(p1.getCategory());
+        data.classifyPoint(p1, new EuclidianDistance(), 5);
+        assertNotNull(p1.getCategory());
+        assertTrue(Arrays.asList(Category.values()).contains(p1.getCategory()));
     }
 
     @Test
     public void testAjouterPoint() {
         assertTrue(data.getPoints().isEmpty());
-        data.ajouterPoint(1, 1, 1, 1);
+        data.addPoint(1, 1, 1, 1);
         assertFalse(data.getPoints().isEmpty());
         assertEquals(1, data.getPoints().size());
     }
 
     @Test
     public void testClassifierPoints() {
-        data.ajouterPoint(1, 1, 1, 1);
-        data.ajouterPoint(2, 2, 2, 2);
-        data.ajouterPoint(3, 3, 3, 3);
-        for (PointIris pt : data.getPoints()) assertNull(pt.getCategorie());
+        data.addPoint(1, 1, 1, 1);
+        data.addPoint(2, 2, 2, 2);
+        data.addPoint(3, 3, 3, 3);
+        for (IrisPoint pt : data.getPoints()) assertNull(pt.getCategory());
         data.loadCSV(getClass().getResource("/model/iris.csv").getFile());
-        data.classifierPoints(new DistanceEuclidienne(), 5);
-        for (PointIris pt : data.getPoints()) assertNotNull(pt.getCategorie());
+        data.classifyPoints(new EuclidianDistance(), 5);
+        for (IrisPoint pt : data.getPoints()) assertNotNull(pt.getCategory());
     }
 }

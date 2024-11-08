@@ -3,19 +3,19 @@ package model;
 import java.util.*;
 
 public class KNNClassifier {
-    public void classify(PointIris point, int k, Distance d, List<PointIris> datas) {
-        point.setCategorie(this.determinerCategorie(point, k, d, datas));
+    public void classify(IrisPoint point, int k, Distance d, List<IrisPoint> datas) {
+        point.setCategory(this.determinerCategorie(point, k, d, datas));
     }
 
-    public PointIris[] kPlusProchesVoisins(int k, PointIris p, Distance d, List<PointIris> datas) {
-        Map<Double, PointIris> distances = new HashMap<>();
-        for (PointIris iris : datas) {
+    public IrisPoint[] kPlusProchesVoisins(int k, IrisPoint p, Distance d, List<IrisPoint> datas) {
+        Map<Double, IrisPoint> distances = new HashMap<>();
+        for (IrisPoint iris : datas) {
             if (!p.equals(iris)) {
                 double distance = d.distance(p, iris); // Perte d'un joueur si deux joueurs ont la même distance par rapport a j.
                 distances.put(distance, iris);    // Possible de remedier à ca en utilisant 4 un treeSet, et 4 comparateurs (un pour chaque distance) et passé un comparateur en fonction du choix passé en parametre
             }
         }
-        PointIris[] voisins = new PointIris[k];
+        IrisPoint[] voisins = new IrisPoint[k];
         for (int idx = 0; idx < k; idx ++) {
             double min = Collections.min(distances.keySet());
             voisins[idx] = distances.get(min);
@@ -24,24 +24,25 @@ public class KNNClassifier {
         return voisins;
     }
 
-    public Categorie determinerCategorie(PointIris p, int k, Distance d, List<PointIris> datas) {
-        PointIris[] voisins = kPlusProchesVoisins(k, p, d, datas);
-        HashMap<Categorie, Integer> nombreParCategorie = new HashMap<>();
-        for (PointIris iris : voisins) {
-            if (!nombreParCategorie.containsKey(iris.getCategorie())) nombreParCategorie.put(iris.getCategorie(), 1);
+    public Category determinerCategorie(IrisPoint p, int k, Distance d, List<IrisPoint> datas) {
+        IrisPoint[] voisins = kPlusProchesVoisins(k, p, d, datas);
+        HashMap<Category, Integer> nombreParCategorie = new HashMap<>();
+        for (IrisPoint iris : voisins) {
+            Category category = iris.getCategory();
+            if (!nombreParCategorie.containsKey(category)) nombreParCategorie.put(category, 1);
             else {
-                int value = nombreParCategorie.get(iris.getCategorie());
-                nombreParCategorie.put(iris.getCategorie(), value + 1);
+                int value = nombreParCategorie.get(category);
+                nombreParCategorie.put(category, value + 1);
             }
         }
         int max = 0;
-        Categorie categorie = null;
-        for (Categorie key : nombreParCategorie.keySet()) {
+        Category category = null;
+        for (Category key : nombreParCategorie.keySet()) {
             if (max < nombreParCategorie.get(key)) {
-                categorie = key;
+                category = key;
                 max = nombreParCategorie.get(key);
             }
         }
-        return categorie;
+        return category;
     }
 }

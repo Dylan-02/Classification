@@ -1,6 +1,6 @@
 package model;
 
-import utils.ChargementDonneesUtil;
+import utils.DataLoadUtil;
 import utils.Observable;
 
 import java.io.IOException;
@@ -9,16 +9,16 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * La classe DataSet représente un ensemble de points de données de type PointIris.
+ * La classe DataSet représente un ensemble de points de données de type IrisPoint.
  * Elle permet d'ajouter des points, de classifier ces points avec un classificateur KNN
  * et de charger des données à partir d'un fichier CSV.
  * Cette classe hérite de {@link Observable} pour notifier les observateurs en cas de changement.
  */
 public class DataSet extends Observable {
-    protected List<PointIris> points = new ArrayList<>();
-    protected KNNClassifier knn = new KNNClassifier();
+    final protected List<IrisPoint> points = new ArrayList<>();
+    final protected KNNClassifier knn = new KNNClassifier();
 
-    public List<PointIris> getPoints() {
+    public List<IrisPoint> getPoints() {
         return points;
     }
 
@@ -26,13 +26,13 @@ public class DataSet extends Observable {
      * Ajoute un nouveau point de données au DataSet en utilisant les valeurs des caractéristiques de l'iris.
      * Notifie les observateurs après l'ajout du point.
      *
-     * @param longueurSepal la longueur du sépale
-     * @param largeurSepal  la largeur du sépale
-     * @param longueurPetal la longueur du pétale
-     * @param largeurPetal  la largeur du pétale
+     * @param sepalLength la longueur du sépale
+     * @param sepalWidth  la largeur du sépale
+     * @param petalLength la longueur du pétale
+     * @param petalWidth  la largeur du pétale
      */
-    public void ajouterPoint(double longueurSepal, double largeurSepal, double longueurPetal, double largeurPetal) {
-        PointIris pt = new PointIris(longueurSepal, largeurSepal, longueurPetal, largeurPetal);
+    public void addPoint(double sepalLength, double sepalWidth, double petalLength, double petalWidth) {
+        IrisPoint pt = new IrisPoint(sepalLength, sepalWidth, petalLength, petalWidth);
         this.points.add(pt);
         this.notifyObservers(pt);
     }
@@ -40,10 +40,10 @@ public class DataSet extends Observable {
     /**
      * Ajoute une collection de points de données au DataSet et notifie les observateurs après l'ajout.
      *
-     * @param listePoints collection de points de type PointIris à ajouter.
+     * @param pointList collection de points de type IrisPoint à ajouter.
      */
-    public void ajouterPoints(Collection<PointIris> listePoints) {
-        this.points.addAll(listePoints);
+    public void addPoints(Collection<IrisPoint> pointList) {
+        this.points.addAll(pointList);
         this.notifyObservers();
     }
 
@@ -53,7 +53,7 @@ public class DataSet extends Observable {
      *
      * @param point le point de données à classifier.
      */
-    public void classifierPoint(PointIris point, Distance distance, int k) {
+    public void classifyPoint(IrisPoint point, Distance distance, int k) {
         this.knn.classify(point, k, distance, this.points);
         this.notifyObservers(point);
     }
@@ -62,8 +62,8 @@ public class DataSet extends Observable {
      * Classifie tous les points de données présents dans le DataSet en utilisant un classificateur KNN.
      * Notifie les observateurs après chaque classification.
      */
-    public void classifierPoints(Distance distance, int k) {
-        for (PointIris pt : this.points) classifierPoint(pt, distance, k);
+    public void classifyPoints(Distance distance, int k) {
+        for (IrisPoint pt : this.points) classifyPoint(pt, distance, k);
     }
 
     /**
@@ -74,9 +74,9 @@ public class DataSet extends Observable {
      */
     public void loadCSV(String file) {
         try {
-            List<FormatDonneeBrut> data = ChargementDonneesUtil.charger(file);
-            List<PointIris> listePoints = ChargementDonneesUtil.creerEnsemblePointIris(data);
-            this.ajouterPoints(listePoints);
+            List<RawDataFormat> data = DataLoadUtil.load(file);
+            List<IrisPoint> pointList = DataLoadUtil.createIrisPointList(data);
+            this.addPoints(pointList);
             this.notifyObservers();
         } catch (IOException e) {
             System.out.println("Fichier introuvable");

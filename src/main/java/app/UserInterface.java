@@ -14,8 +14,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.DataSet;
-import model.DistanceEuclidienne;
-import model.PointIris;
+import model.EuclidianDistance;
+import model.IrisPoint;
 import utils.Observable;
 import utils.Observer;
 
@@ -205,6 +205,7 @@ public class UserInterface extends Stage implements Observer {
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
         popupStage.setTitle("Ajouter un point");
+        popupStage.setResizable(false);
 
         UnaryOperator<TextFormatter.Change> filter = change -> {
             String newText = change.getControlNewText();
@@ -235,7 +236,7 @@ public class UserInterface extends Stage implements Observer {
                 double largeurSepal = Double.parseDouble(textField2.getText());
                 double longueurPetal = Double.parseDouble(textField3.getText());
                 double largeurPetal = Double.parseDouble(textField4.getText());
-                ds.ajouterPoint(longueurSepal, largeurSepal, longueurPetal, largeurPetal);
+                ds.addPoint(longueurSepal, largeurSepal, longueurPetal, largeurPetal);
             } catch (NumberFormatException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Saisie invalide");
@@ -283,12 +284,12 @@ public class UserInterface extends Stage implements Observer {
      * @param data Représente la donnée que l'on souhaite obtenir
      * @return La longueur ou largeur du point en fonction de la data
      */
-    private double getDataforXY(PointIris p, String data) {
+    private double getDataforXY(IrisPoint p, String data) {
         return switch (data) {
-            case "longueurSepal" -> p.getLongueurSepal();
-            case "largeurSepal" -> p.getLargeurSepal();
-            case "longueurPetal" -> p.getLongueurPetal();
-            case "largeurPetal" -> p.getLargeurPetal();
+            case "longueurSepal" -> p.getSepalLength();
+            case "largeurSepal" -> p.getSepalWidth();
+            case "longueurPetal" -> p.getPetalLength();
+            case "largeurPetal" -> p.getPetalWidth();
             default -> throw new IllegalArgumentException("Valeur inattendue: " + data);
         };
     }
@@ -298,7 +299,7 @@ public class UserInterface extends Stage implements Observer {
      */
     private void addAllPoints() {
 
-        for (PointIris point : ds.getPoints()) {
+        for (IrisPoint point : ds.getPoints()) {
             this.addNewPoint(point);
         }
 
@@ -309,16 +310,16 @@ public class UserInterface extends Stage implements Observer {
      *
      * @param point Représente le point à ajouter.
      */
-    public void addNewPoint(PointIris point) {
+    public void addNewPoint(IrisPoint point) {
 
         Number y = getDataforXY(point, menuDeroulantOrdonnees.getValue());
         Number x = getDataforXY(point, menuDeroulantAbscisses.getValue());
         XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(x, y);
 
-        if (point.getCategorie() == null)
+        if (point.getCategory() == null)
             seriesDefault.getData().add(dataPoint);
         else {
-            switch (point.getCategorie()) {
+            switch (point.getCategory()) {
                 case SETOSA:
                     seriesSetosa.getData().add(dataPoint);
                     break;
@@ -344,8 +345,8 @@ public class UserInterface extends Stage implements Observer {
 
     @Override
     public void update(Observable observable, Object data) {
-        if ((observable instanceof DataSet) && (data instanceof PointIris)) {
-            this.addNewPoint((PointIris) data);
+        if ((observable instanceof DataSet) && (data instanceof IrisPoint)) {
+            this.addNewPoint((IrisPoint) data);
         }
     }
 
@@ -354,7 +355,7 @@ public class UserInterface extends Stage implements Observer {
      * Permet de classer tous les points utilisateurs.
      */
     public void classify() {
-        ds.classifierPoints(new DistanceEuclidienne(), 5); //TODO Ajouter une comboBox pour modifier la distanche choisie et récuperer la valeur ici (peut être aussi pour le k)
+        ds.classifyPoints(new EuclidianDistance(), 5); //TODO Ajouter une comboBox pour modifier la distanche choisie et récuperer la valeur ici (peut être aussi pour le k)
         seriesDefault.getData().clear();
     }
 
