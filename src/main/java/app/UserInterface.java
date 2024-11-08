@@ -34,34 +34,34 @@ public class UserInterface extends Stage implements Observer {
     DataSet ds = new DataSet();
 
 
-    NumberAxis xAxis = new NumberAxis();
-    NumberAxis yAxis = new NumberAxis();
-    ScatterChart<Number, Number> chart = new ScatterChart<>(xAxis, yAxis);
+    final NumberAxis xAxis = new NumberAxis();
+    final NumberAxis yAxis = new NumberAxis();
+    final ScatterChart<Number, Number> chart = new ScatterChart<>(xAxis, yAxis);
 
-    VBox espaceurChartFichier = new VBox();
+    final VBox espaceurChartFichier = new VBox();
 
-    Button boutonFichier = new Button("Choisir fichier");
-    Label cheminFichier = new Label("aucun fichier selectionné");
-    HBox boxFichier = new HBox(boutonFichier, cheminFichier);
-    VBox chartBox = new VBox(chart, espaceurChartFichier, boxFichier);
-    Label axeDesAbscisses = new Label("Axe des abscisses");
-    ComboBox<String> menuDeroulantAbscisses = new ComboBox<>();
-    HBox espaceurSelecteursAxe = new HBox();
-    Label axeDesOrdonnees = new Label("Axe des ordonnées");
-    ComboBox<String> menuDeroulantOrdonnees = new ComboBox<>();
+    final Button boutonFichier = new Button("Choisir fichier");
+    final Label cheminFichier = new Label("aucun fichier selectionné");
+    final HBox boxFichier = new HBox(boutonFichier, cheminFichier);
+    final VBox chartBox = new VBox(chart, espaceurChartFichier, boxFichier);
+    final Label axeDesAbscisses = new Label("Axe des abscisses");
+    final ComboBox<String> menuDeroulantAbscisses = new ComboBox<>();
+    final HBox espaceurSelecteursAxe = new HBox();
+    final Label axeDesOrdonnees = new Label("Axe des ordonnées");
+    final ComboBox<String> menuDeroulantOrdonnees = new ComboBox<>();
 
-    VBox conteneurStats = new VBox();
+    final VBox conteneurStats = new VBox();
 
-    Button boutonAjouter = new Button("Ajouter");
-    Button boutonClassifier = new Button("Classer");
-    Button boutonNouvelleFenetre = new Button("Nouvelle fenêtre");
-    VBox conteneurBoutons = new VBox(boutonAjouter, boutonClassifier, boutonNouvelleFenetre);
-    VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees, conteneurStats, conteneurBoutons);
-    HBox mainBox = new HBox(chartBox, sideBar);
-    XYChart.Series<Number, Number> seriesSetosa = new XYChart.Series<>();
-    XYChart.Series<Number, Number> seriesVersicolor = new XYChart.Series<>();
-    XYChart.Series<Number, Number> seriesVirginica = new XYChart.Series<>();
-    XYChart.Series<Number, Number> seriesDefault = new XYChart.Series<>();
+    final Button boutonAjouter = new Button("Ajouter");
+    final Button boutonClassifier = new Button("Classer");
+    final Button boutonNouvelleFenetre = new Button("Nouvelle fenêtre");
+    final VBox conteneurBoutons = new VBox(boutonAjouter, boutonClassifier, boutonNouvelleFenetre);
+    final VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees, conteneurStats, conteneurBoutons);
+    final HBox mainBox = new HBox(chartBox, sideBar);
+    final XYChart.Series<Number, Number> seriesSetosa = new XYChart.Series<>();
+    final XYChart.Series<Number, Number> seriesVersicolor = new XYChart.Series<>();
+    final XYChart.Series<Number, Number> seriesVirginica = new XYChart.Series<>();
+    final XYChart.Series<Number, Number> seriesDefault = new XYChart.Series<>();
 
     /**
      * Constructeur de l'interface utilisateur.
@@ -125,7 +125,7 @@ public class UserInterface extends Stage implements Observer {
         boutonAjouter.setStyle("-fx-background-color: Green; -fx-text-fill: White");
         boutonAjouter.setOnMouseEntered(e -> boutonAjouter.setStyle("-fx-background-color: DarkGreen; -fx-text-fill: White"));
         boutonAjouter.setOnMouseExited(e -> boutonAjouter.setStyle("-fx-background-color: Green; -fx-text-fill: White"));
-        boutonAjouter.setOnAction(e -> ajouterPoint());
+        boutonAjouter.setOnAction(e -> addNewPoint());
 
         boutonClassifier.setOnMouseEntered(e -> boutonClassifier.setStyle("-fx-background-color: DarkOrange;"));
         boutonClassifier.setOnMouseExited(e -> boutonClassifier.setStyle("-fx-background-color: Orange;"));
@@ -152,7 +152,7 @@ public class UserInterface extends Stage implements Observer {
             }
         });
 
-        boutonClassifier.setOnAction(event -> classifier());
+        boutonClassifier.setOnAction(event -> classify());
 
         axeDesAbscisses.prefWidthProperty().bind(sideBar.widthProperty());
         axeDesAbscisses.setAlignment(Pos.CENTER);
@@ -201,7 +201,7 @@ public class UserInterface extends Stage implements Observer {
      * Ouvre une fenêtre pour ajouter manuellement un point de données au DataSet.
      * Demande à l'utilisateur de saisir les caractéristiques d'un iris.
      */
-    private void ajouterPoint() {
+    private void addNewPoint() {
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
         popupStage.setTitle("Ajouter un point");
@@ -242,7 +242,7 @@ public class UserInterface extends Stage implements Observer {
                 alert.setHeaderText("Erreur");
                 alert.setContentText("Les données saisies sont invalides, veuillez saisir des données numériques.");
                 alert.showAndWait();
-                ajouterPoint();
+                addNewPoint();
             }
             popupStage.close();
         });
@@ -266,7 +266,7 @@ public class UserInterface extends Stage implements Observer {
         seriesVersicolor.getData().add(invisiblePointVe);
         seriesVirginica.getData().add(invisiblePointVi);
         seriesDefault.getData().add(invisiblePointDe);
-        ajouterPoints();
+        addAllPoints();
         chart.getData().addAll(seriesSetosa, seriesVersicolor, seriesVirginica, seriesDefault);
         seriesSetosa.getData().remove(invisiblePointSe);
         seriesVersicolor.getData().remove(invisiblePointVe);
@@ -282,7 +282,7 @@ public class UserInterface extends Stage implements Observer {
         seriesVersicolor.getData().clear();
         seriesVirginica.getData().clear();
         seriesDefault.getData().clear();
-        ajouterPoints();
+        addAllPoints();
     }
 
     /**
@@ -305,10 +305,10 @@ public class UserInterface extends Stage implements Observer {
     /**
      * Permet d'ajouter tous les points dans les series
      */
-    private void ajouterPoints() {
+    private void addAllPoints() {
 
         for (PointIris point : ds.getPoints()) {
-            this.ajouterPoint(point);
+            this.addNewPoint(point);
         }
 
     }
@@ -318,7 +318,7 @@ public class UserInterface extends Stage implements Observer {
      *
      * @param point Représente le point à ajouter.
      */
-    public void ajouterPoint(PointIris point) {
+    public void addNewPoint(PointIris point) {
 
         Number y = getDataforXY(point, menuDeroulantOrdonnees.getValue());
         Number x = getDataforXY(point, menuDeroulantAbscisses.getValue());
@@ -347,14 +347,14 @@ public class UserInterface extends Stage implements Observer {
     @Override
     public void update(Observable observable) {
         if ((observable instanceof DataSet)) {
-            this.ajouterPoints();
+            this.addAllPoints();
         }
     }
 
     @Override
     public void update(Observable observable, Object data) {
         if ((observable instanceof DataSet) && (data instanceof PointIris)) {
-            this.ajouterPoint((PointIris) data);
+            this.addNewPoint((PointIris) data);
         }
     }
 
@@ -362,7 +362,7 @@ public class UserInterface extends Stage implements Observer {
     /**
      * Permet de classer tous les points utilisateurs.
      */
-    public void classifier() {
+    public void classify() {
         ds.classifierPoints(new DistanceEuclidienne(), 5); //TODO Ajouter une comboBox pour modifier la distanche choisie et récuperer la valeur ici (peut être aussi pour le k)
         seriesDefault.getData().clear();
     }
