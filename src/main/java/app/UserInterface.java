@@ -205,6 +205,7 @@ public class UserInterface extends Stage implements Observer {
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
         popupStage.setTitle("Ajouter un point");
+        popupStage.setResizable(false);
 
         UnaryOperator<TextFormatter.Change> filter = change -> {
             String newText = change.getControlNewText();
