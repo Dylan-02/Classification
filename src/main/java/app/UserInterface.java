@@ -8,6 +8,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -230,6 +231,7 @@ public class UserInterface extends Stage implements Observer {
         textField4.setTextFormatter(new TextFormatter<>(filter));
 
         Button submitButton = new Button("Ajouter");
+        submitButton.setTooltip(new Tooltip("Click Me !"));
         submitButton.setOnAction(event -> {
             try {
                 double longueurSepal = Double.parseDouble(textField1.getText());
@@ -264,6 +266,7 @@ public class UserInterface extends Stage implements Observer {
         addAllPoints();
         chart.getData().addAll(seriesSetosa, seriesVersicolor, seriesVirginica, seriesDefault);
         seriesDefault.getData().remove(invisiblePointDe);
+        installTooltips();
     }
 
     /**
@@ -275,6 +278,17 @@ public class UserInterface extends Stage implements Observer {
         seriesVirginica.getData().clear();
         seriesDefault.getData().clear();
         addAllPoints();
+        installTooltips();
+    }
+
+    private void installTooltips() {
+        for (XYChart.Series<Number, Number> serie : this.chart.getData()) {
+            for (XYChart.Data<Number, Number> data : serie.getData()) {
+                Tooltip tooltip = new Tooltip(menuDeroulantAbscisses.getValue() + ": "+data.getXValue() +
+                        "\n" + menuDeroulantOrdonnees.getValue() + ": " +data.getYValue());
+                Tooltip.install(data.getNode(), tooltip);
+            }
+        }
     }
 
     /**
@@ -302,7 +316,7 @@ public class UserInterface extends Stage implements Observer {
         for (IrisPoint point : ds.getPoints()) {
             this.addNewPoint(point);
         }
-
+        installTooltips();
     }
 
     /**
@@ -331,9 +345,7 @@ public class UserInterface extends Stage implements Observer {
                     break;
 
             }
-
         }
-
     }
 
     @Override
