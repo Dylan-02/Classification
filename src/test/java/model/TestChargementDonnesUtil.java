@@ -11,7 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestChargementDonnesUtil {
-    List<RawDataFormat> donneesBrutes;
+    List<RawIrisDataFormat> donneesBrutes;
     IrisPoint p1, p2, p3;
 
     @BeforeEach
