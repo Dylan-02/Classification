@@ -8,19 +8,32 @@ public class KNNClassifier {
     }
 
     public IrisPoint[] kPlusProchesVoisins(int k, IrisPoint p, Distance d, List<IrisPoint> datas) {
-        Map<Double, IrisPoint> distances = new HashMap<>();
+        SortedMap<Double, List<IrisPoint>> distances = new TreeMap<>();
+
         for (IrisPoint iris : datas) {
             if (!p.equals(iris)) {
-                double distance = d.distance(p, iris); // Perte d'un point si deux points ont la même distance par rapport à// p.
-                distances.put(distance, iris);    // Possible de remédier à ça en utilisant un treeSet, et 4 comparateurs (un pour chaque distance) et passer un comparateur en fonction du choix passé en paramètre.
+                double distance = d.distance(p, iris);
+                distances.putIfAbsent(distance, new ArrayList<>());
+                distances.get(distance).add(iris);
             }
         }
+
         IrisPoint[] voisins = new IrisPoint[k];
-        for (int idx = 0; idx < k; idx ++) {
-            double min = Collections.min(distances.keySet());
-            voisins[idx] = distances.get(min);
-            distances.remove(min);
+        int idx = 0;
+
+        for (Map.Entry<Double, List<IrisPoint>> entry : distances.entrySet()) {
+            for (IrisPoint neighbor : entry.getValue()) {
+                if (idx < k) {
+                    voisins[idx++] = neighbor;
+                } else {
+                    break;
+                }
+            }
+            if (idx >= k) {
+                break;
+            }
         }
+
         return voisins;
     }
 
