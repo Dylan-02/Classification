@@ -47,6 +47,50 @@ public class DataSet extends Observable {
         this.notifyObservers();
     }
 
+    public double getSepalLengthAmplitude() {
+        double min = Double.MAX_VALUE;
+        double max = 0;
+        for (IrisPoint pt : this.points) {
+            double sepalLength = pt.getSepalLength();
+            if (sepalLength < min) min = sepalLength;
+            else if (sepalLength > max) max = sepalLength;
+        }
+        return max - min;
+    }
+
+    public double getSepalWidthAmplitude() {
+        double min = Double.MAX_VALUE;
+        double max = 0;
+        for (IrisPoint pt : this.points) {
+            double sepalLength = pt.getSepalWidth();
+            if (sepalLength < min) min = sepalLength;
+            else if (sepalLength > max) max = sepalLength;
+        }
+        return max - min;
+    }
+
+    public double getPetalLengthAmplitude() {
+        double min = Double.MAX_VALUE;
+        double max = 0;
+        for (IrisPoint pt : this.points) {
+            double sepalLength = pt.getPetalLength();
+            if (sepalLength < min) min = sepalLength;
+            else if (sepalLength > max) max = sepalLength;
+        }
+        return max - min;
+    }
+
+    public double getPetalWidthAmplitude() {
+        double min = Double.MAX_VALUE;
+        double max = 0;
+        for (IrisPoint pt : this.points) {
+            double sepalLength = pt.getPetalWidth();
+            if (sepalLength < min) min = sepalLength;
+            else if (sepalLength > max) max = sepalLength;
+        }
+        return max - min;
+    }
+
     /**
      * Classifie un point de données en utilisant un classificateur KNN.
      * Notifie les observateurs après la classification.

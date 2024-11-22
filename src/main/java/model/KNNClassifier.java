@@ -11,8 +11,8 @@ public class KNNClassifier {
         Map<Double, IrisPoint> distances = new HashMap<>();
         for (IrisPoint iris : datas) {
             if (!p.equals(iris)) {
-                double distance = d.distance(p, iris); // Perte d'un joueur si deux joueurs ont la même distance par rapport a j.
-                distances.put(distance, iris);    // Possible de remedier à ca en utilisant 4 un treeSet, et 4 comparateurs (un pour chaque distance) et passé un comparateur en fonction du choix passé en parametre
+                double distance = d.distance(p, iris); // Perte d'un point si deux points ont la même distance par rapport à// p.
+                distances.put(distance, iris);    // Possible de remédier à ça en utilisant un treeSet, et 4 comparateurs (un pour chaque distance) et passer un comparateur en fonction du choix passé en paramètre.
             }
         }
         IrisPoint[] voisins = new IrisPoint[k];
