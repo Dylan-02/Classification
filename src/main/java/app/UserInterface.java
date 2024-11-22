@@ -367,7 +367,7 @@ public class UserInterface extends Stage implements Observer {
      * Permet de classer tous les points utilisateurs.
      */
     public void classify() {
-        ds.classifyPoints(new EuclidianDistance(), 5); //TODO Ajouter une comboBox pour modifier la distanche choisie et récuperer la valeur ici (peut être aussi pour le k)
+        ds.classifyPoints(new EuclidianDistance(), 19); //TODO Ajouter une comboBox pour modifier la distanche choisie et récuperer la valeur ici (peut être aussi pour le k)
         seriesDefault.getData().clear();
     }
 
