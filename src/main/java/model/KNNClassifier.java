@@ -3,6 +3,13 @@ package model;
 import java.util.*;
 
 public class KNNClassifier {
+    private final static Random RAND = new Random();
+
+    public void randomClassify(IrisPoint pt) {
+        Category[] values = Category.values();
+        pt.setCategory(values[RAND.nextInt(values.length)]);
+    }
+
     public void classify(IrisPoint point, int k, Distance d, List<IrisPoint> datas) {
         point.setCategory(this.determinerCategorie(point, k, d, datas));
     }
