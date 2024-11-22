@@ -11,7 +11,7 @@ public class KNNClassifier {
     }
 
     public void classify(IrisPoint point, int k, Distance d, List<IrisPoint> datas) {
-        point.setCategory(this.determinerCategorie(point, k, d, datas));
+        point.setCategory(this.determineCategory(point, k, d, datas));
     }
 
     public IrisPoint[] kPlusProchesVoisins(int k, IrisPoint p, Distance d, List<IrisPoint> datas) {
@@ -44,7 +44,26 @@ public class KNNClassifier {
         return voisins;
     }
 
-    public Category determinerCategorie(IrisPoint p, int k, Distance d, List<IrisPoint> datas) {
+    public int getBestKValue(Distance d, List<IrisPoint> data) {
+        int k = 3;
+        double maxSuccessRate = 0;
+        int bestKValue = k;
+        while (k < data.size()) {
+            int correctClassfications = 0;
+            for (IrisPoint pt : data) {
+                if (determineCategory(pt, k, d, data).equals(pt.getCategory())) correctClassfications++;
+            }
+            double successRate = ((double)correctClassfications/data.size())*100;
+            if (successRate > maxSuccessRate) {
+                maxSuccessRate = successRate;
+                bestKValue = k;
+            }
+            k+=2;
+        }
+        return bestKValue;
+    }
+
+    public Category determineCategory(IrisPoint p, int k, Distance d, List<IrisPoint> datas) {
         IrisPoint[] voisins = kPlusProchesVoisins(k, p, d, datas);
         HashMap<Category, Integer> nombreParCategorie = new HashMap<>();
         for (IrisPoint iris : voisins) {
