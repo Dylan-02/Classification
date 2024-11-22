@@ -126,4 +126,8 @@ public class DataSet extends Observable {
             System.out.println("Fichier introuvable");
         }
     }
+
+    public int getBestKValue(Distance d) {
+        return this.knn.getBestKValue(d, this.getPoints());
+    }
 }

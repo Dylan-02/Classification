@@ -47,8 +47,8 @@ public class KNNClassifier {
     public int getBestKValue(Distance d, List<IrisPoint> data) {
         int k = 3;
         double maxSuccessRate = 0;
-        int bestKValue = k;
-        while (k < data.size()) {
+        int bestKValue = 0;
+        while (k < data.size()/2) {
             int correctClassfications = 0;
             for (IrisPoint pt : data) {
                 if (determineCategory(pt, k, d, data).equals(pt.getCategory())) correctClassfications++;
