@@ -13,7 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.DataSet;
+import model.data.IrisDataSet;
 import model.EuclidianDistance;
 import model.IrisPoint;
 import utils.Observable;
@@ -31,7 +31,7 @@ import java.util.function.UnaryOperator;
  */
 public class UserInterface extends Stage implements Observer {
 
-    DataSet ds = new DataSet();
+    IrisDataSet ds = new IrisDataSet();
 
 
     final NumberAxis xAxis = new NumberAxis();
@@ -338,14 +338,14 @@ public class UserInterface extends Stage implements Observer {
 
     @Override
     public void update(Observable observable) {
-        if ((observable instanceof DataSet)) {
+        if ((observable instanceof IrisDataSet)) {
             this.addAllPoints();
         }
     }
 
     @Override
     public void update(Observable observable, Object data) {
-        if ((observable instanceof DataSet) && (data instanceof IrisPoint)) {
+        if ((observable instanceof IrisDataSet) && (data instanceof IrisPoint)) {
             this.addNewPoint((IrisPoint) data);
         }
     }
@@ -365,7 +365,7 @@ public class UserInterface extends Stage implements Observer {
      *
      * @param ds Répresente le nouveau DataSet
      */
-    private void setDs(DataSet ds) {
+    private void setDs(IrisDataSet ds) {
         this.ds = ds;
         this.ds.attach(this);
     }

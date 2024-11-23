@@ -5,4 +5,5 @@ module java {
     opens model;
     opens app;
     exports app;
+    opens model.data;
 }

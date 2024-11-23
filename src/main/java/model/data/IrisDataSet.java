@@ -1,5 +1,8 @@
-package model;
+package model.data;
 
+import model.Distance;
+import model.IrisPoint;
+import model.KNNClassifier;
 import utils.DataLoadUtil;
 import utils.Observable;
 
@@ -9,12 +12,13 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * La classe DataSet représente un ensemble de points de données de type IrisPoint.
+ * La classe IrisDataSet représente un ensemble de points de données de type IrisPoint.
  * Elle permet d'ajouter des points, de classifier ces points avec un classificateur KNN
  * et de charger des données à partir d'un fichier CSV.
  * Cette classe hérite de {@link Observable} pour notifier les observateurs en cas de changement.
  */
-public class DataSet extends Observable {
+public class IrisDataSet extends Observable {
+    final public DataType type = DataType.IRIS;
     final protected List<IrisPoint> points = new ArrayList<>();
     final protected KNNClassifier knn = new KNNClassifier();
 
@@ -74,7 +78,7 @@ public class DataSet extends Observable {
      */
     public void loadCSV(String file) {
         try {
-            List<RawDataFormat> data = DataLoadUtil.load(file);
+            List<RawIrisDataFormat> data = DataLoadUtil.loadIris(file);
             List<IrisPoint> pointList = DataLoadUtil.createIrisPointList(data);
             this.addPoints(pointList);
             this.notifyObservers();

@@ -1,8 +1,14 @@
-package model;
+package model.data;
 
 import com.opencsv.bean.CsvBindByName;
+import model.Category;
 
-public class RawDataFormat {
+public class RawIrisDataFormat implements RawDataFormat{
+
+    @Override
+    public DataType getPointType(){
+        return DataType.IRIS;
+    }
     @CsvBindByName(column = "variety")
     private Category category;
     @CsvBindByName(column = "sepal.length")
