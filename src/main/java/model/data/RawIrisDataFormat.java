@@ -1,6 +1,7 @@
-package model;
+package model.data;
 
 import com.opencsv.bean.CsvBindByName;
+import model.Category;
 
 public class RawIrisDataFormat implements RawDataFormat{
 

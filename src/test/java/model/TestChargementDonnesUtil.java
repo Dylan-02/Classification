@@ -1,5 +1,6 @@
 package model;
 
+import model.data.RawIrisDataFormat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.DataLoadUtil;
@@ -16,7 +17,7 @@ public class TestChargementDonnesUtil {
 
     @BeforeEach
     public void setup() throws IOException {
-        donneesBrutes = DataLoadUtil.load(getClass().getResource("/model/iris.csv").getFile());
+        donneesBrutes = DataLoadUtil.loadIris(getClass().getResource("/model/iris.csv").getFile());
         p1 = new IrisPoint(Category.SETOSA, 5.1, 3.5, 1.4, 0.2);
         p2 = new IrisPoint(Category.VERSICOLOR, 5.9, 3.2, 4.8, 1.8);
         p3 = new IrisPoint(Category.VIRGINICA, 5.9, 3, 5.1, 1.8);
@@ -27,7 +28,7 @@ public class TestChargementDonnesUtil {
         assertNotNull(donneesBrutes);
         assertFalse(donneesBrutes.isEmpty());
         assertEquals(150, donneesBrutes.size());
-        donneesBrutes = DataLoadUtil.load("");
+        donneesBrutes = DataLoadUtil.loadIris("");
         assertTrue(donneesBrutes.isEmpty());
     }
 

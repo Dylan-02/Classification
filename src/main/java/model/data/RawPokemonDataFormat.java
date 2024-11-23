@@ -1,4 +1,4 @@
-package model;
+package model.data;
 
 import com.opencsv.bean.CsvBindByName;
 
@@ -83,7 +83,7 @@ public class RawPokemonDataFormat implements RawDataFormat{
         return speed;
     }
 
-    public boolean isIs_legendary() {
+    public boolean getIs_legendary() {
         return is_legendary;
     }
 }

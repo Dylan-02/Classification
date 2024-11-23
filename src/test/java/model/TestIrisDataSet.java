@@ -1,5 +1,6 @@
 package model;
 
+import model.data.IrisDataSet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,12 +9,12 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestDataSet {
-    DataSet data;
+public class TestIrisDataSet {
+    IrisDataSet data;
 
     @BeforeEach
     public void setup() throws IOException {
-        data = new DataSet();
+        data = new IrisDataSet();
     }
 
     @Test
