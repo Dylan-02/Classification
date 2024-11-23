@@ -3,7 +3,6 @@ package model;
 import model.data.IrisDataSet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import utils.DataLoadUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

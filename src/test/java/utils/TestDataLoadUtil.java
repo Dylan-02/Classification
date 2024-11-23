@@ -2,7 +2,8 @@ package utils;
 
 import model.Category;
 import model.IrisPoint;
-import model.RawDataFormat;
+import model.data.RawDataFormat;
+import model.data.RawIrisDataFormat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,12 +14,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestDataLoadUtil {
-    private List<RawDataFormat> rawData;
+    private List<RawIrisDataFormat> rawData;
     private IrisPoint p1, p2, p3;
 
     @BeforeEach
     public void setup() throws IOException {
-        rawData = DataLoadUtil.load(getClass().getResource("/model/iris.csv").getFile());
+        rawData = DataLoadUtil.loadIris(getClass().getResource("/model/iris.csv").getFile());
         p1 = new IrisPoint(Category.SETOSA, 5.1, 3.5, 1.4, 0.2);
         p2 = new IrisPoint(Category.VERSICOLOR, 5.9, 3.2, 4.8, 1.8);
         p3 = new IrisPoint(Category.VIRGINICA, 5.9, 3, 5.1, 1.8);
@@ -29,7 +30,7 @@ public class TestDataLoadUtil {
         rawData = new ArrayList<>();
         assertNotNull(rawData);
         assertTrue(rawData.isEmpty());
-        assertThrows(IOException.class, () -> rawData = DataLoadUtil.load("nonExistingFile"));
+        assertThrows(IOException.class, () -> rawData = DataLoadUtil.loadIris("nonExistingFile"));
         assertTrue(rawData.isEmpty());
     }
 
