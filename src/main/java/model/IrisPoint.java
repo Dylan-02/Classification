@@ -100,18 +100,35 @@ public class IrisPoint {
         return PETAL_WIDTH;
     }
 
+    /**
+     * Permet de calculer la différence de longueur de Petal entre deux IrisPoint
+     * @param p le point avec le quel comparer la longueur.
+     * @return longueur entre les deux IrisPoint
+     */
     public double getPetalLengthDifference(IrisPoint p) {
         return Math.abs(this.getPetalLength() - p.getPetalLength());
     }
-
+    /**
+     * Permet de calculer la différence de largeur de Petal entre deux IrisPoint
+     * @param p le point avec le quel comparer la largeur.
+     * @return largeur entre les deux IrisPoint
+     */
     public double getPetalWidthDifference(IrisPoint p) {
         return Math.abs(this.getPetalWidth() - p.getPetalWidth());
     }
-
+    /**
+     * Permet de calculer la différence de largeur de Sepal entre deux IrisPoint
+     * @param p le point avec le quel comparer la largeur.
+     * @return largeur entre les deux IrisPoint
+     */
     public double getSepalWidthDifference(IrisPoint p) {
         return Math.abs(this.getSepalWidth() - p.getSepalWidth());
     }
-
+    /**
+     * Permet de calculer la différence de longueur de Sepal entre deux IrisPoint
+     * @param p le point avec le quel comparer la longueur.
+     * @return longueur entre les deux IrisPoint
+     */
     public double getSepalLengthDifference(IrisPoint p) {
         return Math.abs(this.getSepalLength() - p.getSepalLength());
     }
