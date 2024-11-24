@@ -2,6 +2,12 @@ package model;
 
 import java.util.Objects;
 
+/**
+ * Classe représentant un Pokémon avec ses différentes caractéristiques.
+ *
+ * Cette classe encapsule les données associées à un Pokémon, comme son nom,
+ * ses statistiques, ses types, son statut légendaire, et d'autres attributs spécifiques.
+ */
 public class PokemonPoint {
     private final String name;
     private final int attack;
@@ -17,6 +23,23 @@ public class PokemonPoint {
     private final double speed;
     private final boolean is_legendary;
 
+    /**
+     * Constructeur pour initialiser les caractéristiques d'un Pokémon.
+     *
+     * @param name le nom du Pokémon.
+     * @param attack la valeur de l'attaque.
+     * @param base_egg_steps le nombre de pas nécessaires pour faire éclore un œuf.
+     * @param capture_rate le taux de capture (valeur entre 0 et 255).
+     * @param defense la valeur de la défense.
+     * @param experience_growth la croissance de l'expérience (points nécessaires pour augmenter de niveau).
+     * @param hp les points de vie (HP) du Pokémon.
+     * @param sp_attack la valeur de l'attaque spéciale.
+     * @param sp_defense la valeur de la défense spéciale.
+     * @param type1 le premier type du Pokémon (exemple : "Eau").
+     * @param type2 le second type du Pokémon (peut être null ou vide si monotype).
+     * @param speed la vitesse du Pokémon.
+     * @param is_legendary indique si le Pokémon est légendaire (true/false).
+     */
     public PokemonPoint(String name, int attack, int base_egg_steps, double capture_rate, int defense, int experience_growth, int hp, int sp_attack, int sp_defense, String type1, String type2, double speed, boolean is_legendary) {
         this.name = name;
         this.attack = attack;
@@ -32,7 +55,12 @@ public class PokemonPoint {
         this.speed = speed;
         this.is_legendary = is_legendary;
     }
-
+    /**
+     * Vérifie si deux objets Pokémon sont égaux en comparant toutes leurs caractéristiques.
+     *
+     * @param o l'objet à comparer avec l'instance actuelle.
+     * @return true si les deux objets sont identiques, false sinon.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -40,12 +68,20 @@ public class PokemonPoint {
         PokemonPoint that = (PokemonPoint) o;
         return attack == that.attack && base_egg_steps == that.base_egg_steps && Double.compare(capture_rate, that.capture_rate) == 0 && defense == that.defense && experience_growth == that.experience_growth && hp == that.hp && sp_attack == that.sp_attack && sp_defense == that.sp_defense && Double.compare(speed, that.speed) == 0 && is_legendary == that.is_legendary && Objects.equals(name, that.name) && Objects.equals(type1, that.type1) && Objects.equals(type2, that.type2);
     }
-
+    /**
+     * Calcule le code de hachage (hash) pour l'objet Pokémon.
+     *
+     * @return un entier représentant le code de hachage de l'objet.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(name, attack, base_egg_steps, capture_rate, defense, experience_growth, hp, sp_attack, sp_defense, type1, type2, speed, is_legendary);
     }
-
+    /**
+     * Retourne une représentation textuelle de l'objet Pokémon.
+     *
+     * @return une chaîne de caractères contenant les détails du Pokémon.
+     */
     @Override
     public String toString() {
         return "Pokemon{" +
