@@ -1,6 +1,14 @@
 package model;
 
+
 public class EuclidianDistance implements Distance {
+    /**
+     * Permet de classer un point avec la distance Euclidienne
+     *
+     * @param p1 Représente le premier point à comparer.
+     * @param p2 Représente le deuxième point à comparer.
+     * @return La distance entre les deux (double).
+     */
     @Override
     public double distance(IrisPoint p1, IrisPoint p2) {
         double petalWidthDiff = p1.getPetalWidthDifference(p2);
