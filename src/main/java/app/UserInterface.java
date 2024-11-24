@@ -281,6 +281,9 @@ public class UserInterface extends Stage implements Observer {
         installTooltips();
     }
 
+    /**
+     * Permet d'ajouter des info-bulles sur chaque point affiché dans le graphique. Ces info-bulles affichent les coordonnées du point en fonction des axes choisis dans les menus déroulants.
+     */
     private void installTooltips() {
         for (XYChart.Series<Number, Number> serie : this.chart.getData()) {
             for (XYChart.Data<Number, Number> data : serie.getData()) {
