@@ -14,11 +14,11 @@ public class KNNClassifier {
         point.setCategory(this.determineCategory(point, k, d, datas));
     }
 
-    public IrisPoint[] kPlusProchesVoisins(int k, IrisPoint p, Distance d, List<IrisPoint> datas) {
+    public IrisPoint[] getKNearestNeighbors(int k, IrisPoint p, Distance d, List<IrisPoint> datas) {
         SortedMap<Double, List<IrisPoint>> distances = new TreeMap<>();
 
         for (IrisPoint iris : datas) {
-            if (!p.equals(iris)) {
+            if (!p.equals(iris) && (iris).getCategory() != null) {
                 double distance = d.distance(p, iris);
                 distances.putIfAbsent(distance, new ArrayList<>());
                 distances.get(distance).add(iris);
@@ -64,7 +64,7 @@ public class KNNClassifier {
     }
 
     public Category determineCategory(IrisPoint p, int k, Distance d, List<IrisPoint> datas) {
-        IrisPoint[] voisins = kPlusProchesVoisins(k, p, d, datas);
+        IrisPoint[] voisins = getKNearestNeighbors(k, p, d, datas);
         HashMap<Category, Integer> nombreParCategorie = new HashMap<>();
         for (IrisPoint iris : voisins) {
             Category category = iris.getCategory();
@@ -77,9 +77,10 @@ public class KNNClassifier {
         int max = 0;
         Category category = null;
         for (Category key : nombreParCategorie.keySet()) {
-            if (max < nombreParCategorie.get(key)) {
+            int count = nombreParCategorie.get(key);
+            if (count > max) {
                 category = key;
-                max = nombreParCategorie.get(key);
+                max = count;
             }
         }
         return category;

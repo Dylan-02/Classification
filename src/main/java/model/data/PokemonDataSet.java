@@ -1,7 +1,5 @@
 package model.data;
 
-import model.Distance;
-import model.IrisPoint;
 import model.KNNClassifier;
 import model.PokemonPoint;
 import utils.DataLoadUtil;

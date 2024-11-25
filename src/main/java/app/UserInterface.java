@@ -14,9 +14,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.*;
 import model.data.IrisDataSet;
-import model.EuclidianDistance;
-import model.IrisPoint;
 import utils.Observable;
 import utils.Observer;
 
@@ -52,6 +51,8 @@ public class UserInterface extends Stage implements Observer {
     final ComboBox<String> menuDeroulantOrdonnees = new ComboBox<>();
 
     final VBox conteneurStats = new VBox();
+    final Label labelDistance = new Label("Distance :");
+    final ComboBox<String> menuDeroulantDistances = new ComboBox<>();
 
     final Button boutonAjouter = new Button("Ajouter");
     final Button boutonClassifier = new Button("Classer");
@@ -69,16 +70,7 @@ public class UserInterface extends Stage implements Observer {
      * Initialise les composants graphiques, configure les événements et attache l'observateur à l'ensemble de données.
      */
     public UserInterface() {
-
         ds.attach(this);
-
-        menuDeroulantAbscisses.getItems().addAll("longueurSepal", "largeurSepal", "longueurPetal", "largeurPetal");
-
-
-        menuDeroulantOrdonnees.getItems().addAll("longueurSepal", "largeurSepal", "longueurPetal", "largeurPetal");
-
-        menuDeroulantAbscisses.setValue("longueurSepal");
-        menuDeroulantOrdonnees.setValue("largeurSepal");
 
         menuDeroulantAbscisses.setOnAction(f -> {
             String selectedItem = menuDeroulantAbscisses.getSelectionModel().getSelectedItem();
@@ -106,6 +98,8 @@ public class UserInterface extends Stage implements Observer {
         for (Node n : nodes) {
             n.setStyle("-fx-padding: 5;");
         }
+
+        conteneurStats.getChildren().addAll(labelDistance, menuDeroulantDistances);
 
         VBox.setMargin(boxFichier, new Insets(5));
         VBox.setVgrow(espaceurChartFichier, Priority.ALWAYS);
@@ -161,7 +155,7 @@ public class UserInterface extends Stage implements Observer {
         axeDesOrdonnees.setAlignment(Pos.CENTER);
         menuDeroulantAbscisses.prefWidthProperty().bind(sideBar.widthProperty());
         menuDeroulantOrdonnees.prefWidthProperty().bind(sideBar.widthProperty());
-
+        menuDeroulantDistances.prefWidthProperty().bind(sideBar.widthProperty());
         conteneurStats.maxHeightProperty().bind(sideBar.heightProperty().subtract(195));
 
         sideBar.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -189,6 +183,7 @@ public class UserInterface extends Stage implements Observer {
             throw new FileNotFoundException(); // Le fichier ne peut pas être erroné, car il est protégé par des extensions filter. Mais quand on ferme ça met null
 
         String path = fichier.getAbsolutePath();
+        setupComboBoxes();
         ds.loadCSV(path);
         try {
             this.cheminFichier.setText(fichier.getCanonicalPath());
@@ -196,6 +191,26 @@ public class UserInterface extends Stage implements Observer {
             System.out.println(Arrays.toString(e.getStackTrace()));
         }
 
+    }
+
+    private void setupComboBoxes() {
+        menuDeroulantAbscisses.getItems().addAll("Longueur Sepal", "Largeur Sepal", "Longueur Petal", "Largeur Petal");
+        menuDeroulantOrdonnees.getItems().addAll("Longueur Sepal", "Largeur Sepal", "Longueur Petal", "Largeur Petal");
+        menuDeroulantAbscisses.setValue("Longueur Sepal");
+        menuDeroulantOrdonnees.setValue("Longueur Petal");
+        xAxis.setLabel(menuDeroulantAbscisses.getValue());
+        yAxis.setLabel(menuDeroulantOrdonnees.getValue());
+        menuDeroulantDistances.getItems().addAll("Manhattan", "Euclidienne", "Manhattan Normalisée", "Euclidienne Normalisée");
+        menuDeroulantDistances.getSelectionModel().select("Euclidienne");
+    }
+
+    private Distance getSelectedDistance() {
+        return switch (menuDeroulantDistances.getSelectionModel().getSelectedItem()) {
+            case "Manhattan" -> new ManhattanDistance();
+            case "Manhattan Normalisée" -> new NormalizedManhattanDistance(this.ds.getSepalLengthAmplitude(), this.ds.getSepalWidthAmplitude(), this.ds.getPetalLengthAmplitude(), this.ds.getPetalWidthAmplitude());
+            case "Euclidienne Normalisée" -> new NormalizedEuclidianDistance(this.ds.getSepalLengthAmplitude(), this.ds.getSepalWidthAmplitude(), this.ds.getPetalLengthAmplitude(), this.ds.getPetalWidthAmplitude());
+            default -> new EuclidianDistance();
+        };
     }
 
     /**
@@ -300,10 +315,10 @@ public class UserInterface extends Stage implements Observer {
      */
     private double getDataforXY(IrisPoint p, String data) {
         return switch (data) {
-            case "longueurSepal" -> p.getSepalLength();
-            case "largeurSepal" -> p.getSepalWidth();
-            case "longueurPetal" -> p.getPetalLength();
-            case "largeurPetal" -> p.getPetalWidth();
+            case "Longueur Sepal" -> p.getSepalLength();
+            case "Largeur Sepal" -> p.getSepalWidth();
+            case "Longueur Petal" -> p.getPetalLength();
+            case "Largeur Petal" -> p.getPetalWidth();
             default -> throw new IllegalArgumentException("Valeur inattendue: " + data);
         };
     }
@@ -367,7 +382,8 @@ public class UserInterface extends Stage implements Observer {
      * Permet de classer tous les points utilisateurs.
      */
     public void classify() {
-        ds.classifyPoints(new EuclidianDistance(), ds.getBestKValue(new EuclidianDistance())); //TODO Ajouter une comboBox pour modifier la distanche choisie et récuperer la valeur ici (peut être aussi pour le k)
+        Distance distance = getSelectedDistance();
+        ds.classifyPoints(distance, ds.getBestKValue(distance)); //TODO Ajouter une comboBox pour modifier la distanche choisie et récuperer la valeur ici (peut être aussi pour le k)
         seriesDefault.getData().clear();
     }
 
