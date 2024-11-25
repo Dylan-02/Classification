@@ -61,11 +61,31 @@ On calcule alors chaque distance une seule fois et elles sont triées à mesure 
 
 ### **Validation croisée**
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tristique euismod lacus quis scelerisque. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nullam eu semper nulla. Integer eget tristique arcu. Etiam sollicitudin neque quis ipsum ornare tristique. Mauris imperdiet sagittis commodo. Nunc a nunc risus. Phasellus quis justo pretium, venenatis diam id, sollicitudin lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Mauris a vestibulum enim. Quisque at scelerisque dolor. Cras non purus nec nulla efficitur bibendum. Morbi quis odio cursus, pharetra magna id, tristique eros.
+#### Explication 
+
+La validation croisée est une méthode pour tester si notre algorithme est fiable. 
+Plutôt que de juste entraîner le modèle sur toutes les données et espérer qu’il marche bien, 
+on le teste sur des données qu’il n’a pas vues avant. Cela permet d’évaluer si notre algorithme 
+est capable de bien classer des données inconnues, ce qui est essentiel pour un bon modèle.
+
+#### Méthode utilisée
+
+Voici comment nous avons mis en place la validation croisée pour notre projet :
+On divise les données disponibles en deux parties :
+- Ensemble d’entraînement : Ce sont les données sur lesquelles le modèle apprend.
+- Ensemble de test : Ce sont les données sur lesquelles on vérifie si le modèle classe correctement.
+On applique alors l’algorithme k-NN sur l’ensemble d’entraînement et on utilise les tests pour voir combien de points sont bien classés.
+La formule pour calculer le pourcentage de réussite est la suivante :
+% = (Nombre de points bien classés)/(Nombre total de point testés)*100
 
 ### **Choix du meilleur k**
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tristique euismod lacus quis scelerisque. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nullam eu semper nulla. Integer eget tristique arcu. Etiam sollicitudin neque quis ipsum ornare tristique. Mauris imperdiet sagittis commodo. Nunc a nunc risus. Phasellus quis justo pretium, venenatis diam id, sollicitudin lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Mauris a vestibulum enim. Quisque at scelerisque dolor. Cras non purus nec nulla efficitur bibendum. Morbi quis odio cursus, pharetra magna id, tristique eros.
+| Distance                          | k = 3   | k = 5   | k = 7   | k = 9   | k = 11  | k = 13  | k = 15  | k = 17  | k = 19  | k = 21  | k = 23  | k = 25  | k = 27  | k = 29  | k = 31  |
+|-----------------------------------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|
+| **Euclidean Distance**            | 96.00%  | 96.67%  | 96.67%  | 96.67%  | 97.34%  | 96.67%  | 97.34%  | 97.34%  | 98.00%  | 98.00%  | 96.67%  | 96.67%  | 96.67%  | 95.34%  | 94.67%  |
+| **Manhattan Distance**            | 96.00%  | 95.34%  | 94.67%  | 94.67%  | 96.00%  | 95.34%  | 96.67%  | 96.00%  | 97.34%  | 97.34%  | 96.67%  | 96.67%  | 94.67%  | 95.34%  | 95.34%  |
+| **Normalized Euclidean Distance** | 95.34%  | 95.34%  | 96.67%  | 95.34%  | 94.67%  | 96.67%  | 96.00%  | 96.00%  | 96.00%  | 95.34%  | 95.34%  | 95.34%  | 95.34%  | 95.34%  | 95.34%  |
+| **Normalized Manhattan Distance** | 95.34%  | 94.67%  | 94.67%  | 94.67%  | 94.00%  | 94.67%  | 95.34%  | 95.34%  | 95.34%  | 95.34%  | 95.34%  | 95.34%  | 95.34%  | 95.34%  | 94.67%  |
 
 \newpage
 
