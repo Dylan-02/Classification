@@ -2,10 +2,6 @@ package model;
 
 import java.util.*;
 
-/**
- * La classe KNNClassifier implémente l'algorithme des K plus proches voisins
- * pour classifier des points de données en fonction de leur proximité avec d'autres points.
- */
 public class KNNClassifier {
     private final static Random RAND = new Random();
 
@@ -18,6 +14,7 @@ public class KNNClassifier {
         Category[] values = Category.values();
         pt.setCategory(values[RAND.nextInt(values.length)]);
     }
+
     /**
      * Classifie un point donné en utilisant l'algorithme des K plus proches voisins.
      *
@@ -29,6 +26,7 @@ public class KNNClassifier {
     public void classify(IrisPoint point, int k, Distance d, List<IrisPoint> datas) {
         point.setCategory(this.determineCategory(point, k, d, datas));
     }
+
     /**
      * Trouve les K plus proches voisins d'un point donné en fonction d'une distance.
      *
@@ -38,11 +36,11 @@ public class KNNClassifier {
      * @param datas la liste des points de données à examiner.
      * @return un tableau contenant les K plus proches voisins.
      */
-    public IrisPoint[] kPlusProchesVoisins(int k, IrisPoint p, Distance d, List<IrisPoint> datas) {
+    public IrisPoint[] getKNearestNeighbors(int k, IrisPoint p, Distance d, List<IrisPoint> datas) {
         SortedMap<Double, List<IrisPoint>> distances = new TreeMap<>();
 
         for (IrisPoint iris : datas) {
-            if (!p.equals(iris)) {
+            if (!p.equals(iris) && iris.getCategory() != null) {
                 double distance = d.distance(p, iris);
                 distances.putIfAbsent(distance, new ArrayList<>());
                 distances.get(distance).add(iris);
@@ -67,6 +65,7 @@ public class KNNClassifier {
 
         return voisins;
     }
+
     /**
      * Calcule la meilleure valeur de K pour maximiser le taux de classification correct.
      *
@@ -92,6 +91,7 @@ public class KNNClassifier {
         }
         return bestKValue;
     }
+
     /**
      * Détermine la catégorie d'un point donné en fonction des K plus proches voisins.
      *
@@ -102,22 +102,23 @@ public class KNNClassifier {
      * @return la catégorie déterminée pour le point.
      */
     public Category determineCategory(IrisPoint p, int k, Distance d, List<IrisPoint> datas) {
-        IrisPoint[] voisins = kPlusProchesVoisins(k, p, d, datas);
-        HashMap<Category, Integer> nombreParCategorie = new HashMap<>();
-        for (IrisPoint iris : voisins) {
+        IrisPoint[] neighbors = getKNearestNeighbors(k, p, d, datas);
+        HashMap<Category, Integer> numberPerCategory = new HashMap<>();
+        for (IrisPoint iris : neighbors) {
             Category category = iris.getCategory();
-            if (!nombreParCategorie.containsKey(category)) nombreParCategorie.put(category, 1);
+            if (!numberPerCategory.containsKey(category)) numberPerCategory.put(category, 1);
             else {
-                int value = nombreParCategorie.get(category);
-                nombreParCategorie.put(category, value + 1);
+                int value = numberPerCategory.get(category);
+                numberPerCategory.put(category, value + 1);
             }
         }
         int max = 0;
         Category category = null;
-        for (Category key : nombreParCategorie.keySet()) {
-            if (max < nombreParCategorie.get(key)) {
+        for (Category key : numberPerCategory.keySet()) {
+            int count = numberPerCategory.get(key);
+            if (count > max) {
                 category = key;
-                max = nombreParCategorie.get(key);
+                max = count;
             }
         }
         return category;
