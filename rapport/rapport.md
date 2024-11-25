@@ -91,4 +91,23 @@ La formule pour calculer le pourcentage de réussite est la suivante :
 
 ## **Efficacité**
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tristique euismod lacus quis scelerisque. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nullam eu semper nulla. Integer eget tristique arcu. Etiam sollicitudin neque quis ipsum ornare tristique. Mauris imperdiet sagittis commodo. Nunc a nunc risus. Phasellus quis justo pretium, venenatis diam id, sollicitudin lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Mauris a vestibulum enim. Quisque at scelerisque dolor. Cras non purus nec nulla efficitur bibendum. Morbi quis odio cursus, pharetra magna id, tristique eros.
+### Structures de données utilisées
+
+Dans l’implémentation de l’algorithme k-NN, nous avons chosis plusieurs structures de données pour leur simplicité et leur efficacité :
+
+- Liste (List<IrisPoint>) :
+  La liste contient les points de données sur lesquels on applique l’algorithme. Elle est facile à manipuler pour parcourir l’ensemble des données.
+- Table de hachage (HashMap<Double, IrisPoint>) :
+  Pendant la recherche des k plus proches voisins, les distances entre le point à classer et les autres points sont calculées et ajouté dans une table de hachage. Cette structure permet un accès rapide pour récupérer les points associés à leurs distances.
+
+### Justification 
+
+Les structures que nous avons choisies sont adaptées pour notre algorithme k-NN car elles permettent d'optimiser certaines étapes :
+
+Pour le calcul des distances une simple liste suffit pour stockers les points car l'algorithme parcourt tous les points pour calculer les distances.
+Concernant le tri des distances on utilise une HashMap pour associer la distance à chaque point. Même si on doit ensuite trier les distances pour trouver les plus proches voisins cette approche est plus rapide pour nos données.
+Si un point a des distances égales d'un autre, on peut gérer cela en ajoutant une logique supplémentaire. Nous aurions pu utiliser un TreeMap pour un tri automatique mais la HashMap est plus rapide sur nos cas qui sont simple.
+
+### Conclusion
+
+Nos choix de structures de données et d'algorithmes dans ce projet sont adaptés pour un bon équilibre entre le nombre d'opération et la rapidité d'exécution. Les list et les HashMap sont faciles à utiliser et performantes. 
