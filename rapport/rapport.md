@@ -83,15 +83,18 @@ La formule pour calculer le pourcentage de réussite est la suivante :
 | Distance                          | k = 3   | k = 5   | k = 7   | k = 9   | k = 11  | k = 13  | k = 15  | k = 17  | k = 19  | k = 21  | k = 23  | k = 25  | k = 27  | k = 29  | k = 31  |
 |-----------------------------------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|
 | **Euclidean Distance**            | 96.00%  | 96.67%  | 96.67%  | 96.67%  | 97.34%  | 96.67%  | 97.34%  | 97.34%  | 98.00%  | 98.00%  | 96.67%  | 96.67%  | 96.67%  | 95.34%  | 94.67%  |
+|-----------------------------------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|
 | **Manhattan Distance**            | 96.00%  | 95.34%  | 94.67%  | 94.67%  | 96.00%  | 95.34%  | 96.67%  | 96.00%  | 97.34%  | 97.34%  | 96.67%  | 96.67%  | 94.67%  | 95.34%  | 95.34%  |
+|-----------------------------------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|
 | **Normalized Euclidean Distance** | 95.34%  | 95.34%  | 96.67%  | 95.34%  | 94.67%  | 96.67%  | 96.00%  | 96.00%  | 96.00%  | 95.34%  | 95.34%  | 95.34%  | 95.34%  | 95.34%  | 95.34%  |
+|-----------------------------------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|
 | **Normalized Manhattan Distance** | 95.34%  | 94.67%  | 94.67%  | 94.67%  | 94.00%  | 94.67%  | 95.34%  | 95.34%  | 95.34%  | 95.34%  | 95.34%  | 95.34%  | 95.34%  | 95.34%  | 94.67%  |
 
 \newpage
 
 ## **Efficacité**
 
-### Structures de données utilisées
+### **Structures de données utilisées**
 
 Dans l’implémentation de l’algorithme k-NN, nous avons chosis plusieurs structures de données pour leur simplicité et leur efficacité :
 
@@ -100,7 +103,7 @@ Dans l’implémentation de l’algorithme k-NN, nous avons chosis plusieurs str
 - Table de hachage (HashMap<Double, IrisPoint>) :
   Pendant la recherche des k plus proches voisins, les distances entre le point à classer et les autres points sont calculées et ajouté dans une table de hachage. Cette structure permet un accès rapide pour récupérer les points associés à leurs distances.
 
-### Justification 
+### **Justification**
 
 Les structures que nous avons choisies sont adaptées pour notre algorithme k-NN car elles permettent d'optimiser certaines étapes :
 
@@ -108,6 +111,6 @@ Pour le calcul des distances une simple liste suffit pour stockers les points ca
 Concernant le tri des distances on utilise une HashMap pour associer la distance à chaque point. Même si on doit ensuite trier les distances pour trouver les plus proches voisins cette approche est plus rapide pour nos données.
 Si un point a des distances égales d'un autre, on peut gérer cela en ajoutant une logique supplémentaire. Nous aurions pu utiliser un TreeMap pour un tri automatique mais la HashMap est plus rapide sur nos cas qui sont simple.
 
-### Conclusion
+### **Conclusion**
 
 Nos choix de structures de données et d'algorithmes dans ce projet sont adaptés pour un bon équilibre entre le nombre d'opération et la rapidité d'exécution. Les list et les HashMap sont faciles à utiliser et performantes. 
