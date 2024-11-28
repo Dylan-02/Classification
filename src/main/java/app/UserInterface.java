@@ -209,6 +209,15 @@ public class UserInterface extends Stage implements Observer {
         menuDeroulantDistances.getSelectionModel().select("Euclidienne");
     }
 
+    private void setupComboBoxesPokemon() {
+        menuDeroulantAbscisses.getItems().addAll("attack", "base_egg_steps", "capture_rate,defense", "experience_growth", "hp", "sp_attack", "sp_defense", "type1", "type2", "speed");
+        menuDeroulantOrdonnees.getItems().addAll("attack", "base_egg_steps", "capture_rate,defense", "experience_growth", "hp", "sp_attack", "sp_defense", "type1", "type2", "speed");
+        menuDeroulantAbscisses.setValue("attack");
+        menuDeroulantOrdonnees.setValue("hp");
+        xAxis.setLabel(menuDeroulantAbscisses.getValue());
+        yAxis.setLabel(menuDeroulantOrdonnees.getValue());
+    }
+
     private Distance getSelectedDistance() {
         return switch (menuDeroulantDistances.getSelectionModel().getSelectedItem()) {
             case "Manhattan" -> new ManhattanDistance();
