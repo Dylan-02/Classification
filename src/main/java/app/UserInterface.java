@@ -318,6 +318,17 @@ public class UserInterface extends Stage implements Observer {
         installTooltips();
     }
 
+    private void clearIrisData(){
+        seriesSetosa.getData().clear();
+        seriesVersicolor.getData().clear();
+        seriesVirginica.getData().clear();
+    }
+
+    private void clearPokemonData(){
+        seriesLegendary.getData().clear();
+        seriesNotLegendary.getData().clear();
+    }
+
     /**
      * Permet d'ajouter des info-bulles sur chaque point affiché dans le graphique. Ces info-bulles affichent les coordonnées du point en fonction des axes choisis dans les menus déroulants.
      */
