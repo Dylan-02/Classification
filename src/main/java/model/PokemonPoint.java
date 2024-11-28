@@ -100,4 +100,57 @@ public class PokemonPoint {
                 ", is_legendary=" + is_legendary +
                 '}';
     }
+
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getBase_egg_steps() {
+        return base_egg_steps;
+    }
+
+    public double getCapture_rate() {
+        return capture_rate;
+    }
+
+    public int getDefense() {
+        return defense;
+    }
+
+    public int getExperience_growth() {
+        return experience_growth;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public int getSp_attack() {
+        return sp_attack;
+    }
+
+    public int getSp_defense() {
+        return sp_defense;
+    }
+
+    public String getType1() {
+        return type1;
+    }
+
+    public String getType2() {
+        return type2;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public boolean isIs_legendary() {
+        return is_legendary;
+    }
 }
