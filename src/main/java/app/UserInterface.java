@@ -298,6 +298,14 @@ public class UserInterface extends Stage implements Observer {
         installTooltips();
     }
 
+    private void chartAddIrisCategories(){
+        chart.getData().addAll(seriesSetosa, seriesVersicolor, seriesVirginica, seriesDefault);
+    }
+
+    private void chartAddPokemonCategories(){
+        chart.getData().addAll(seriesLegendary, seriesNotLegendary, seriesDefault);
+    }
+
     /**
      * Recharge les séries de points sur le graphique en fonction des axes sélectionnés.
      */
