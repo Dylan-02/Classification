@@ -193,7 +193,12 @@ public class UserInterface extends Stage implements Observer {
 
     }
 
-    private void setupComboBoxes() {
+    private void setupComboBoxesMenuDeroulantDistances() {
+        menuDeroulantDistances.getItems().addAll("Manhattan", "Euclidienne", "Manhattan Normalisée", "Euclidienne Normalisée");
+        menuDeroulantDistances.getSelectionModel().select("Euclidienne");
+    }
+
+    private void setupComboBoxesIris() {
         menuDeroulantAbscisses.getItems().addAll("Longueur Sepal", "Largeur Sepal", "Longueur Petal", "Largeur Petal");
         menuDeroulantOrdonnees.getItems().addAll("Longueur Sepal", "Largeur Sepal", "Longueur Petal", "Largeur Petal");
         menuDeroulantAbscisses.setValue("Longueur Sepal");
