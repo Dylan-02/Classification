@@ -3,7 +3,7 @@ package model;
 
 public class EuclidianDistance implements Distance {
     /**
-     * Permet de classer un point avec la distance Euclidienne
+     * Permet de classer un Irispoint avec la distance Euclidienne
      *
      * @param p1 Représente le premier point à comparer.
      * @param p2 Représente le deuxième point à comparer.
@@ -20,6 +20,13 @@ public class EuclidianDistance implements Distance {
                 + Math.pow(sepalWidthDiff, 2) + Math.pow(sepalLengthDiff, 2));
     }
 
+    /**
+     * Permet de classer un Pokemon avec la distance Euclidienne
+     *
+     * @param p1 Représente le premier point à comparer.
+     * @param p2 Représente le deuxième point à comparer.
+     * @return La distance entre les deux (double).
+     */
     @Override
     public double distance(PokemonPoint p1, PokemonPoint p2) {
         double AttackDiff = p1.getAttackDifference(p2);
