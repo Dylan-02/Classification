@@ -305,6 +305,97 @@ public class UserInterface extends Stage implements Observer {
     }
 
     /**
+     * Ouvre une fenêtre pour ajouter manuellement un point de données au DataSet.
+     * Demande à l'utilisateur de saisir les caractéristiques d'un pokemon.
+     */
+    private void addNewPointPokemon() {
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.setTitle("Ajouter un point");
+        popupStage.setResizable(false);
+
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String newText = change.getControlNewText();
+            if (newText.matches("\\d*(\\.\\d*)?")) {
+                return change;
+            }
+            return null;
+        };
+
+        Label label1 = new Label("name:");
+        TextField textField1 = new TextField();
+        Label label2 = new Label("attack:");
+        TextField textField2 = new TextField();
+        Label label3 = new Label("base_egg_steps:");
+        TextField textField3 = new TextField();
+        Label label4 = new Label("capture_rate:");
+        TextField textField4 = new TextField();
+        Label label5 = new Label("defense:");
+        TextField textField5 = new TextField();
+        Label label6 = new Label("experience_growth:");
+        TextField textField6 = new TextField();
+        Label label7 = new Label("hp:");
+        TextField textField7 = new TextField();
+        Label label8 = new Label("sp_attack:");
+        TextField textField8 = new TextField();
+        Label label9 = new Label("sp_defense:");
+        TextField textField9 = new TextField();
+        Label label10 = new Label("type1:");
+        TextField textField10 = new TextField();
+        Label label11 = new Label("type2:");
+        TextField textField11 = new TextField();
+        Label label12 = new Label("speed:");
+        TextField textField12 = new TextField();
+
+        textField1.setTextFormatter(new TextFormatter<>(filter));
+        textField2.setTextFormatter(new TextFormatter<>(filter));
+        textField3.setTextFormatter(new TextFormatter<>(filter));
+        textField4.setTextFormatter(new TextFormatter<>(filter));
+        textField5.setTextFormatter(new TextFormatter<>(filter));
+        textField6.setTextFormatter(new TextFormatter<>(filter));
+        textField7.setTextFormatter(new TextFormatter<>(filter));
+        textField8.setTextFormatter(new TextFormatter<>(filter));
+        textField9.setTextFormatter(new TextFormatter<>(filter));
+        textField10.setTextFormatter(new TextFormatter<>(filter));
+        textField11.setTextFormatter(new TextFormatter<>(filter));
+        textField12.setTextFormatter(new TextFormatter<>(filter));
+
+        Button submitButton = new Button("Ajouter");
+        submitButton.setTooltip(new Tooltip("Click Me !"));
+        submitButton.setOnAction(event -> {
+            try {
+                String name = (textField1.getText());
+                int attack = Integer.parseInt(textField2.getText());
+                int base_egg_steps = Integer.parseInt(textField3.getText());
+                double capture_rate = Double.parseDouble(textField4.getText());
+                int defense = Integer.parseInt(textField5.getText());
+                int experience_growth = Integer.parseInt(textField6.getText());
+                int hp = Integer.parseInt(textField7.getText());
+                int sp_attack = Integer.parseInt(textField8.getText());
+                int sp_defense = Integer.parseInt(textField9.getText());
+                String type1 = textField10.getText();
+                String type2 = textField11.getText();
+                double speed = Double.parseDouble(textField12.getText());
+                dsPokemon.addPoint(name, attack, base_egg_steps, capture_rate, defense, experience_growth, hp, sp_attack, sp_defense, type1, type2, speed);
+            } catch (NumberFormatException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Saisie invalide");
+                alert.setHeaderText("Erreur");
+                alert.setContentText("Les données saisies sont invalides, veuillez saisir des données numériques.");
+                alert.showAndWait();
+                addNewPoint();
+            }
+            popupStage.close();
+        });
+        VBox vbox = new VBox(10, label1, textField1, label2, textField2, label3, textField3, label4, textField4, submitButton);
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setPadding(new javafx.geometry.Insets(10));
+        Scene popupScene = new Scene(vbox, 300, 300);
+        popupStage.setScene(popupScene);
+        popupStage.showAndWait();
+    }
+
+    /**
      * Permet de charger les series de points sur le graphique uniquement au premier lancement
      */
     private void loadSeries(String fichier) {
