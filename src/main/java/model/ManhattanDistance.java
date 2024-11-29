@@ -21,7 +21,7 @@ public class ManhattanDistance implements Distance {
      * @param p2 le second point de données.
      * @return la distance de Manhattan entre les deux points.
      */
-    
+
     public double distance(PokemonPoint p1, PokemonPoint p2) {
         return p1.getAttackDifference(p2) + p1.getBase_egg_stepsDifference(p2) + p1.getCapture_rateDifference(p2) + p1.getDefenseDifference(p2) + p1.getExperience_growthDifference(p2) + p1.getHpDifference(p2) + p1.getSp_attackDifference(p2) + p1.getSp_defenseDifference(p2) + p1.getSpeedDifference(p2);
     }

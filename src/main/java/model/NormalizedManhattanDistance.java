@@ -36,4 +36,9 @@ public class NormalizedManhattanDistance implements Distance {
         return (Math.abs((p1.getSepalLengthDifference(p2))/this.sepalLengthAmplitude) + Math.abs(p1.getSepalWidthDifference(p2)/this.sepalWidthAmplitude)
                 + Math.abs((p1.getPetalLengthDifference(p2))/this.petalLengthAmplitude) + Math.abs((p1.getPetalWidthDifference(p2)/this.petalWidthAmplitude)));
     }
+
+    @Override
+    public double distance(PokemonPoint p1, PokemonPoint p2) {
+        return 0;
+    }
 }

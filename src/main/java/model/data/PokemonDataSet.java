@@ -1,5 +1,7 @@
 package model.data;
 
+import model.Distance;
+import model.IrisPoint;
 import model.KNNClassifier;
 import model.PokemonPoint;
 import utils.DataLoadUtil;
@@ -68,4 +70,22 @@ public class PokemonDataSet extends Observable {
             System.out.println("Fichier introuvable");
         }
     }
+
+    public void classifyPoint(PokemonPoint point, Distance distance, int k) {
+        this.knn.classify(point, k, distance, this.points);
+        this.notifyObservers(point);
+    }
+
+    /**
+     * Classifie tous les points de données présents dans le DataSet en utilisant un classificateur KNN.
+     * Notifie les observateurs après chaque classification.
+     */
+    public void classifyPoints(Distance distance, int k) {
+        for (PokemonPoint pt : this.points) classifyPoint(pt, distance, k);
+    }
+
+    public int getBestKValue(Distance d) {
+        return this.knn.getBestKValuePokemon(d, this.getPoints());
+    }
+
 }

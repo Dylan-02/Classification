@@ -244,7 +244,7 @@ public class UserInterface extends Stage implements Observer {
         return switch (menuDeroulantDistances.getSelectionModel().getSelectedItem()) {
             case "Manhattan" -> new ManhattanDistance();
             case "Manhattan Normalisée" -> new NormalizedManhattanDistance(this.ds.getSepalLengthAmplitude(), this.ds.getSepalWidthAmplitude(), this.ds.getPetalLengthAmplitude(), this.ds.getPetalWidthAmplitude());
-            case "Euclidienne Normalisée" -> new NormalizedEuclidianDistance(this.ds.getSepalLengthAmplitude(), this.ds.getSepalWidthAmplitude(), this.ds.getPetalLengthAmplitude(), this.ds.getPetalWidthAmplitude());
+            case "Euclidienne Normalisée" -> new NormalizedEuclidianDistance(this.ds.getSepalLengthAmplitude(), this.ds.getSepalWidthAmplitude(), this.ds.getPetalLengthAmplitude(), this.ds.getPetalWidthAmplitude(), 0, 0, 0, 0, 0, 0, 0, 0, 0);
             default -> new EuclidianDistance();
         };
     }
@@ -585,7 +585,16 @@ public class UserInterface extends Stage implements Observer {
      */
     public void classify() {
         Distance distance = getSelectedDistance();
-        ds.classifyPoints(distance, ds.getBestKValue(distance)); //TODO Ajouter une comboBox pour modifier la distanche choisie et récuperer la valeur ici (peut être aussi pour le k)
+        System.out.println("TEST FDP");
+        if (this.fichier.equals("iris.csv")) {
+            ds.classifyPoints(distance, ds.getBestKValue(distance));
+            System.out.println("test");
+        }
+        if (this.fichier.equals("pokemon_train.csv")) {
+            dsPokemon.classifyPoints(distance, dsPokemon.getBestKValue(distance));
+            System.out.println("test2");
+        }
+
         seriesDefault.getData().clear();
     }
 

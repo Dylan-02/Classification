@@ -27,6 +27,10 @@ public class KNNClassifier {
         point.setCategory(this.determineCategory(point, k, d, datas));
     }
 
+    public void classify(PokemonPoint point, int k, Distance d, List<PokemonPoint> datas) {
+        point.setCategory(this.determineCategory(point, k, d, datas));
+    }
+
     /**
      * Trouve les K plus proches voisins d'un point donné en fonction d'une distance.
      *
@@ -52,6 +56,39 @@ public class KNNClassifier {
 
         for (Map.Entry<Double, List<IrisPoint>> entry : distances.entrySet()) {
             for (IrisPoint neighbor : entry.getValue()) {
+                if (idx < k) {
+                    voisins[idx++] = neighbor;
+                } else {
+                    break;
+                }
+            }
+            if (idx >= k) {
+                break;
+            }
+        }
+
+        return voisins;
+    }
+
+
+    public PokemonPoint[] getKNearestNeighbors(int k, PokemonPoint p, Distance d, List<PokemonPoint> datas) {
+        // Stocke les distances avec les points correspondants
+        SortedMap<Double, List<PokemonPoint>> distances = new TreeMap<>();
+
+        for (PokemonPoint pokemon : datas) {
+            if (!p.equals(pokemon) && pokemon.getCategory() != null) {
+                double distance = d.distance(p, pokemon);
+                distances.putIfAbsent(distance, new ArrayList<>());
+                distances.get(distance).add(pokemon);
+            }
+        }
+
+        // Récupérer les K voisins les plus proches
+        PokemonPoint[] voisins = new PokemonPoint[k];
+        int idx = 0;
+
+        for (Map.Entry<Double, List<PokemonPoint>> entry : distances.entrySet()) {
+            for (PokemonPoint neighbor : entry.getValue()) {
                 if (idx < k) {
                     voisins[idx++] = neighbor;
                 } else {
@@ -92,7 +129,7 @@ public class KNNClassifier {
         return bestKValue;
     }
 
-    public int getBestKValue(Distance d, List<PokemonPoint> data) {
+    public int getBestKValuePokemon(Distance d, List<PokemonPoint> data) {
         int k = 3;
         double maxSuccessRate = 0;
         int bestKValue = 0;
@@ -141,5 +178,32 @@ public class KNNClassifier {
             }
         }
         return category;
+    }
+
+
+
+    public CategoryPokemon determineCategory(PokemonPoint p, int k, Distance d, List<PokemonPoint> datas) {
+        // Obtenir les K voisins les plus proches
+        PokemonPoint[] neighbors = getKNearestNeighbors(k, p, d, datas);
+
+        // Compter les occurrences de chaque catégorie
+        HashMap<CategoryPokemon, Integer> numberPerCategory = new HashMap<>();
+        for (PokemonPoint pokemon : neighbors) {
+            CategoryPokemon category = pokemon.getCategory();
+            numberPerCategory.put(category, numberPerCategory.getOrDefault(category, 0) + 1);
+        }
+
+        // Déterminer la catégorie la plus fréquente
+        int max = 0;
+        CategoryPokemon mostFrequentCategory = null;
+        for (Map.Entry<CategoryPokemon, Integer> entry : numberPerCategory.entrySet()) {
+            int count = entry.getValue();
+            if (count > max) {
+                mostFrequentCategory = entry.getKey();
+                max = count;
+            }
+        }
+
+        return mostFrequentCategory;
     }
 }

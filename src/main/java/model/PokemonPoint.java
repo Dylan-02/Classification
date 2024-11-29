@@ -243,4 +243,8 @@ public class PokemonPoint {
     public double getSpeedDifference(PokemonPoint p) {
         return Math.abs(this.getSpeed() - p.getSpeed());
     }
+
+    public void setCategory(CategoryPokemon category) {
+        this.category = category;
+    }
 }
