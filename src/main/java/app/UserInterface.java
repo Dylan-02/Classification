@@ -232,8 +232,8 @@ public class UserInterface extends Stage implements Observer {
     }
 
     private void setupComboBoxesPokemon() {
-        menuDeroulantAbscisses.getItems().addAll("attack", "base_egg_steps", "capture_rate,defense", "experience_growth", "hp", "sp_attack", "sp_defense", "speed");
-        menuDeroulantOrdonnees.getItems().addAll("attack", "base_egg_steps", "capture_rate,defense", "experience_growth", "hp", "sp_attack", "sp_defense", "speed");
+        menuDeroulantAbscisses.getItems().addAll("attack", "base_egg_steps", "capture_rate","defense", "experience_growth", "hp", "sp_attack", "sp_defense", "speed");
+        menuDeroulantOrdonnees.getItems().addAll("attack", "base_egg_steps", "capture_rate","defense", "experience_growth", "hp", "sp_attack", "sp_defense", "speed");
         menuDeroulantAbscisses.setValue("attack");
         menuDeroulantOrdonnees.setValue("hp");
         xAxis.setLabel(menuDeroulantAbscisses.getValue());
@@ -481,7 +481,8 @@ public class UserInterface extends Stage implements Observer {
         return switch (data) {
             case "attack" -> p.getAttack();
             case "base_egg_steps" -> p.getBase_egg_steps();
-            case "capture_rate,defense" -> p.getCapture_rate();
+            case "capture_rate" -> p.getCapture_rate();
+            case "defense" -> p.getDefense();
             case "experience_growth" -> p.getExperience_growth();
             case "hp" -> p.getHp();
             case "sp_attack" -> p.getSp_attack();
