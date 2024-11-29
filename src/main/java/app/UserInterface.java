@@ -223,7 +223,9 @@ public class UserInterface extends Stage implements Observer {
     }
 
     private void setupComboBoxesIris() {
+        menuDeroulantAbscisses.getItems().clear();
         menuDeroulantAbscisses.getItems().addAll("Longueur Sepal", "Largeur Sepal", "Longueur Petal", "Largeur Petal");
+        menuDeroulantOrdonnees.getItems().clear();
         menuDeroulantOrdonnees.getItems().addAll("Longueur Sepal", "Largeur Sepal", "Longueur Petal", "Largeur Petal");
         menuDeroulantAbscisses.setValue("Longueur Sepal");
         menuDeroulantOrdonnees.setValue("Longueur Petal");
@@ -232,7 +234,9 @@ public class UserInterface extends Stage implements Observer {
     }
 
     private void setupComboBoxesPokemon() {
+        menuDeroulantAbscisses.getItems().clear();
         menuDeroulantAbscisses.getItems().addAll("attack", "base_egg_steps", "capture_rate","defense", "experience_growth", "hp", "sp_attack", "sp_defense", "speed");
+        menuDeroulantOrdonnees.getItems().clear();
         menuDeroulantOrdonnees.getItems().addAll("attack", "base_egg_steps", "capture_rate","defense", "experience_growth", "hp", "sp_attack", "sp_defense", "speed");
         menuDeroulantAbscisses.setValue("attack");
         menuDeroulantOrdonnees.setValue("hp");
