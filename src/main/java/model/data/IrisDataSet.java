@@ -51,6 +51,10 @@ public class IrisDataSet extends Observable {
         this.notifyObservers();
     }
 
+    /**
+     * Permet de récuperer l'amplitude de toutes les longueurs de sépals du DataSet
+     * @return valeur double de l'amplitude
+     */
     public double getSepalLengthAmplitude() {
         double min = Double.MAX_VALUE;
         double max = 0;
@@ -62,6 +66,10 @@ public class IrisDataSet extends Observable {
         return max - min;
     }
 
+     /**
+     * Permet de récuperer l'amplitude de toutes les hauteurs sépals du DataSet
+     * @return valeur double de l'amplitude
+     */
     public double getSepalWidthAmplitude() {
         double min = Double.MAX_VALUE;
         double max = 0;
@@ -73,6 +81,10 @@ public class IrisDataSet extends Observable {
         return max - min;
     }
 
+    /**
+     * Permet de récuperer l'amplitude de toutes les longueurs de pétals du DataSet
+     * @return valeur double de l'amplitude
+     */
     public double getPetalLengthAmplitude() {
         double min = Double.MAX_VALUE;
         double max = 0;
@@ -84,6 +96,10 @@ public class IrisDataSet extends Observable {
         return max - min;
     }
 
+     /**
+     * Permet de récuperer l'amplitude de toutes les hauteurs de pétals du DataSet
+     * @return valeur double de l'amplitude
+     */
     public double getPetalWidthAmplitude() {
         double min = Double.MAX_VALUE;
         double max = 0;
@@ -131,6 +147,11 @@ public class IrisDataSet extends Observable {
         }
     }
 
+    /**
+     * Permet de récuperer le meilleur k pour calculer la distance parmi le dataSet
+     * @param d distance du point
+     * @return le nombre de K 
+     */
     public int getBestKValue(Distance d) {
         return this.knn.getBestKValue(d, this.getPoints());
     }
