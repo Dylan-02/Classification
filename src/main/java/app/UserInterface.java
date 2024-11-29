@@ -8,7 +8,6 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -197,10 +196,12 @@ public class UserInterface extends Stage implements Observer {
         String path = fichier.getAbsolutePath();
         setupComboBoxesMenuDeroulantDistances();
         if (fichier.getName().equals("iris.csv")) {
+            reset();
             setupComboBoxesIris();
             ds.loadCSV(path);
         }
         if (fichier.getName().equals("pokemon_train.csv")) {
+            reset();
             setupComboBoxesPokemon();
             dsPokemon.loadCSV(path);
         }
@@ -624,13 +625,19 @@ public class UserInterface extends Stage implements Observer {
         if (this.fichier.equals("iris.csv"))newVue.setDs(this.ds);
         if (this.fichier.equals("pokemon_train.csv")){
             newVue.setDsPokemon(this.dsPokemon);
-            System.out.printf("aaaaaaaaaaa");
         }
 
         if (this.chart.getData().isEmpty()){
             this.loadSeries(this.fichier);
-            System.out.printf("bbbbbbbbbbbb");
         }
         newVue.loadSeries(this.fichier);
+    }
+
+    private void reset() {
+        this.ds.getPoints().clear();
+        this.dsPokemon.getPoints().clear();
+        menuDeroulantOrdonnees.getItems().clear();
+        menuDeroulantAbscisses.getItems().clear();
+        this.chart.getData().clear();
     }
 }
