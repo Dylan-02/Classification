@@ -1,7 +1,6 @@
 package model.data;
 
 import model.Distance;
-import model.IrisPoint;
 import model.KNNClassifier;
 import model.PokemonPoint;
 import utils.DataLoadUtil;
@@ -72,7 +71,9 @@ public class PokemonDataSet extends Observable {
     }
 
     public void classifyPoint(PokemonPoint point, Distance distance, int k) {
-        this.knn.classify(point, k, distance, this.points);
+        if(point.getCategory()==null){
+            this.knn.classify(point, k, distance, this.points);
+        }
         this.notifyObservers(point);
     }
 

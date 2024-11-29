@@ -147,7 +147,6 @@ public class UserInterface extends Stage implements Observer {
                     if (this.chart.getData().isEmpty()) this.loadSeries(this.fichier);
                     if (this.fichier.equals("iris.csv")){
                         boutonAjouter.setOnAction(z -> addNewPoint());
-                        System.out.println("aaaaaaaaaaaaaa");
                     }
                     if (this.fichier.equals("pokemon_train.csv")) boutonAjouter.setOnAction(z -> addNewPointPokemon());
                 } catch (FileNotFoundException fileNotFound) {
@@ -549,7 +548,7 @@ public class UserInterface extends Stage implements Observer {
         Number x = getDataforXYPokemon(point, menuDeroulantAbscisses.getValue());
         XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(x, y);
 
-        if (point.isIs_legendary() ==null) seriesDefault.getData().add(dataPoint);
+        if (point.getCategory() ==null) seriesDefault.getData().add(dataPoint);
         else {
             switch (point.getCategory()) {
                 case LEGENDARY:
@@ -590,14 +589,11 @@ public class UserInterface extends Stage implements Observer {
      */
     public void classify() {
         Distance distance = getSelectedDistance();
-        System.out.println("TEST FDP");
         if (this.fichier.equals("iris.csv")) {
             ds.classifyPoints(distance, ds.getBestKValue(distance));
-            System.out.println("test");
         }
         if (this.fichier.equals("pokemon_train.csv")) {
             dsPokemon.classifyPoints(distance, dsPokemon.getBestKValue(distance));
-            System.out.println("test2");
         }
 
         seriesDefault.getData().clear();
