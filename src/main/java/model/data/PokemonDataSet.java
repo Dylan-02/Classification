@@ -1,6 +1,7 @@
 package model.data;
 
 import model.Distance;
+import model.IrisPoint;
 import model.KNNClassifier;
 import model.PokemonPoint;
 import utils.DataLoadUtil;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.ToDoubleFunction;
 
 public class PokemonDataSet extends Observable {
     final public DataType type = DataType.POKEMON;
@@ -51,6 +53,55 @@ public class PokemonDataSet extends Observable {
     public void addPoints(Collection<PokemonPoint> pointList) {
         this.points.addAll(pointList);
         this.notifyObservers();
+    }
+
+    private double calculateAmplitude(ToDoubleFunction<PokemonPoint> extractor) {
+        double min = Double.MAX_VALUE;
+        double max = Double.MIN_VALUE;
+
+        for (PokemonPoint pt : this.points) {
+            double value = extractor.applyAsDouble(pt);
+            if (value < min) min = value;
+            if (value > max) max = value;
+        }
+
+        return max - min;
+    }
+
+    public double getAttackAmplitude() {
+        return calculateAmplitude(PokemonPoint::getAttack);
+    }
+
+    public double getBaseEggsStepsAmplitude() {
+        return calculateAmplitude(PokemonPoint::getBase_egg_steps);
+    }
+
+    public double getCaptureRateAmplitude() {
+        return calculateAmplitude(PokemonPoint::getCapture_rate);
+    }
+
+    public double getDefenseAmplitude() {
+        return calculateAmplitude(PokemonPoint::getDefense);
+    }
+
+    public double getExperienceGrowthAmplitude() {
+        return calculateAmplitude(PokemonPoint::getExperience_growth);
+    }
+
+    public double getHPAmplitude() {
+        return calculateAmplitude(PokemonPoint::getHp);
+    }
+
+    public double getSpAttackAmplitude() {
+        return calculateAmplitude(PokemonPoint::getSp_attack);
+    }
+
+    public double getSpDefenseAmplitude() {
+        return calculateAmplitude(PokemonPoint::getSp_defense);
+    }
+
+    public double getSpeedAmplitude() {
+        return calculateAmplitude(PokemonPoint::getSpeed);
     }
 
     /**

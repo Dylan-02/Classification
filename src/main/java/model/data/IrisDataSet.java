@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.ToDoubleFunction;
 
 /**
  * La classe IrisDataSet représente un ensemble de points de données de type IrisPoint.
@@ -51,64 +52,49 @@ public class IrisDataSet extends Observable {
         this.notifyObservers();
     }
 
+    private double calculateAmplitude(ToDoubleFunction<IrisPoint> extractor) {
+        double min = Double.MAX_VALUE;
+        double max = Double.MIN_VALUE;
+
+        for (IrisPoint pt : this.points) {
+            double value = extractor.applyAsDouble(pt);
+            if (value < min) min = value;
+            if (value > max) max = value;
+        }
+
+        return max - min;
+    }
+
     /**
-     * Permet de récuperer l'amplitude de toutes les longueurs de sépals du DataSet
-     * @return valeur double de l'amplitude
+     * Permet de récupérer l'amplitude de toutes les longueurs de sépals du DataSet.
+     * @return Valeur double de l'amplitude.
      */
     public double getSepalLengthAmplitude() {
-        double min = Double.MAX_VALUE;
-        double max = 0;
-        for (IrisPoint pt : this.points) {
-            double sepalLength = pt.getSepalLength();
-            if (sepalLength < min) min = sepalLength;
-            else if (sepalLength > max) max = sepalLength;
-        }
-        return max - min;
-    }
-
-     /**
-     * Permet de récuperer l'amplitude de toutes les hauteurs sépals du DataSet
-     * @return valeur double de l'amplitude
-     */
-    public double getSepalWidthAmplitude() {
-        double min = Double.MAX_VALUE;
-        double max = 0;
-        for (IrisPoint pt : this.points) {
-            double sepalLength = pt.getSepalWidth();
-            if (sepalLength < min) min = sepalLength;
-            else if (sepalLength > max) max = sepalLength;
-        }
-        return max - min;
+        return calculateAmplitude(IrisPoint::getSepalLength);
     }
 
     /**
-     * Permet de récuperer l'amplitude de toutes les longueurs de pétals du DataSet
-     * @return valeur double de l'amplitude
+     * Permet de récupérer l'amplitude de toutes les largeurs de sépals du DataSet.
+     * @return Valeur double de l'amplitude.
      */
-    public double getPetalLengthAmplitude() {
-        double min = Double.MAX_VALUE;
-        double max = 0;
-        for (IrisPoint pt : this.points) {
-            double sepalLength = pt.getPetalLength();
-            if (sepalLength < min) min = sepalLength;
-            else if (sepalLength > max) max = sepalLength;
-        }
-        return max - min;
+    public double getSepalWidthAmplitude() {
+        return calculateAmplitude(IrisPoint::getSepalWidth);
     }
 
-     /**
-     * Permet de récuperer l'amplitude de toutes les hauteurs de pétals du DataSet
-     * @return valeur double de l'amplitude
+    /**
+     * Permet de récupérer l'amplitude de toutes les longueurs de pétals du DataSet.
+     * @return Valeur double de l'amplitude.
+     */
+    public double getPetalLengthAmplitude() {
+        return calculateAmplitude(IrisPoint::getPetalLength);
+    }
+
+    /**
+     * Permet de récupérer l'amplitude de toutes les largeurs de pétals du DataSet.
+     * @return Valeur double de l'amplitude.
      */
     public double getPetalWidthAmplitude() {
-        double min = Double.MAX_VALUE;
-        double max = 0;
-        for (IrisPoint pt : this.points) {
-            double sepalLength = pt.getPetalWidth();
-            if (sepalLength < min) min = sepalLength;
-            else if (sepalLength > max) max = sepalLength;
-        }
-        return max - min;
+        return calculateAmplitude(IrisPoint::getPetalWidth);
     }
 
     /**
