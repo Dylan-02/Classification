@@ -9,6 +9,7 @@ import java.util.Objects;
  * ses statistiques, ses types, son statut légendaire, et d'autres attributs spécifiques.
  */
 public class PokemonPoint {
+    private CategoryPokemon category;
     private final String name;
     private final int attack;
     private final int base_egg_steps;
@@ -54,6 +55,8 @@ public class PokemonPoint {
         this.type2 = type2;
         this.speed = speed;
         this.is_legendary = is_legendary;
+        if (this.is_legendary == true) this.category = CategoryPokemon.LEGENDARY;
+        else this.category = CategoryPokemon.NOT_LEGENDARY;
     }
     /**
      * Vérifie si deux objets Pokémon sont égaux en comparant toutes leurs caractéristiques.
@@ -68,6 +71,12 @@ public class PokemonPoint {
         PokemonPoint that = (PokemonPoint) o;
         return attack == that.attack && base_egg_steps == that.base_egg_steps && Double.compare(capture_rate, that.capture_rate) == 0 && defense == that.defense && experience_growth == that.experience_growth && hp == that.hp && sp_attack == that.sp_attack && sp_defense == that.sp_defense && Double.compare(speed, that.speed) == 0 && is_legendary == that.is_legendary && Objects.equals(name, that.name) && Objects.equals(type1, that.type1) && Objects.equals(type2, that.type2);
     }
+
+    public CategoryPokemon getCategory() {
+        return category;
+    }
+
+
     /**
      * Calcule le code de hachage (hash) pour l'objet Pokémon.
      *
@@ -139,7 +148,7 @@ public class PokemonPoint {
     }
 
     public String getType1() {
-        return type1;
+        return  type1;
     }
 
     public String getType2() {

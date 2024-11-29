@@ -16,6 +16,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.*;
 import model.data.IrisDataSet;
+import model.data.PokemonDataSet;
 import utils.Observable;
 import utils.Observer;
 
@@ -32,6 +33,9 @@ import java.util.function.UnaryOperator;
 public class UserInterface extends Stage implements Observer {
 
     IrisDataSet ds = new IrisDataSet();
+    PokemonDataSet dsPokemon = new PokemonDataSet();
+
+    String fichier = "";
 
 
     final NumberAxis xAxis = new NumberAxis();
@@ -64,6 +68,8 @@ public class UserInterface extends Stage implements Observer {
     final XYChart.Series<Number, Number> seriesVersicolor = new XYChart.Series<>();
     final XYChart.Series<Number, Number> seriesVirginica = new XYChart.Series<>();
     final XYChart.Series<Number, Number> seriesDefault = new XYChart.Series<>();
+    final XYChart.Series<Number, Number> seriesLegendary = new XYChart.Series<>();
+    final XYChart.Series<Number, Number> seriesNotLegendary = new XYChart.Series<>();
 
     /**
      * Constructeur de l'interface utilisateur.
@@ -71,6 +77,7 @@ public class UserInterface extends Stage implements Observer {
      */
     public UserInterface() {
         ds.attach(this);
+        dsPokemon.attach(this);
 
         menuDeroulantAbscisses.setOnAction(f -> {
             String selectedItem = menuDeroulantAbscisses.getSelectionModel().getSelectedItem();
@@ -92,6 +99,8 @@ public class UserInterface extends Stage implements Observer {
         seriesSetosa.setName("Setosa");
         seriesVersicolor.setName("Versicolor");
         seriesVirginica.setName("Virginica");
+        seriesLegendary.setName("Legendary");
+        seriesNotLegendary.setName("Not Legendary");
         seriesDefault.setName("Données Utilisateur");
 
         Set<Node> nodes = chart.lookupAll(".chart-legend");
@@ -136,7 +145,7 @@ public class UserInterface extends Stage implements Observer {
             if (e.getTarget().equals(boutonFichier)) {
                 try {
                     this.openFileChooser();
-                    if (this.chart.getData().isEmpty()) this.loadSeries();
+                    if (this.chart.getData().isEmpty()) this.loadSeries(this.fichier);
                 } catch (FileNotFoundException fileNotFound) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Quelque chose cloche !");
@@ -183,8 +192,19 @@ public class UserInterface extends Stage implements Observer {
             throw new FileNotFoundException(); // Le fichier ne peut pas être erroné, car il est protégé par des extensions filter. Mais quand on ferme ça met null
 
         String path = fichier.getAbsolutePath();
-        setupComboBoxes();
-        ds.loadCSV(path);
+        setupComboBoxesMenuDeroulantDistances();
+        if (fichier.getName().equals("iris.csv")) {
+            setupComboBoxesIris();
+            ds.loadCSV(path);
+        }
+        if (fichier.getName().equals("pokemon_train.csv")) {
+            setupComboBoxesPokemon();
+            dsPokemon.loadCSV(path);
+        }
+
+        this.fichier = fichier.getName();
+
+
         try {
             this.cheminFichier.setText(fichier.getCanonicalPath());
         } catch (IOException e) {
@@ -205,13 +225,11 @@ public class UserInterface extends Stage implements Observer {
         menuDeroulantOrdonnees.setValue("Longueur Petal");
         xAxis.setLabel(menuDeroulantAbscisses.getValue());
         yAxis.setLabel(menuDeroulantOrdonnees.getValue());
-        menuDeroulantDistances.getItems().addAll("Manhattan", "Euclidienne", "Manhattan Normalisée", "Euclidienne Normalisée");
-        menuDeroulantDistances.getSelectionModel().select("Euclidienne");
     }
 
     private void setupComboBoxesPokemon() {
-        menuDeroulantAbscisses.getItems().addAll("attack", "base_egg_steps", "capture_rate,defense", "experience_growth", "hp", "sp_attack", "sp_defense", "type1", "type2", "speed");
-        menuDeroulantOrdonnees.getItems().addAll("attack", "base_egg_steps", "capture_rate,defense", "experience_growth", "hp", "sp_attack", "sp_defense", "type1", "type2", "speed");
+        menuDeroulantAbscisses.getItems().addAll("attack", "base_egg_steps", "capture_rate,defense", "experience_growth", "hp", "sp_attack", "sp_defense", "speed");
+        menuDeroulantOrdonnees.getItems().addAll("attack", "base_egg_steps", "capture_rate,defense", "experience_growth", "hp", "sp_attack", "sp_defense", "speed");
         menuDeroulantAbscisses.setValue("attack");
         menuDeroulantOrdonnees.setValue("hp");
         xAxis.setLabel(menuDeroulantAbscisses.getValue());
@@ -289,11 +307,12 @@ public class UserInterface extends Stage implements Observer {
     /**
      * Permet de charger les series de points sur le graphique uniquement au premier lancement
      */
-    private void loadSeries() {
+    private void loadSeries(String fichier) {
         XYChart.Data<Number, Number> invisiblePointDe = new XYChart.Data<>(0, 0);
         seriesDefault.getData().add(invisiblePointDe);
         addAllPoints();
-        chart.getData().addAll(seriesSetosa, seriesVersicolor, seriesVirginica, seriesDefault);
+        if (fichier.equals("iris.csv")) chartAddIrisCategories();
+        if (fichier.equals("pokemon_train.csv")) chartAddPokemonCategories();
         seriesDefault.getData().remove(invisiblePointDe);
         installTooltips();
     }
@@ -303,16 +322,15 @@ public class UserInterface extends Stage implements Observer {
     }
 
     private void chartAddPokemonCategories(){
-        chart.getData().addAll(seriesLegendary, seriesNotLegendary, seriesDefault);
+        boolean b = chart.getData().addAll(seriesLegendary, seriesNotLegendary, seriesDefault);
     }
 
     /**
      * Recharge les séries de points sur le graphique en fonction des axes sélectionnés.
      */
     private void reloadSeries() {
-        seriesSetosa.getData().clear();
-        seriesVersicolor.getData().clear();
-        seriesVirginica.getData().clear();
+        if (this.fichier.equals("iris.csv")) clearIrisData();
+        if (this.fichier.equals("pokemon_train.csv")) clearPokemonData();
         seriesDefault.getData().clear();
         addAllPoints();
         installTooltips();
@@ -359,13 +377,34 @@ public class UserInterface extends Stage implements Observer {
         };
     }
 
+    private double getDataforXYPokemon(PokemonPoint p, String data) {
+        return switch (data) {
+            case "attack" -> p.getAttack();
+            case "base_egg_steps" -> p.getBase_egg_steps();
+            case "capture_rate,defense" -> p.getCapture_rate();
+            case "experience_growth" -> p.getExperience_growth();
+            case "hp" -> p.getHp();
+            case "sp_attack" -> p.getSp_attack();
+            case "sp_defense" -> p.getSp_defense();
+            case "speed" -> p.getSpeed();
+
+                default -> throw new IllegalArgumentException("Valeur inattendue: " + data);
+        };
+    }
+
     /**
      * Permet d'ajouter tous les points dans les series
      */
     private void addAllPoints() {
-
-        for (IrisPoint point : ds.getPoints()) {
-            this.addNewPoint(point);
+        if (fichier.equals("iris.csv")) {
+            for (IrisPoint point : ds.getPoints()) {
+                this.addNewPoint(point);
+            }
+        }
+        if (fichier.equals("pokemon_train.csv")) {
+            for (PokemonPoint point : dsPokemon.getPoints()) {
+                this.addNewPoint(point);
+            }
         }
         installTooltips();
     }
@@ -399,17 +438,45 @@ public class UserInterface extends Stage implements Observer {
         }
     }
 
+    public void addNewPoint(PokemonPoint point) {
+
+        Number y = getDataforXYPokemon(point, menuDeroulantOrdonnees.getValue());
+        Number x = getDataforXYPokemon(point, menuDeroulantAbscisses.getValue());
+        XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(x, y);
+
+        if (point.isIs_legendary() != true & point.isIs_legendary() != false)
+            seriesDefault.getData().add(dataPoint);
+        else {
+            switch (point.getCategory()) {
+                case LEGENDARY:
+                    seriesLegendary.getData().add(dataPoint);
+                    break;
+                case NOT_LEGENDARY:
+                    seriesNotLegendary.getData().add(dataPoint);
+                    break;
+
+            }
+        }
+    }
+
     @Override
     public void update(Observable observable) {
         if ((observable instanceof IrisDataSet)) {
             this.addAllPoints();
         }
+        if ((observable instanceof PokemonDataSet)) {
+            this.addAllPoints();
+        }
+
     }
 
     @Override
     public void update(Observable observable, Object data) {
         if ((observable instanceof IrisDataSet) && (data instanceof IrisPoint)) {
             this.addNewPoint((IrisPoint) data);
+        }
+        if ((observable instanceof PokemonDataSet) && (data instanceof PokemonPoint)) {
+            this.addNewPoint((PokemonPoint) data);
         }
     }
 
@@ -434,14 +501,20 @@ public class UserInterface extends Stage implements Observer {
         this.ds.attach(this);
     }
 
+    private void setDsPokemon(PokemonDataSet dsPokemon) {
+        this.dsPokemon = dsPokemon;
+        this.dsPokemon.attach(this);
+    }
+
 
     /**
      * Permet de créer une nouvelle vue, partageant le même DataSet
      */
     private void newVue() {
         UserInterface newVue = new UserInterface();
-        newVue.setDs(this.ds);
-        if (this.chart.getData().isEmpty()) this.loadSeries();
-        newVue.loadSeries();
+        if (this.fichier.equals("iris.csv"))newVue.setDs(this.ds);
+        if (this.fichier.equals("pokemon_train.csv"))newVue.setDsPokemon(this.dsPokemon);
+        if (this.chart.getData().isEmpty()) this.loadSeries(this.fichier);
+        newVue.loadSeries(this.fichier);
     }
 }
