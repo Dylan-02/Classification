@@ -303,8 +303,8 @@ public class UserInterface extends Stage implements Observer {
     private Distance getSelectedDistance() {
         return switch (menuDeroulantDistances.getSelectionModel().getSelectedItem()) {
             case "Manhattan" -> new ManhattanDistance();
-            case "Manhattan Normalisée" -> new NormalizedManhattanDistance(this.ds.getSepalLengthAmplitude(), this.ds.getSepalWidthAmplitude(), this.ds.getPetalLengthAmplitude(), this.ds.getPetalWidthAmplitude());
-            case "Euclidienne Normalisée" -> new NormalizedEuclidianDistance(this.ds.getSepalLengthAmplitude(), this.ds.getSepalWidthAmplitude(), this.ds.getPetalLengthAmplitude(), this.ds.getPetalWidthAmplitude(), 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            case "Manhattan Normalisée" -> new NormalizedManhattanDistance(this.ds.getSepalLengthAmplitude(), this.ds.getSepalWidthAmplitude(), this.ds.getPetalLengthAmplitude(), this.ds.getPetalWidthAmplitude(), this.dsPokemon.getAttackAmplitude(), this.dsPokemon.getBaseEggsStepsAmplitude(), this.dsPokemon.getCaptureRateAmplitude(), this.dsPokemon.getDefenseAmplitude(), this.dsPokemon.getExperienceGrowthAmplitude(), this.dsPokemon.getHPAmplitude(), this.dsPokemon.getSpAttackAmplitude(), this.dsPokemon.getSpDefenseAmplitude(), this.dsPokemon.getSpeedAmplitude());
+            case "Euclidienne Normalisée" -> new NormalizedEuclidianDistance(this.ds.getSepalLengthAmplitude(), this.ds.getSepalWidthAmplitude(), this.ds.getPetalLengthAmplitude(), this.ds.getPetalWidthAmplitude(), this.dsPokemon.getAttackAmplitude(), this.dsPokemon.getBaseEggsStepsAmplitude(), this.dsPokemon.getCaptureRateAmplitude(), this.dsPokemon.getDefenseAmplitude(), this.dsPokemon.getExperienceGrowthAmplitude(), this.dsPokemon.getHPAmplitude(), this.dsPokemon.getSpAttackAmplitude(), this.dsPokemon.getSpDefenseAmplitude(), this.dsPokemon.getSpeedAmplitude());
             default -> new EuclidianDistance();
         };
     }
