@@ -8,9 +8,6 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.Effect;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -46,10 +43,11 @@ public class UserInterface extends Stage implements Observer {
 
     final VBox espaceurChartFichier = new VBox();
 
+    final Button boutonDarkMode = new Button("\uD83C\uDF19");
     final Button boutonFichier = new Button("Choisir fichier");
     final Label cheminFichier = new Label("aucun fichier selectionné");
-    final HBox boxFichier = new HBox(boutonFichier, cheminFichier);
-    final VBox chartBox = new VBox(chart, espaceurChartFichier, boxFichier);
+    final HBox boxBas = new HBox(boutonDarkMode, boutonFichier, cheminFichier);
+    final VBox chartBox = new VBox(chart, espaceurChartFichier, boxBas);
     final Label axeDesAbscisses = new Label("Axe des abscisses");
     final ComboBox<String> menuDeroulantAbscisses = new ComboBox<>();
     final HBox espaceurSelecteursAxe = new HBox();
@@ -116,12 +114,12 @@ public class UserInterface extends Stage implements Observer {
 
         conteneurStats.getChildren().addAll(labelDistance, menuDeroulantDistances);
 
-        VBox.setMargin(boxFichier, new Insets(5));
+        VBox.setMargin(boxBas, new Insets(5));
         VBox.setVgrow(espaceurChartFichier, Priority.ALWAYS);
 
         boutonFichier.setMinWidth(110);
         cheminFichier.setPadding(new Insets(5));
-        boxFichier.setAlignment(Pos.CENTER_LEFT);
+        boxBas.setAlignment(Pos.CENTER_LEFT);
 
         chart.prefHeightProperty().bind(this.heightProperty().subtract(100));
 
@@ -145,6 +143,30 @@ public class UserInterface extends Stage implements Observer {
         boutonNouvelleFenetre.setOnAction(e -> newVue());
 
         conteneurBoutons.setSpacing(5);
+
+        boutonDarkMode.setMinWidth(30);
+        boutonDarkMode.setOnAction(e -> {
+            if(e.getTarget().equals(boutonDarkMode)) {
+                if(boutonDarkMode.getText().equals("\uD83C\uDF19")) {
+                    boutonDarkMode.setText("☀");
+                    mainBox.setStyle("-fx-background-color: #363636");
+                    sideBar.setStyle("-fx-background-color: #797979");
+                    cheminFichier.setStyle("-fx-text-fill: White");
+                    chart.lookup(".chart-plot-background").setStyle("-fx-background-color: LightGray");
+                    chart.lookup(".chart-vertical-grid-lines").setStyle("-fx-stroke: White");
+                    chart.lookup(".chart-horizontal-grid-lines").setStyle("-fx-stroke: White");
+                }
+                else {
+                    boutonDarkMode.setText("\uD83C\uDF19");
+                    mainBox.setStyle("-fx-background-color: White");
+                    sideBar.setStyle("-fx-background-color: LightGray");
+                    cheminFichier.setStyle("-fx-text-fill: Black");
+                    chart.lookup(".chart-plot-background").setStyle("-fx-background-color: White");
+                    chart.lookup(".chart-vertical-grid-lines").setStyle("-fx-stroke: Gray");
+                    chart.lookup(".chart-horizontal-grid-lines").setStyle("-fx-stroke: Gray");
+                }
+            }
+        });
 
         boutonFichier.setOnAction(e -> {
             if (e.getTarget().equals(boutonFichier)) {
