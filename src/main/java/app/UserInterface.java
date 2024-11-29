@@ -174,6 +174,7 @@ public class UserInterface extends Stage implements Observer {
         sideBar.setPadding(new Insets(5));
         sideBar.setAlignment(Pos.BASELINE_RIGHT);
         sideBar.prefWidthProperty().bind(this.widthProperty().multiply(0.3));
+        setupComboBoxesMenuDeroulantDistances();
         Scene scene = new Scene(mainBox);
         this.setScene(scene);
         this.setTitle("Visualisation données");
@@ -195,7 +196,6 @@ public class UserInterface extends Stage implements Observer {
             throw new FileNotFoundException(); // Le fichier ne peut pas être erroné, car il est protégé par des extensions filter. Mais quand on ferme ça met null
 
         String path = fichier.getAbsolutePath();
-        setupComboBoxesMenuDeroulantDistances();
         if (fichier.getName().equals("iris.csv")) {
             setupComboBoxesIris();
             ds.loadCSV(path);
@@ -425,7 +425,7 @@ public class UserInterface extends Stage implements Observer {
     }
 
     private void chartAddPokemonCategories(){
-        boolean b = chart.getData().addAll(seriesLegendary, seriesNotLegendary, seriesDefault);
+       chart.getData().addAll(seriesLegendary, seriesNotLegendary, seriesDefault);
     }
 
     /**
@@ -621,15 +621,18 @@ public class UserInterface extends Stage implements Observer {
      */
     private void newVue() {
         UserInterface newVue = new UserInterface();
-        if (this.fichier.equals("iris.csv"))newVue.setDs(this.ds);
+        newVue.fichier = this.fichier;
+        if (this.fichier.equals("iris.csv")) {
+            newVue.setupComboBoxesIris();
+            newVue.setDs(this.ds);
+        }
         if (this.fichier.equals("pokemon_train.csv")){
+            newVue.setupComboBoxesPokemon();
             newVue.setDsPokemon(this.dsPokemon);
-            System.out.printf("aaaaaaaaaaa");
         }
 
         if (this.chart.getData().isEmpty()){
             this.loadSeries(this.fichier);
-            System.out.printf("bbbbbbbbbbbb");
         }
         newVue.loadSeries(this.fichier);
     }

@@ -1,5 +1,5 @@
 bin/
 .idea/
 target/
-Test.iml
+*.iml
 .DS_Store
