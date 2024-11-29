@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import java.util.function.UnaryOperator;
 
@@ -312,155 +313,148 @@ public class UserInterface extends Stage implements Observer {
      * Ouvre une fenêtre pour ajouter manuellement un point de données au DataSet.
      * Demande à l'utilisateur de saisir les caractéristiques d'un iris.
      */
-    private void addNewPoint() {
+    private Stage createPopupStage(String title) {
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
-        popupStage.setTitle("Ajouter un point");
+        popupStage.setTitle(title);
         popupStage.setResizable(false);
+        return popupStage;
+    }
 
-        UnaryOperator<TextFormatter.Change> filter = change -> {
+    // Helper method to create the form layout (VBox)
+    private VBox createFormLayout(List<Label> labels, List<TextField> textFields) {
+        VBox vbox = new VBox(10);
+        for (int i = 0; i < labels.size(); i++) {
+            vbox.getChildren().addAll(labels.get(i), textFields.get(i));
+        }
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setPadding(new javafx.geometry.Insets(10));
+        return vbox;
+    }
+
+    // Helper method to create a filter for text fields (for numbers)
+    private UnaryOperator<TextFormatter.Change> createTextFilter(String regex) {
+        return change -> {
             String newText = change.getControlNewText();
-            if (newText.matches("\\d*(\\.\\d*)?")) {
+            if (newText.matches(regex)) {
                 return change;
             }
             return null;
         };
+    }
 
-        Label label1 = new Label("Longueur sépal:");
-        TextField textField1 = new TextField();
-        Label label2 = new Label("Largeur sépal:");
-        TextField textField2 = new TextField();
-        Label label3 = new Label("Longueur pétal:");
-        TextField textField3 = new TextField();
-        Label label4 = new Label("Largeur pétal:");
-        TextField textField4 = new TextField();
+    // Generic method to display a pop-up form
+    private void displayPopup(List<Label> labels, List<TextField> textFields, List<TextFormatter> formatters, Runnable onSubmitAction, int width, int height) {
+        Stage popupStage = createPopupStage("Ajouter un point");
 
-        textField1.setTextFormatter(new TextFormatter<>(filter));
-        textField2.setTextFormatter(new TextFormatter<>(filter));
-        textField3.setTextFormatter(new TextFormatter<>(filter));
-        textField4.setTextFormatter(new TextFormatter<>(filter));
+        // Apply text filters to each text field
+        for (int i = 0; i < textFields.size(); i++) {
+            textFields.get(i).setTextFormatter(formatters.get(i));
+        }
 
-        Button submitButton = new Button("Ajouter");
-        submitButton.setTooltip(new Tooltip("Click Me !"));
-        submitButton.setOnAction(event -> {
-            try {
-                double longueurSepal = Double.parseDouble(textField1.getText());
-                double largeurSepal = Double.parseDouble(textField2.getText());
-                double longueurPetal = Double.parseDouble(textField3.getText());
-                double largeurPetal = Double.parseDouble(textField4.getText());
-                ds.addPoint(longueurSepal, largeurSepal, longueurPetal, largeurPetal);
-            } catch (NumberFormatException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Saisie invalide");
-                alert.setHeaderText("Erreur");
-                alert.setContentText("Les données saisies sont invalides, veuillez saisir des données numériques.");
-                alert.showAndWait();
-                addNewPoint();
-            }
-            popupStage.close();
-        });
-        VBox vbox = new VBox(10, label1, textField1, label2, textField2, label3, textField3, label4, textField4, submitButton);
-        vbox.setAlignment(Pos.CENTER);
-        vbox.setPadding(new javafx.geometry.Insets(10));
-        Scene popupScene = new Scene(vbox, 300, 300);
+        Button submitButton = getSubmitButton(onSubmitAction, popupStage);
+
+        VBox vbox = createFormLayout(labels, textFields);
+        vbox.getChildren().add(submitButton);
+
+        Scene popupScene = new Scene(vbox, width, height);
         popupStage.setScene(popupScene);
         popupStage.showAndWait();
     }
 
-    /**
-     * Ouvre une fenêtre pour ajouter manuellement un point de données au DataSet.
-     * Demande à l'utilisateur de saisir les caractéristiques d'un pokemon.
-     */
-    private void addNewPointPokemon() {
-        Stage popupStage = new Stage();
-        popupStage.initModality(Modality.APPLICATION_MODAL);
-        popupStage.setTitle("Ajouter un point");
-        popupStage.setResizable(false);
-
-        UnaryOperator<TextFormatter.Change> filterDouble = change -> {
-            String newText = change.getControlNewText();
-            if (newText.matches("\\d*(\\.\\d*)?")) {
-                return change;
-            }
-            return null;
-        };
-
-        UnaryOperator<TextFormatter.Change> integerFilter = change -> {
-            if (change.getControlNewText().matches("\\d*")) {
-                return change;
-            }
-            return null;
-        };
-
-        Label label1 = new Label("name:");
-        TextField textField1 = new TextField();
-        Label label2 = new Label("attack:");
-        TextField textField2 = new TextField();
-        Label label3 = new Label("base_egg_steps:");
-        TextField textField3 = new TextField();
-        Label label4 = new Label("capture_rate:");
-        TextField textField4 = new TextField();
-        Label label5 = new Label("defense:");
-        TextField textField5 = new TextField();
-        Label label6 = new Label("experience_growth:");
-        TextField textField6 = new TextField();
-        Label label7 = new Label("hp:");
-        TextField textField7 = new TextField();
-        Label label8 = new Label("sp_attack:");
-        TextField textField8 = new TextField();
-        Label label9 = new Label("sp_defense:");
-        TextField textField9 = new TextField();
-        Label label10 = new Label("type1:");
-        TextField textField10 = new TextField();
-        Label label11 = new Label("type2:");
-        TextField textField11 = new TextField();
-        Label label12 = new Label("speed:");
-        TextField textField12 = new TextField();
-
-
-        textField2.setTextFormatter(new TextFormatter<>(integerFilter));
-        textField3.setTextFormatter(new TextFormatter<>(integerFilter));
-        textField4.setTextFormatter(new TextFormatter<>(filterDouble));
-        textField5.setTextFormatter(new TextFormatter<>(integerFilter));
-        textField6.setTextFormatter(new TextFormatter<>(integerFilter));
-        textField7.setTextFormatter(new TextFormatter<>(integerFilter));
-        textField8.setTextFormatter(new TextFormatter<>(integerFilter));
-        textField9.setTextFormatter(new TextFormatter<>(integerFilter));
-        textField12.setTextFormatter(new TextFormatter<>(filterDouble));
-
+    private static Button getSubmitButton(Runnable onSubmitAction, Stage popupStage) {
         Button submitButton = new Button("Ajouter");
         submitButton.setTooltip(new Tooltip("Click Me !"));
+
+        // Execute the action when the submit button is clicked
         submitButton.setOnAction(event -> {
             try {
-                String name = (textField1.getText());
-                int attack = Integer.parseInt(textField2.getText());
-                int base_egg_steps = Integer.parseInt(textField3.getText());
-                double capture_rate = Double.parseDouble(textField4.getText());
-                int defense = Integer.parseInt(textField5.getText());
-                int experience_growth = Integer.parseInt(textField6.getText());
-                int hp = Integer.parseInt(textField7.getText());
-                int sp_attack = Integer.parseInt(textField8.getText());
-                int sp_defense = Integer.parseInt(textField9.getText());
-                String type1 = textField10.getText();
-                String type2 = textField11.getText();
-                double speed = Double.parseDouble(textField12.getText());
-                dsPokemon.addPoint(name, attack, base_egg_steps, capture_rate, defense, experience_growth, hp, sp_attack, sp_defense, type1, type2, speed);
+                onSubmitAction.run();  // Execute the onSubmitAction
+                popupStage.close();
             } catch (NumberFormatException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Saisie invalide");
                 alert.setHeaderText("Erreur");
                 alert.setContentText("Les données saisies sont invalides, veuillez saisir des données numériques.");
                 alert.showAndWait();
-                addNewPoint();
             }
-            popupStage.close();
         });
-        VBox vbox = new VBox(2, label1, textField1, label2, textField2, label3, textField3, label4, textField4,label5, textField5, label6, textField6, label7, textField7, label8, textField8, label9, textField9, label10, textField10, label11, textField11, label12, textField12, submitButton);
-        vbox.setAlignment(Pos.CENTER);
-        vbox.setPadding(new javafx.geometry.Insets(10));
-        Scene popupScene = new Scene(vbox, 500, 600);
-        popupStage.setScene(popupScene);
-        popupStage.showAndWait();
+        return submitButton;
+    }
+
+    // Add a point for Iris data set
+    private void addNewPoint() {
+        List<Label> labels = List.of(
+                new Label("Longueur sépal:"),
+                new Label("Largeur sépal:"),
+                new Label("Longueur pétal:"),
+                new Label("Largeur pétal:")
+        );
+        List<TextField> textFields = List.of(new TextField(), new TextField(), new TextField(), new TextField());
+        List<TextFormatter> formatters = List.of(
+                new TextFormatter<>(createTextFilter("\\d*(\\.\\d*)?")),
+                new TextFormatter<>(createTextFilter("\\d*(\\.\\d*)?")),
+                new TextFormatter<>(createTextFilter("\\d*(\\.\\d*)?")),
+                new TextFormatter<>(createTextFilter("\\d*(\\.\\d*)?"))
+        );
+
+        // Logic for adding an Iris point
+        Runnable onSubmitAction = () -> {
+            double longueurSepal = Double.parseDouble(textFields.get(0).getText());
+            double largeurSepal = Double.parseDouble(textFields.get(1).getText());
+            double longueurPetal = Double.parseDouble(textFields.get(2).getText());
+            double largeurPetal = Double.parseDouble(textFields.get(3).getText());
+            ds.addPoint(longueurSepal, largeurSepal, longueurPetal, largeurPetal);
+        };
+
+        displayPopup(labels, textFields, formatters, onSubmitAction, 300, 300);  // Pass the onSubmitAction to displayPopup
+    }
+
+    // Add a point for Pokemon data set
+    private void addNewPointPokemon() {
+        List<Label> labels = List.of(
+                new Label("name:"), new Label("attack:"), new Label("base_egg_steps:"), new Label("capture_rate:"),
+                new Label("defense:"), new Label("experience_growth:"), new Label("hp:"), new Label("sp_attack:"),
+                new Label("sp_defense:"), new Label("type1:"), new Label("type2:"), new Label("speed:")
+        );
+        List<TextField> textFields = List.of(
+                new TextField(), new TextField(), new TextField(), new TextField(),
+                new TextField(), new TextField(), new TextField(), new TextField(),
+                new TextField(), new TextField(), new TextField(), new TextField()
+        );
+        List<TextFormatter> formatters = List.of(
+                new TextFormatter<>(createTextFilter("\\D*")),
+                new TextFormatter<>(createTextFilter("\\d*")),
+                new TextFormatter<>(createTextFilter("\\d*")),
+                new TextFormatter<>(createTextFilter("\\d*(\\.\\d*)?")),
+                new TextFormatter<>(createTextFilter("\\d*")),
+                new TextFormatter<>(createTextFilter("\\d*")),
+                new TextFormatter<>(createTextFilter("\\d*")),
+                new TextFormatter<>(createTextFilter("\\d*")),
+                new TextFormatter<>(createTextFilter("\\d*")),
+                new TextFormatter<>(createTextFilter("/(\\p{L}+)/g")),
+                new TextFormatter<>(createTextFilter("/(\\p{L}+)/g")),
+                new TextFormatter<>(createTextFilter("\\d*(\\.\\d*)?"))
+        );
+
+        // Logic for adding a Pokemon point
+        Runnable onSubmitAction = () -> {
+            String name = textFields.get(0).getText();
+            int attack = Integer.parseInt(textFields.get(1).getText());
+            int baseEggSteps = Integer.parseInt(textFields.get(2).getText());
+            double captureRate = Double.parseDouble(textFields.get(3).getText());
+            int defense = Integer.parseInt(textFields.get(4).getText());
+            int experienceGrowth = Integer.parseInt(textFields.get(5).getText());
+            int hp = Integer.parseInt(textFields.get(6).getText());
+            int spAttack = Integer.parseInt(textFields.get(7).getText());
+            int spDefense = Integer.parseInt(textFields.get(8).getText());
+            String type1 = textFields.get(9).getText();
+            String type2 = textFields.get(10).getText();
+            double speed = Double.parseDouble(textFields.get(11).getText());
+            dsPokemon.addPoint(name, attack, baseEggSteps, captureRate, defense, experienceGrowth, hp, spAttack, spDefense, type1, type2, speed);
+        };
+
+        displayPopup(labels, textFields, formatters, onSubmitAction, 500, 800);  // Pass the onSubmitAction to displayPopup
     }
 
     /**
