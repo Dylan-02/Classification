@@ -100,6 +100,16 @@ public class UserInterface extends Stage implements Observer {
 
         });
 
+        boutonAjouter.setOnAction(event -> {
+            if (this.fichier.equals("iris.csv")) {
+                addNewPoint();
+            }
+            if (this.fichier.equals("pokemon_train.csv")) {
+                addNewPointPokemon();
+            }
+        });
+
+
         this.setMinWidth(610);
 
         seriesSetosa.setName("Setosa");
@@ -151,10 +161,6 @@ public class UserInterface extends Stage implements Observer {
                 try {
                     this.openFileChooser();
                     if (this.chart.getData().isEmpty()) this.loadSeries(this.fichier);
-                    if (this.fichier.equals("iris.csv")){
-                        boutonAjouter.setOnAction(z -> addNewPoint());
-                    }
-                    if (this.fichier.equals("pokemon_train.csv")) boutonAjouter.setOnAction(z -> addNewPointPokemon());
                 } catch (FileNotFoundException fileNotFound) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Quelque chose cloche !");
@@ -646,6 +652,7 @@ public class UserInterface extends Stage implements Observer {
         }
         newVue.loadSeries(this.fichier);
         newVue.boutonNouvelleFenetre.setDisable(false);
+        System.out.println(newVue.getFichier());
     }
 
     public String getFichier(){
