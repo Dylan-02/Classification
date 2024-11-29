@@ -33,6 +33,8 @@ Pour lancer le programme :
   * Cliquer sur le bouton "Run" sur la classe app/Main
 * En CLI : 
   * mvn javafx:run
+* En graphique : 
+  * Lancer l'exécutable (fichier .jar)
 
 Pour lancer les tests :
 * Avec IntelliJ :
