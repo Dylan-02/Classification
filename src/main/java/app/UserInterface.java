@@ -470,8 +470,8 @@ public class UserInterface extends Stage implements Observer {
                 new TextFormatter<>(createTextFilter("\\d*")),
                 new TextFormatter<>(createTextFilter("\\d*")),
                 new TextFormatter<>(createTextFilter("\\d*")),
-                new TextFormatter<>(createTextFilter("/(\\p{L}+)/g")),
-                new TextFormatter<>(createTextFilter("/(\\p{L}+)/g")),
+                new TextFormatter<>(createTextFilter("\\D*")),
+                new TextFormatter<>(createTextFilter("\\D*")),
                 new TextFormatter<>(createTextFilter("\\d*(\\.\\d*)?"))
         );
 
