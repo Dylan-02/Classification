@@ -51,6 +51,13 @@ public class NormalizedEuclidianDistance implements Distance {
         return Math.sqrt(result);
     }
 
+    /**
+     * Permet de normalisé la distance entre pokemon de toutes les données.
+     *
+     * @param p1 pokemon à comparer
+     * @param p2 pokemon a normalisé avec le premier
+     * @return la distance normalisé entre les deux point (double)
+     */
     @Override
     public double distance(PokemonPoint p1, PokemonPoint p2) {
         double result = Math.pow(Math.abs((p1.getAttackDifference(p2))/this.attackAmplitude), 2) + Math.pow(Math.abs((p1.getBase_egg_stepsDifference(p2))/this.base_egg_stepsAmplitude), 2)

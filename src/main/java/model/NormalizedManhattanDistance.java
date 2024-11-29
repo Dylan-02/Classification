@@ -37,6 +37,13 @@ public class NormalizedManhattanDistance implements Distance {
                 + Math.abs((p1.getPetalLengthDifference(p2))/this.petalLengthAmplitude) + Math.abs((p1.getPetalWidthDifference(p2)/this.petalWidthAmplitude)));
     }
 
+    /**
+     * Permet de normalisé la distance entre pokemon de toutes les données.
+     *
+     * @param p1 pokemon à comparer
+     * @param p2 pokemon a normalisé avec le premier
+     * @return la distance normalisé entre les deux point (double)
+     */
     @Override
     public double distance(PokemonPoint p1, PokemonPoint p2) {
         return 0;
