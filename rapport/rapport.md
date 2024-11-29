@@ -80,7 +80,13 @@ La formule pour calculer le pourcentage de réussite est la suivante :
 
 ### **Choix du meilleur k**
 
+Meilleur k pour IrisPoint :
+
 ![Choix meilleur k IrisPoint](assets/distance.png)
+
+Meilleur k pour Pokemon :
+
+![Choix meilleur k Pokemon](assets/distancePokemon.png)
 
 \newpage
 
