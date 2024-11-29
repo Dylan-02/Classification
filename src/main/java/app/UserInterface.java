@@ -157,7 +157,7 @@ public class UserInterface extends Stage implements Observer {
         boutonDarkMode.setMinWidth(30);
         boutonDarkMode.setOnAction(e -> {
             if(e.getTarget().equals(boutonDarkMode)) {
-                if(boutonDarkMode.getText().equals("\uD83C\uDF19")) {
+                if(boutonDarkMode.getText().equals("🌙")) {
                     boutonDarkMode.setText("☀");
                     mainBox.setStyle("-fx-background-color: #363636");
                     sideBar.setStyle("-fx-background-color: #797979");
