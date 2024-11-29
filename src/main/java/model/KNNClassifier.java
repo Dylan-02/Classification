@@ -154,7 +154,7 @@ public class KNNClassifier {
         int k = 3;
         double maxSuccessRate = 0;
         int bestKValue = 0;
-        while (k < data.size() && k<51) {
+        while (k < data.size()/2 && k<31) {
             int correctClassfications = 0;
             for (PokemonPoint pt : data) {
                 if (determineCategory(pt, k, d, data).equals(pt.getCategory())) correctClassfications++;
