@@ -8,6 +8,8 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.Effect;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -61,6 +63,7 @@ public class UserInterface extends Stage implements Observer {
     final Button boutonAjouter = new Button("Ajouter");
     final Button boutonClassifier = new Button("Classer");
     final Button boutonNouvelleFenetre = new Button("Nouvelle fenêtre");
+
     final VBox conteneurBoutons = new VBox(boutonAjouter, boutonClassifier, boutonNouvelleFenetre);
     final VBox sideBar = new VBox(axeDesAbscisses, menuDeroulantAbscisses, espaceurSelecteursAxe, axeDesOrdonnees, menuDeroulantOrdonnees, conteneurStats, conteneurBoutons);
     final HBox mainBox = new HBox(chartBox, sideBar);
@@ -76,6 +79,9 @@ public class UserInterface extends Stage implements Observer {
      * Initialise les composants graphiques, configure les événements et attache l'observateur à l'ensemble de données.
      */
     public UserInterface() {
+
+        boutonNouvelleFenetre.setDisable(true);
+
         ds.attach(this);
         dsPokemon.attach(this);
 
@@ -207,6 +213,8 @@ public class UserInterface extends Stage implements Observer {
 
         this.fichier = fichier.getName();
         System.out.println(this.fichier);
+
+        boutonNouvelleFenetre.setDisable(false);
 
 
         try {
