@@ -206,6 +206,7 @@ public class UserInterface extends Stage implements Observer {
         }
 
         this.fichier = fichier.getName();
+        System.out.println(this.fichier);
 
 
         try {
@@ -636,4 +637,9 @@ public class UserInterface extends Stage implements Observer {
         }
         newVue.loadSeries(this.fichier);
     }
+
+    public String getFichier(){
+        return this.fichier;
+    }
 }
+
