@@ -206,10 +206,12 @@ public class UserInterface extends Stage implements Observer {
 
         String path = fichier.getAbsolutePath();
         if (fichier.getName().equals("iris.csv")) {
+            reset();
             setupComboBoxesIris();
             ds.loadCSV(path);
         }
         if (fichier.getName().equals("pokemon_train.csv")) {
+            reset();
             setupComboBoxesPokemon();
             dsPokemon.loadCSV(path);
         }
@@ -654,6 +656,14 @@ public class UserInterface extends Stage implements Observer {
 
     public String getFichier(){
         return this.fichier;
+    }
+
+    private void reset() {
+        this.ds.getPoints().clear();
+        this.dsPokemon.getPoints().clear();
+        menuDeroulantOrdonnees.getItems().clear();
+        menuDeroulantAbscisses.getItems().clear();
+        this.chart.getData().clear();
     }
 }
 
