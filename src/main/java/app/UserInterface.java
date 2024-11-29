@@ -43,7 +43,7 @@ public class UserInterface extends Stage implements Observer {
 
     final VBox espaceurChartFichier = new VBox();
 
-    final Button boutonDarkMode = new Button("\uD83C\uDF19");
+    final Button boutonDarkMode = new Button("☾");
     final Button boutonFichier = new Button("Choisir fichier");
     final Label cheminFichier = new Label("aucun fichier selectionné");
     final HBox boxBas = new HBox(boutonDarkMode, boutonFichier, cheminFichier);
@@ -157,7 +157,7 @@ public class UserInterface extends Stage implements Observer {
         boutonDarkMode.setMinWidth(30);
         boutonDarkMode.setOnAction(e -> {
             if(e.getTarget().equals(boutonDarkMode)) {
-                if(boutonDarkMode.getText().equals("🌙")) {
+                if(boutonDarkMode.getText().equals("☾")) {
                     boutonDarkMode.setText("☀");
                     mainBox.setStyle("-fx-background-color: #363636");
                     sideBar.setStyle("-fx-background-color: #797979");
@@ -167,7 +167,7 @@ public class UserInterface extends Stage implements Observer {
                     chart.lookup(".chart-horizontal-grid-lines").setStyle("-fx-stroke: White");
                 }
                 else {
-                    boutonDarkMode.setText("\uD83C\uDF19");
+                    boutonDarkMode.setText("☾");
                     mainBox.setStyle("-fx-background-color: White");
                     sideBar.setStyle("-fx-background-color: LightGray");
                     cheminFichier.setStyle("-fx-text-fill: Black");
