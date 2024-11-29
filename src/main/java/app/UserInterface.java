@@ -321,6 +321,13 @@ public class UserInterface extends Stage implements Observer {
         return popupStage;
     }
 
+    /**
+ * Crée un layout vertical (VBox) contenant une liste de labels et leurs champs de texte associés.
+ *
+ * @param labels une liste de labels décrivant chaque champ de texte.
+ * @param textFields une liste de champs de texte correspondant aux labels.
+ * @return un VBox contenant les labels et les champs de texte, aligné au centre avec un espacement entre les éléments.
+ */
     private VBox createFormLayout(List<Label> labels, List<TextField> textFields) {
         VBox vbox = new VBox(10);
         for (int i = 0; i < labels.size(); i++) {
@@ -331,6 +338,12 @@ public class UserInterface extends Stage implements Observer {
         return vbox;
     }
 
+    /**
+ * Crée un filtre de texte pour valider l'entrée utilisateur dans un champ de texte en fonction d'une expression régulière.
+ *
+ * @param regex une chaîne représentant une expression régulière pour valider l'entrée utilisateur.
+ * @return un UnaryOperator de type TextFormatter.Change permettant de filtrer les modifications de texte.
+ */
     private UnaryOperator<TextFormatter.Change> createTextFilter(String regex) {
         return change -> {
             String newText = change.getControlNewText();
@@ -340,6 +353,18 @@ public class UserInterface extends Stage implements Observer {
             return null;
         };
     }
+
+    /**
+ * Affiche une fenêtre pop-up avec un formulaire contenant des labels et des champs de texte.
+ * Les champs de texte sont formatés selon des TextFormatters et une action est exécutée lors de la soumission.
+ *
+ * @param labels une liste de labels décrivant les champs du formulaire.
+ * @param textFields une liste de champs de texte correspondant aux labels.
+ * @param formatters une liste de TextFormatters pour valider les entrées dans les champs de texte.
+ * @param onSubmitAction une action à exécuter lorsque l'utilisateur clique sur le bouton "Ajouter".
+ * @param width la largeur de la fenêtre pop-up.
+ * @param height la hauteur de la fenêtre pop-up.
+ */
 
     private void displayPopup(List<Label> labels, List<TextField> textFields, List<TextFormatter> formatters, Runnable onSubmitAction, int width, int height) {
         Stage popupStage = createPopupStage("Ajouter un point");
@@ -357,6 +382,15 @@ public class UserInterface extends Stage implements Observer {
         popupStage.setScene(popupScene);
         popupStage.showAndWait();
     }
+
+    /**
+ * Crée un bouton de soumission associé à une action à exécuter lorsqu'il est cliqué.
+ * Si une exception de type NumberFormatException est levée, une alerte d'erreur est affichée.
+ *
+ * @param onSubmitAction une action à exécuter lorsque l'utilisateur clique sur le bouton.
+ * @param popupStage la fenêtre pop-up qui doit être fermée après la soumission.
+ * @return un bouton configuré pour exécuter l'action et fermer la fenêtre.
+ */
 
     private static Button getSubmitButton(Runnable onSubmitAction, Stage popupStage) {
         Button submitButton = new Button("Ajouter");
@@ -376,6 +410,12 @@ public class UserInterface extends Stage implements Observer {
         });
         return submitButton;
     }
+
+    /**
+ * Ouvre une fenêtre pop-up permettant à l'utilisateur d'ajouter un nouveau point dans le DataSet Iris.
+ * Le formulaire contient des champs pour les caractéristiques d'une fleur (longueur et largeur des sépales et pétales).
+ * Une fois soumis, le point est ajouté au DataSet associé.
+ */
 
     private void addNewPoint() {
         List<Label> labels = List.of(
@@ -402,6 +442,12 @@ public class UserInterface extends Stage implements Observer {
 
         displayPopup(labels, textFields, formatters, onSubmitAction, 300, 300);  // Pass the onSubmitAction to displayPopup
     }
+
+    /**
+ * Ouvre une fenêtre pop-up permettant à l'utilisateur d'ajouter un nouveau point dans le DataSet Pokémon.
+ * Le formulaire contient des champs pour les caractéristiques d'un Pokémon (nom, statistiques, types, etc.).
+ * Une fois soumis, le point est ajouté au DataSet associé.
+ */
 
     private void addNewPointPokemon() {
         List<Label> labels = List.of(
