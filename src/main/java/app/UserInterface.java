@@ -165,6 +165,8 @@ public class UserInterface extends Stage implements Observer {
                     chart.lookup(".chart-plot-background").setStyle("-fx-background-color: LightGray");
                     chart.lookup(".chart-vertical-grid-lines").setStyle("-fx-stroke: White");
                     chart.lookup(".chart-horizontal-grid-lines").setStyle("-fx-stroke: White");
+                    chart.getXAxis().lookup(".label").setStyle("-fx-text-fill: White");
+                    chart.getYAxis().lookup(".label").setStyle("-fx-text-fill: White");
                 }
                 else {
                     boutonDarkMode.setText("☾");
@@ -174,6 +176,8 @@ public class UserInterface extends Stage implements Observer {
                     chart.lookup(".chart-plot-background").setStyle("-fx-background-color: White");
                     chart.lookup(".chart-vertical-grid-lines").setStyle("-fx-stroke: Gray");
                     chart.lookup(".chart-horizontal-grid-lines").setStyle("-fx-stroke: Gray");
+                    chart.getXAxis().lookup(".label").setStyle("-fx-text-fill: Black");
+                    chart.getYAxis().lookup(".label").setStyle("-fx-text-fill: Black");
                 }
             }
         });
