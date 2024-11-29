@@ -644,6 +644,7 @@ public class UserInterface extends Stage implements Observer {
             this.loadSeries(this.fichier);
         }
         newVue.loadSeries(this.fichier);
+        newVue.boutonNouvelleFenetre.setDisable(false);
     }
 
     public String getFichier(){
