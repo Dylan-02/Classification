@@ -259,11 +259,17 @@ public class UserInterface extends Stage implements Observer {
 
     }
 
+    /**
+     * Permet de définir les attributs du menu déroulant pour les distances
+     */
     private void setupComboBoxesMenuDeroulantDistances() {
         menuDeroulantDistances.getItems().addAll("Manhattan", "Euclidienne", "Manhattan Normalisée", "Euclidienne Normalisée");
         menuDeroulantDistances.getSelectionModel().select("Euclidienne");
     }
 
+    /**
+     * Permet de définir les attributs X et Y pour les Iris lors de la création d'une vue
+     */
     private void setupComboBoxesIris() {
         menuDeroulantAbscisses.getItems().clear();
         menuDeroulantAbscisses.getItems().addAll("Longueur Sepal", "Largeur Sepal", "Longueur Petal", "Largeur Petal");
@@ -275,6 +281,9 @@ public class UserInterface extends Stage implements Observer {
         yAxis.setLabel(menuDeroulantOrdonnees.getValue());
     }
 
+    /**
+     * Permet de définir les attributs X et Y pour les pokemons lors de la création d'une vue
+     */
     private void setupComboBoxesPokemon() {
         menuDeroulantAbscisses.getItems().clear();
         menuDeroulantAbscisses.getItems().addAll("attack", "base_egg_steps", "capture_rate","defense", "experience_growth", "hp", "sp_attack", "sp_defense", "speed");
@@ -286,6 +295,10 @@ public class UserInterface extends Stage implements Observer {
         yAxis.setLabel(menuDeroulantOrdonnees.getValue());
     }
 
+    /**
+     * Permet de récuperer la méthode de distance à utiliser en fonction du texte choisi 
+     * @return renvoie une Distance qui est une interface des différentes méthode de calcul
+     */
     private Distance getSelectedDistance() {
         return switch (menuDeroulantDistances.getSelectionModel().getSelectedItem()) {
             case "Manhattan" -> new ManhattanDistance();
@@ -463,10 +476,16 @@ public class UserInterface extends Stage implements Observer {
         installTooltips();
     }
 
+    /**
+     * Permet d'ajouter les catégories des Iris dans la légende
+     */
     private void chartAddIrisCategories(){
         chart.getData().addAll(seriesSetosa, seriesVersicolor, seriesVirginica, seriesDefault);
     }
 
+    /**
+     * Permet d'ajouter les categories des pokemon dans la légende
+     */
     private void chartAddPokemonCategories(){
        chart.getData().addAll(seriesLegendary, seriesNotLegendary, seriesDefault);
     }
@@ -482,12 +501,18 @@ public class UserInterface extends Stage implements Observer {
         installTooltips();
     }
 
+    /**
+     * Remet à zero les series de categorie d'iris
+     */
     private void clearIrisData(){
         seriesSetosa.getData().clear();
         seriesVersicolor.getData().clear();
         seriesVirginica.getData().clear();
     }
 
+    /**
+     * Remet à zero les series de pokemon légendaire ou non
+     */
     private void clearPokemonData(){
         seriesLegendary.getData().clear();
         seriesNotLegendary.getData().clear();
@@ -523,6 +548,12 @@ public class UserInterface extends Stage implements Observer {
         };
     }
 
+    /**
+     * Permet de récuperer les data d'un pokemon en fonction du texte selectionné
+     * @param p Point de pokemon à récuperer
+     * @param data Texte de la data à trouver
+     * @return la data correspondante
+     */
     private double getDataforXYPokemon(PokemonPoint p, String data) {
         return switch (data) {
             case "attack" -> p.getAttack();
@@ -557,7 +588,7 @@ public class UserInterface extends Stage implements Observer {
     }
 
     /**
-     * Permet d'ajouter un point dans la serie en fonction de sa catégorie
+     * Permet d'ajouter un point Iris dans la serie en fonction de sa catégorie
      *
      * @param point Représente le point à ajouter.
      */
@@ -585,6 +616,11 @@ public class UserInterface extends Stage implements Observer {
         }
     }
 
+    /**
+     * Permet d'ajouter un point Pokemon dans la serie en fonction de sa catégorie
+     *
+     * @param point Représente le point à ajouter.
+     */
     public void addNewPoint(PokemonPoint point) {
 
         Number y = getDataforXYPokemon(point, menuDeroulantOrdonnees.getValue());
@@ -644,7 +680,7 @@ public class UserInterface extends Stage implements Observer {
 
 
     /**
-     * Permet de définir le DataSet de la vue et d'attacher celle-ci au nouveau DataSet
+     * Permet de définir le DataSet des Iris de la vue et d'attacher celle-ci au nouveau DataSet
      *
      * @param ds Répresente le nouveau DataSet
      */
@@ -653,6 +689,11 @@ public class UserInterface extends Stage implements Observer {
         this.ds.attach(this);
     }
 
+    /**
+     * Permet de définir le DataSet des Pokemons de la vue et d'attacher celle-ci au nouveau DataSet
+     *
+     * @param ds Répresente le nouveau DataSet
+     */
     private void setDsPokemon(PokemonDataSet dsPokemon) {
         this.dsPokemon = dsPokemon;
         this.dsPokemon.attach(this);
@@ -683,10 +724,17 @@ public class UserInterface extends Stage implements Observer {
         System.out.println(newVue.getFichier());
     }
 
+    /**
+     * Permet de récuperer le nom du fichier utilisé pour l'userInterface
+     * @return nom du fichier
+     */
     public String getFichier(){
         return this.fichier;
     }
 
+    /**
+     * Permet de remettre à 0 toutes les données de l'UserInterface
+     */
     private void reset() {
         this.ds.getPoints().clear();
         this.dsPokemon.getPoints().clear();
