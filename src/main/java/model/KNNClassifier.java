@@ -92,6 +92,25 @@ public class KNNClassifier {
         return bestKValue;
     }
 
+    public int getBestKValue(Distance d, List<PokemonPoint> data) {
+        int k = 3;
+        double maxSuccessRate = 0;
+        int bestKValue = 0;
+        while (k < data.size()/2) {
+            int correctClassfications = 0;
+            for (PokemonPoint pt : data) {
+                if (determineCategory(pt, k, d, data).equals(pt.getCategory())) correctClassfications++;
+            }
+            double successRate = ((double)correctClassfications/data.size())*100;
+            if (successRate > maxSuccessRate) {
+                maxSuccessRate = successRate;
+                bestKValue = k;
+            }
+            k+=2;
+        }
+        return bestKValue;
+    }
+
     /**
      * Détermine la catégorie d'un point donné en fonction des K plus proches voisins.
      *
