@@ -70,6 +70,12 @@ public class PokemonDataSet extends Observable {
         }
     }
 
+    /**
+     * Permet de classifier un point celon sa distance et le nombre de k
+     * @param point
+     * @param distance
+     * @param k
+     */
     public void classifyPoint(PokemonPoint point, Distance distance, int k) {
         if(point.getCategory()==null){
             this.knn.classify(point, k, distance, this.points);
@@ -85,6 +91,11 @@ public class PokemonDataSet extends Observable {
         for (PokemonPoint pt : this.points) classifyPoint(pt, distance, k);
     }
 
+    /**
+     * Permet de récuperer le meilleur k pour calculer la distance parmi le dataSet
+     * @param d distance du point
+     * @return le nombre de K 
+     */
     public int getBestKValue(Distance d) {
         return this.knn.getBestKValuePokemon(d, this.getPoints());
     }
