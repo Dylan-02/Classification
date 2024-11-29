@@ -622,13 +622,13 @@ public class UserInterface extends Stage implements Observer {
     private void newVue() {
         UserInterface newVue = new UserInterface();
         newVue.fichier = this.fichier;
+        newVue.setDsPokemon(this.dsPokemon);
+        newVue.setDs(this.ds);
         if (this.fichier.equals("iris.csv")) {
             newVue.setupComboBoxesIris();
-            newVue.setDs(this.ds);
         }
         if (this.fichier.equals("pokemon_train.csv")){
             newVue.setupComboBoxesPokemon();
-            newVue.setDsPokemon(this.dsPokemon);
         }
 
         if (this.chart.getData().isEmpty()){
