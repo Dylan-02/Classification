@@ -232,7 +232,7 @@ public class UserInterface extends Stage implements Observer {
         fileChooser.getExtensionFilters().add(extensions);
         File fichier = fileChooser.showOpenDialog(this);
         if (fichier == null)
-            throw new FileNotFoundException(); // Le fichier ne peut pas être erroné, car il est protégé par des extensions filter. Mais quand on ferme ça met null
+            throw new FileNotFoundException();
 
         String path = fichier.getAbsolutePath();
         if (fichier.getName().equals("iris.csv")) {
@@ -440,7 +440,7 @@ public class UserInterface extends Stage implements Observer {
             ds.addPoint(longueurSepal, largeurSepal, longueurPetal, largeurPetal);
         };
 
-        displayPopup(labels, textFields, formatters, onSubmitAction, 300, 300);  // Pass the onSubmitAction to displayPopup
+        displayPopup(labels, textFields, formatters, onSubmitAction, 300, 300);
     }
 
     /**
@@ -491,7 +491,7 @@ public class UserInterface extends Stage implements Observer {
             dsPokemon.addPoint(name, attack, baseEggSteps, captureRate, defense, experienceGrowth, hp, spAttack, spDefense, type1, type2, speed);
         };
 
-        displayPopup(labels, textFields, formatters, onSubmitAction, 500, 800);  // Pass the onSubmitAction to displayPopup
+        displayPopup(labels, textFields, formatters, onSubmitAction, 500, 800);
     }
 
     /**

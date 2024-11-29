@@ -24,7 +24,7 @@ public class TestChargementDonnesUtil {
     }
 
     @Test
-    public void testCharger() throws IOException {
+    public void should_have_loaded_data_during_setup() throws IOException {
         assertNotNull(donneesBrutes);
         assertFalse(donneesBrutes.isEmpty());
         assertEquals(150, donneesBrutes.size());
@@ -33,7 +33,7 @@ public class TestChargementDonnesUtil {
     }
 
     @Test
-    public void testCreerPointIris() {
+    public void should_create_iris_points_when_given_raw_data() {
         assertEquals(p1.getPetalLength(), DataLoadUtil.createIrisPoint(donneesBrutes.get(0)).getPetalLength());
         assertEquals(p1, DataLoadUtil.createIrisPoint(donneesBrutes.get(0)));
         assertEquals(p2, DataLoadUtil.createIrisPoint(donneesBrutes.get(70)));
@@ -41,7 +41,7 @@ public class TestChargementDonnesUtil {
     }
 
     @Test
-    public void testCreerEnsemblePointsIris() {
+    public void should_create_set_of_iris_points() {
         List<IrisPoint> listPoints = new ArrayList<>();
         p2 = new IrisPoint(Category.SETOSA, 4.9, 3, 1.4, 0.2);
         p3 = new IrisPoint(Category.SETOSA, 4.7, 3.2, 1.3, 0.2);
