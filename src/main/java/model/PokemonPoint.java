@@ -170,4 +170,77 @@ public class PokemonPoint {
     public Boolean isIs_legendary() {
         return is_legendary;
     }
+
+    /**
+     * Permet de calculer la différence entre les attaques des deux IrisPoint
+     * @param p le point avec le quel comparer l'attaque.
+     * @return difference entre les deux Pokemon
+     */
+    public double getAttackDifference(PokemonPoint p) {
+        return Math.abs(this.getAttack() - p.getAttack());
+    }
+    /**
+     * Permet de calculer la différence entre les attaques des deux IrisPoint
+     * @param p le point avec le quel comparer l'attaque.
+     * @return difference entre les deux Pokemon
+     */
+    public double getBase_egg_stepsDifference(PokemonPoint p) {
+        return Math.abs(this.getBase_egg_steps() - p.getBase_egg_steps());
+    }
+    /**
+     * Permet de calculer la différence entre les attaques des deux IrisPoint
+     * @param p le point avec le quel comparer l'attaque.
+     * @return difference entre les deux Pokemon
+     */
+    public double getCapture_rateDifference(PokemonPoint p) {
+        return Math.abs(this.getCapture_rate() - p.getCapture_rate());
+    }
+    /**
+     * Permet de calculer la différence entre les attaques des deux IrisPoint
+     * @param p le point avec le quel comparer l'attaque.
+     * @return difference entre les deux Pokemon
+     */
+    public double getDefenseDifference(PokemonPoint p) {
+        return Math.abs(this.getDefense() - p.getDefense());
+    }
+    /**
+     * Permet de calculer la différence entre les attaques des deux IrisPoint
+     * @param p le point avec le quel comparer l'attaque.
+     * @return difference entre les deux Pokemon
+     */
+    public double getExperience_growthDifference(PokemonPoint p) {
+        return Math.abs(this.getExperience_growth() - p.getExperience_growth());
+    }
+    /**
+     * Permet de calculer la différence entre les attaques des deux IrisPoint
+     * @param p le point avec le quel comparer l'attaque.
+     * @return difference entre les deux Pokemon
+     */
+    public double getHpDifference(PokemonPoint p) {
+        return Math.abs(this.getHp() - p.getHp());
+    }
+    /**
+     * Permet de calculer la différence entre les attaques des deux IrisPoint
+     * @param p le point avec le quel comparer l'attaque.
+     * @return difference entre les deux Pokemon
+     */
+    public double getSp_attackDifference(PokemonPoint p) {
+        return Math.abs(this.getSp_attack() - p.getSp_attack());
+    }
+    /**
+     * Permet de calculer la différence entre les attaques des deux IrisPoint
+     * @param p le point avec le quel comparer l'attaque.
+     * @return difference entre les deux Pokemon
+     */
+    public double getSp_defenseDifference(PokemonPoint p) {
+        return Math.abs(this.getSp_defense() - p.getSp_defense());
+    }
+    /**
+     * Permet de calculer la différence entre les attaques des deux IrisPoint
+     * @param p le point avec le quel comparer l'attaque.
+     * @return difference entre les deux Pokemon
+     */
+    public double getSpeedDifference(PokemonPoint p) {
+        return Math.abs(this.getSpeed() - p.getSpeed());
+    }
 }
