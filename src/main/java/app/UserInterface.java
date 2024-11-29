@@ -129,7 +129,6 @@ public class UserInterface extends Stage implements Observer {
         boutonAjouter.setStyle("-fx-background-color: Green; -fx-text-fill: White");
         boutonAjouter.setOnMouseEntered(e -> boutonAjouter.setStyle("-fx-background-color: DarkGreen; -fx-text-fill: White"));
         boutonAjouter.setOnMouseExited(e -> boutonAjouter.setStyle("-fx-background-color: Green; -fx-text-fill: White"));
-        boutonAjouter.setOnAction(e -> addNewPoint());
 
         boutonClassifier.setOnMouseEntered(e -> boutonClassifier.setStyle("-fx-background-color: DarkOrange;"));
         boutonClassifier.setOnMouseExited(e -> boutonClassifier.setStyle("-fx-background-color: Orange;"));
@@ -146,6 +145,11 @@ public class UserInterface extends Stage implements Observer {
                 try {
                     this.openFileChooser();
                     if (this.chart.getData().isEmpty()) this.loadSeries(this.fichier);
+                    if (this.fichier.equals("iris.csv")){
+                        boutonAjouter.setOnAction(z -> addNewPoint());
+                        System.out.println("aaaaaaaaaaaaaa");
+                    }
+                    if (this.fichier.equals("pokemon_train.csv")) boutonAjouter.setOnAction(z -> addNewPointPokemon());
                 } catch (FileNotFoundException fileNotFound) {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Quelque chose cloche !");
@@ -314,9 +318,16 @@ public class UserInterface extends Stage implements Observer {
         popupStage.setTitle("Ajouter un point");
         popupStage.setResizable(false);
 
-        UnaryOperator<TextFormatter.Change> filter = change -> {
+        UnaryOperator<TextFormatter.Change> filterDouble = change -> {
             String newText = change.getControlNewText();
             if (newText.matches("\\d*(\\.\\d*)?")) {
+                return change;
+            }
+            return null;
+        };
+
+        UnaryOperator<TextFormatter.Change> integerFilter = change -> {
+            if (change.getControlNewText().matches("\\d*")) {
                 return change;
             }
             return null;
@@ -347,18 +358,16 @@ public class UserInterface extends Stage implements Observer {
         Label label12 = new Label("speed:");
         TextField textField12 = new TextField();
 
-        textField1.setTextFormatter(new TextFormatter<>(filter));
-        textField2.setTextFormatter(new TextFormatter<>(filter));
-        textField3.setTextFormatter(new TextFormatter<>(filter));
-        textField4.setTextFormatter(new TextFormatter<>(filter));
-        textField5.setTextFormatter(new TextFormatter<>(filter));
-        textField6.setTextFormatter(new TextFormatter<>(filter));
-        textField7.setTextFormatter(new TextFormatter<>(filter));
-        textField8.setTextFormatter(new TextFormatter<>(filter));
-        textField9.setTextFormatter(new TextFormatter<>(filter));
-        textField10.setTextFormatter(new TextFormatter<>(filter));
-        textField11.setTextFormatter(new TextFormatter<>(filter));
-        textField12.setTextFormatter(new TextFormatter<>(filter));
+
+        textField2.setTextFormatter(new TextFormatter<>(integerFilter));
+        textField3.setTextFormatter(new TextFormatter<>(integerFilter));
+        textField4.setTextFormatter(new TextFormatter<>(filterDouble));
+        textField5.setTextFormatter(new TextFormatter<>(integerFilter));
+        textField6.setTextFormatter(new TextFormatter<>(integerFilter));
+        textField7.setTextFormatter(new TextFormatter<>(integerFilter));
+        textField8.setTextFormatter(new TextFormatter<>(integerFilter));
+        textField9.setTextFormatter(new TextFormatter<>(integerFilter));
+        textField12.setTextFormatter(new TextFormatter<>(filterDouble));
 
         Button submitButton = new Button("Ajouter");
         submitButton.setTooltip(new Tooltip("Click Me !"));
@@ -387,10 +396,10 @@ public class UserInterface extends Stage implements Observer {
             }
             popupStage.close();
         });
-        VBox vbox = new VBox(10, label1, textField1, label2, textField2, label3, textField3, label4, textField4, submitButton);
+        VBox vbox = new VBox(2, label1, textField1, label2, textField2, label3, textField3, label4, textField4,label5, textField5, label6, textField6, label7, textField7, label8, textField8, label9, textField9, label10, textField10, label11, textField11, label12, textField12, submitButton);
         vbox.setAlignment(Pos.CENTER);
         vbox.setPadding(new javafx.geometry.Insets(10));
-        Scene popupScene = new Scene(vbox, 300, 300);
+        Scene popupScene = new Scene(vbox, 500, 600);
         popupStage.setScene(popupScene);
         popupStage.showAndWait();
     }
@@ -535,8 +544,7 @@ public class UserInterface extends Stage implements Observer {
         Number x = getDataforXYPokemon(point, menuDeroulantAbscisses.getValue());
         XYChart.Data<Number, Number> dataPoint = new XYChart.Data<>(x, y);
 
-        if (point.isIs_legendary() != true & point.isIs_legendary() != false)
-            seriesDefault.getData().add(dataPoint);
+        if (point.isIs_legendary() ==null) seriesDefault.getData().add(dataPoint);
         else {
             switch (point.getCategory()) {
                 case LEGENDARY:
@@ -604,8 +612,15 @@ public class UserInterface extends Stage implements Observer {
     private void newVue() {
         UserInterface newVue = new UserInterface();
         if (this.fichier.equals("iris.csv"))newVue.setDs(this.ds);
-        if (this.fichier.equals("pokemon_train.csv"))newVue.setDsPokemon(this.dsPokemon);
-        if (this.chart.getData().isEmpty()) this.loadSeries(this.fichier);
+        if (this.fichier.equals("pokemon_train.csv")){
+            newVue.setDsPokemon(this.dsPokemon);
+            System.out.printf("aaaaaaaaaaa");
+        }
+
+        if (this.chart.getData().isEmpty()){
+            this.loadSeries(this.fichier);
+            System.out.printf("bbbbbbbbbbbb");
+        }
         newVue.loadSeries(this.fichier);
     }
 }

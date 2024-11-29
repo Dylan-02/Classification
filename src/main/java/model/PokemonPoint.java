@@ -22,7 +22,7 @@ public class PokemonPoint {
     private final String type1;
     private final String type2;
     private final double speed;
-    private final boolean is_legendary;
+    private final Boolean is_legendary;
 
     /**
      * Constructeur pour initialiser les caractéristiques d'un Pokémon.
@@ -41,7 +41,7 @@ public class PokemonPoint {
      * @param speed la vitesse du Pokémon.
      * @param is_legendary indique si le Pokémon est légendaire (true/false).
      */
-    public PokemonPoint(String name, int attack, int base_egg_steps, double capture_rate, int defense, int experience_growth, int hp, int sp_attack, int sp_defense, String type1, String type2, double speed, boolean is_legendary) {
+    public PokemonPoint(String name, int attack, int base_egg_steps, double capture_rate, int defense, int experience_growth, int hp, int sp_attack, int sp_defense, String type1, String type2, double speed, Boolean is_legendary) {
         this.name = name;
         this.attack = attack;
         this.base_egg_steps = base_egg_steps;
@@ -55,9 +55,17 @@ public class PokemonPoint {
         this.type2 = type2;
         this.speed = speed;
         this.is_legendary = is_legendary;
-        if (this.is_legendary == true) this.category = CategoryPokemon.LEGENDARY;
-        else this.category = CategoryPokemon.NOT_LEGENDARY;
+        if (this.is_legendary != null) {
+            if (this.is_legendary == true) this.category = CategoryPokemon.LEGENDARY;
+            else this.category = CategoryPokemon.NOT_LEGENDARY;
+        }
     }
+
+    public PokemonPoint(String name, int attack, int base_egg_steps, double capture_rate, int defense, int experience_growth, int hp, int sp_attack, int sp_defense, String type1, String type2, double speed) {
+        this(name, attack, base_egg_steps, capture_rate, defense, experience_growth, hp, sp_attack, sp_defense, type1, type2, speed, null);
+    }
+
+
     /**
      * Vérifie si deux objets Pokémon sont égaux en comparant toutes leurs caractéristiques.
      *
@@ -159,7 +167,7 @@ public class PokemonPoint {
         return speed;
     }
 
-    public boolean isIs_legendary() {
+    public Boolean isIs_legendary() {
         return is_legendary;
     }
 }

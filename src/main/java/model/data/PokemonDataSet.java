@@ -35,10 +35,9 @@ public class PokemonDataSet extends Observable {
      * @param type1 Le type principal du pokémon
      * @param type2 Le type secondaire du pokémon (peut être null)
      * @param speed La statistique speed du pokémon
-     * @param is_legendary Si le pokémon est légendaire ou non
      */
-    public void addPoint(String name, int attack, int base_egg_steps, double capture_rate, int defense, int experience_growth, int hp, int sp_attack, int sp_defense, String type1, String type2, double speed, boolean is_legendary) {
-        PokemonPoint pt = new PokemonPoint(name, attack, base_egg_steps, capture_rate, defense, experience_growth, hp, sp_attack, sp_defense, type1, type2, speed, is_legendary);
+    public void addPoint(String name, int attack, int base_egg_steps, double capture_rate, int defense, int experience_growth, int hp, int sp_attack, int sp_defense, String type1, String type2, double speed) {
+        PokemonPoint pt = new PokemonPoint(name, attack, base_egg_steps, capture_rate, defense, experience_growth, hp, sp_attack, sp_defense, type1, type2, speed);
         this.points.add(pt);
         this.notifyObservers(pt);
     }
