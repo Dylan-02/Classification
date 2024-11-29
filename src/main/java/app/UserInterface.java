@@ -321,7 +321,6 @@ public class UserInterface extends Stage implements Observer {
         return popupStage;
     }
 
-    // Helper method to create the form layout (VBox)
     private VBox createFormLayout(List<Label> labels, List<TextField> textFields) {
         VBox vbox = new VBox(10);
         for (int i = 0; i < labels.size(); i++) {
@@ -332,7 +331,6 @@ public class UserInterface extends Stage implements Observer {
         return vbox;
     }
 
-    // Helper method to create a filter for text fields (for numbers)
     private UnaryOperator<TextFormatter.Change> createTextFilter(String regex) {
         return change -> {
             String newText = change.getControlNewText();
@@ -343,11 +341,9 @@ public class UserInterface extends Stage implements Observer {
         };
     }
 
-    // Generic method to display a pop-up form
     private void displayPopup(List<Label> labels, List<TextField> textFields, List<TextFormatter> formatters, Runnable onSubmitAction, int width, int height) {
         Stage popupStage = createPopupStage("Ajouter un point");
 
-        // Apply text filters to each text field
         for (int i = 0; i < textFields.size(); i++) {
             textFields.get(i).setTextFormatter(formatters.get(i));
         }
@@ -366,10 +362,9 @@ public class UserInterface extends Stage implements Observer {
         Button submitButton = new Button("Ajouter");
         submitButton.setTooltip(new Tooltip("Click Me !"));
 
-        // Execute the action when the submit button is clicked
         submitButton.setOnAction(event -> {
             try {
-                onSubmitAction.run();  // Execute the onSubmitAction
+                onSubmitAction.run();
                 popupStage.close();
             } catch (NumberFormatException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -382,7 +377,6 @@ public class UserInterface extends Stage implements Observer {
         return submitButton;
     }
 
-    // Add a point for Iris data set
     private void addNewPoint() {
         List<Label> labels = List.of(
                 new Label("Longueur sépal:"),
@@ -398,7 +392,6 @@ public class UserInterface extends Stage implements Observer {
                 new TextFormatter<>(createTextFilter("\\d*(\\.\\d*)?"))
         );
 
-        // Logic for adding an Iris point
         Runnable onSubmitAction = () -> {
             double longueurSepal = Double.parseDouble(textFields.get(0).getText());
             double largeurSepal = Double.parseDouble(textFields.get(1).getText());
@@ -410,7 +403,6 @@ public class UserInterface extends Stage implements Observer {
         displayPopup(labels, textFields, formatters, onSubmitAction, 300, 300);  // Pass the onSubmitAction to displayPopup
     }
 
-    // Add a point for Pokemon data set
     private void addNewPointPokemon() {
         List<Label> labels = List.of(
                 new Label("name:"), new Label("attack:"), new Label("base_egg_steps:"), new Label("capture_rate:"),
@@ -437,7 +429,6 @@ public class UserInterface extends Stage implements Observer {
                 new TextFormatter<>(createTextFilter("\\d*(\\.\\d*)?"))
         );
 
-        // Logic for adding a Pokemon point
         Runnable onSubmitAction = () -> {
             String name = textFields.get(0).getText();
             int attack = Integer.parseInt(textFields.get(1).getText());
