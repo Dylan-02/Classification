@@ -677,7 +677,7 @@ public class UserInterface extends Stage implements Observer {
     /**
      * Permet de définir le DataSet des Pokemons de la vue et d'attacher celle-ci au nouveau DataSet
      *
-     * @param ds Répresente le nouveau DataSet
+     * @param dsPokemon Répresente le nouveau DataSet
      */
     private void setDsPokemon(PokemonDataSet dsPokemon) {
         this.dsPokemon = dsPokemon;
