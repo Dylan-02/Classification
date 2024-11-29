@@ -25,22 +25,22 @@ public class TestIrisDataSet {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
-        data.loadCSV("nonExistingFile");
-        assertEquals("Fichier introuvable\n", outContent.toString());
+        data.loadCSV("src/main/resources/model/ir.csv");
+        assertEquals("Fichier introuvable" + System.lineSeparator(), outContent.toString());
         System.setOut(originalOut);
     }
 
     @Test
     public void should_load_data_when_given_a_valid_CSV_file() throws IOException {
         assertTrue(data.getPoints().isEmpty());
-        data.loadCSV(getClass().getResource("/model/iris.csv").getFile());
+        data.loadCSV("src/main/resources/model/iris.csv");
         assertFalse(data.getPoints().isEmpty());
         assertEquals(IRIS_FILE_SIZE, data.getPoints().size());
     }
 
     @Test
     public void should_classify_point_when_its_category_is_null() {
-        data.loadCSV(getClass().getResource("/model/iris.csv").getFile());
+        data.loadCSV("src/main/resources/model/iris.csv");
         IrisPoint p1 = new IrisPoint(5, 5, 5, 5);
         assertNull(p1.getCategory());
         data.classifyPoint(p1, new EuclidianDistance(), 5);
@@ -62,7 +62,7 @@ public class TestIrisDataSet {
         data.addPoint(2, 2, 2, 2);
         data.addPoint(3, 3, 3, 3);
         for (IrisPoint pt : data.getPoints()) assertNull(pt.getCategory());
-        data.loadCSV(getClass().getResource("/model/iris.csv").getFile());
+        data.loadCSV("src/main/resources/model/iris.csv");
         data.classifyPoints(new EuclidianDistance(), 5);
         for (IrisPoint pt : data.getPoints()) assertNotNull(pt.getCategory());
     }

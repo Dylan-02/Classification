@@ -20,16 +20,16 @@ public class TestPokemonDataSet {
     @Test
     public void should_load_data_when_given_a_valid_CSV_file() throws IOException {
         assertTrue(data.getPoints().isEmpty());
-        data.loadCSV(getClass().getResource("/model/pokemon_train.csv").getFile());
+        data.loadCSV("src/main/resources/model/pokemon_train.csv");
         assertFalse(data.getPoints().isEmpty());
         assertEquals(POKEMON_FILE_SIZE, data.getPoints().size());
     }
 
     @Test
     public void should_add_new_pokemon_when_given_data() {
-        PokemonPoint pokemon = new PokemonPoint("test", 1, 1, 1, 1, 1, 1, 1, 1, "Feu", "Psy", 1, false);
+        PokemonPoint pokemon = new PokemonPoint("Test", 1, 1, 1, 1, 1, 1, 1, 1, "Feu", "Psy", 1, null);
         assertTrue(data.getPoints().isEmpty());
-        data.addPoint("test", 1, 1, 1, 1, 1, 1, 1, 1, "Feu", "Psy", 1, false);
+        data.addPoint("Test", 1, 1, 1, 1, 1, 1, 1, 1, "Feu", "Psy", 1);
         assertFalse(data.getPoints().isEmpty());
         assertEquals(1, data.getPoints().size());
         assertEquals(pokemon, data.getPoints().get(0));
